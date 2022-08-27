@@ -79,6 +79,7 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
                 {
                     REF.PCon._pHealth.TakeDamage(Damage);
                     hasDoneDamage = true;
+                    StartCoroutine(DespawnAnimation());
                 }
             }
             else
@@ -87,6 +88,7 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
                 {
                     col.GetComponentInChildren<AEnemy>().TakeDamage(Damage);
                     hasDoneDamage = true;
+                    StartCoroutine(DespawnAnimation());
                 }
             }
         }

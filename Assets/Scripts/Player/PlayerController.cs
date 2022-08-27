@@ -124,11 +124,9 @@ public class PlayerController : MonoBehaviour
     }
     private void HandleMouseClickInput()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            bool firingPossible = _currentWeapon.Fire();
-            if (!firingPossible) return;
-            ApplyKnockback();
+            //_currentWeapon.TryFire();
         }
         if (Input.GetKey(KeyCode.Mouse1)) ReverseWeapon(true); 
         else  ReverseWeapon(false); 
@@ -337,15 +335,10 @@ public class PlayerController : MonoBehaviour
         _grounded = false;
     }
 
-    private void ApplyKnockback()
+    public void ApplyKnockback(float knockback)
     {
-        playerRB.AddForce(_playerCam.transform.forward * (-1 * _weaponDirection ) * _currentWeapon._knockbackForce);
+        playerRB.AddForce(_playerCam.transform.forward * (-1 * _weaponDirection ) * knockback);
     }
-
-
-
-
-
 
 
 

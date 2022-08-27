@@ -8,6 +8,14 @@ public abstract class AWeapon : MonoBehaviour
     public float AttacksPerSecond { get; set; }
     public float TimeBetweenAttacks { get; private set; }
     public float TimeElapsedBetweenLastAttack { get; protected set; }
+
+    public int MagazineSize { get; set; }
+    public int AmmoLeft { get; set; }
+    public bool ShouldRegenerateAmmo { get; set; }
+    public float RegenSpeed { get; set; }
+    public float TimeBetweenAmmoRegeneration { get; set; }
+    public float TimeElapsedBetweenAmmoRegeneration { get; set; }
+    public int AmmoRegenAmount { get; set; }
     public int Damage { get; set; }
     public float Recoil { get; set; }
     public float RecoilDuration { get; set; }
@@ -16,12 +24,21 @@ public abstract class AWeapon : MonoBehaviour
     public GameObject ProjectilePrefab { get; set; }
     public List<Transform> _projectileSpots = new List<Transform>();
 
-    private void Awake()
+    //  Charging Shots
+    public bool ChargeBegun { get; set; }
+    public bool Charging { get; set; }
+    public float ChargeTime { get; set; }
+    public float ChargeLevel { get; set; }
+    public float FullChargeTime { get; set; }
+    public int WeaponLevel { get; set; }
+    public int MaxLevel { get; set; }
+
+    public virtual void Awake()
     {
         InitSystemStats();
         ProjectilePrefab = (GameObject) Resources.Load("MusketBall");
     }
-    private void Update()
+    public virtual void Update()
     {
         TimeElapsedBetweenLastAttack += Time.deltaTime;
     }
@@ -47,18 +64,16 @@ public abstract class AWeapon : MonoBehaviour
         TimeBetweenAttacks = 1 / AttacksPerSecond;
         TimeElapsedBetweenLastAttack = TimeBetweenAttacks; //make sure we can fire right away
     }
-    public bool Fire()
+    public virtual void TryFire()
     {
         if (TimeElapsedBetweenLastAttack >= TimeBetweenAttacks)
         {
             _weaponFireSFX.Play();
             SpawnProjectile();
-            
-            return true;
+            REF.PCon.ApplyKnockback(_knockbackForce);
         }
-        return false;
     }
-    public void SpawnProjectile()
+    public virtual void SpawnProjectile()
     {
         foreach (Transform t in _projectileSpots)
         {
@@ -67,6 +82,4 @@ public abstract class AWeapon : MonoBehaviour
             proj.SetActive(true);
             TimeElapsedBetweenLastAttack = 0;
         }
-    }
-    
-}
+    }}
