@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -5626077273589000834}
   - component: {fileID: 8394897506248095698}
   m_Layer: 6
-  m_Name: MusketBall
+  m_Name: Ice Ball
   m_TagString: Musketball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

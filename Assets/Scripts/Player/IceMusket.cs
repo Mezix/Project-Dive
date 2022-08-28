@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class IceMusket : AWeapon
 {
+    public List<GameObject> _shotsReady;
+
     public override void Awake()
     {
         InitSystemStats();
-        ProjectilePrefab = (GameObject)Resources.Load("MusketBall");
+        ProjectilePrefab = (GameObject) Resources.Load("Ice Ball");
         ChargeBegun = false;
         ChargeTime = 0;
         ChargeLevel = 1;
         FullChargeTime = 2f;
+
+        MagazineSize = 3;
+        AmmoLeft = 3;
+        ShouldRegenerateAmmo = false;
+        TimeBetweenAmmoRegeneration = 1;
+        AmmoRegenAmount = 1;
 
         WeaponLevel = 3;
         MaxLevel = 3;
@@ -67,6 +75,8 @@ public class IceMusket : AWeapon
             proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
             proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, _projectileSpots[2]);
             proj.SetActive(true);
+            SubtractAmmo(2);
+            REF.PCon.ApplyKnockback(_knockbackForce * 2);
         }
         else if (ChargeLevel == 3)
         {
@@ -82,21 +92,27 @@ public class IceMusket : AWeapon
             proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
             proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, _projectileSpots[5]);
             proj.SetActive(true);
+            SubtractAmmo(3);
+            REF.PCon.ApplyKnockback(_knockbackForce * 3);
         }
         else //Fire one bullet by default
         {
             GameObject proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
             proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, _projectileSpots[0]);
             proj.SetActive(true);
+            SubtractAmmo(1);
+            REF.PCon.ApplyKnockback(_knockbackForce);
         }
 
         ChargeLevel = 1;
+        TimeElapsedBetweenLastAttack = 0;
     }
 
     public void SubtractAmmo(int amount)
     {
         AmmoLeft -= amount;
         ShouldRegenerateAmmo = true;
+        UpdateAmmoDisplay();
     }
 
     public void RegenerateAmmo(int amount)
@@ -105,6 +121,25 @@ public class IceMusket : AWeapon
         if(AmmoLeft >= MagazineSize)
         {
             ShouldRegenerateAmmo = false;
+            TimeElapsedBetweenAmmoRegeneration = 0;
+        }
+        UpdateAmmoDisplay();
+    }
+
+    public void SetUpgradeLevel(int lvl)
+    {
+
+    }
+
+    public void UpdateAmmoDisplay()
+    {
+        for(int i = 0; i < AmmoLeft; i++)
+        {
+            _shotsReady[i].SetActive(true);
+        }
+        for (int i = AmmoLeft; i < MagazineSize; i++)
+        {
+            _shotsReady[i].SetActive(false);
         }
     }
 }
