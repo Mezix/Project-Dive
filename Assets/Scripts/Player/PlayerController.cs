@@ -42,8 +42,6 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool _holstered;
     [HideInInspector] public bool _holstering;
 
-    //  Misc
-    [HideInInspector] public KeyCode lastHitKey;
     [HideInInspector] public PlayerHealth _pHealth;
     [HideInInspector] public Rigidbody playerRB;
     [HideInInspector] public Collider playerCol;
@@ -51,6 +49,15 @@ public class PlayerController : MonoBehaviour
     public Camera _FPSLayerCam;
     [HideInInspector] public bool _firstPersonActive;
     public LayerMask whatIsGround;
+
+    //  Misc
+    [HideInInspector] public KeyCode _lastHitKey;
+    [HideInInspector] public Coroutine _dragCoroutine;
+
+    // Dash
+    public float _timeSinceLastDash;
+    public float _dashCooldown;
+    public float _dashForce;
 
     //Physics
 
@@ -67,7 +74,7 @@ public class PlayerController : MonoBehaviour
     public int _weaponDirection; //1 is forward, -1 is back
     public Transform _armRotation;
 
-    private void Awake()
+    public void Awake()
     {
         REF.PCon = this;
         transform.tag = "Player";
@@ -76,7 +83,7 @@ public class PlayerController : MonoBehaviour
         playerCol = GetComponentInChildren<Collider>();
         _pHealth = GetComponentInChildren<PlayerHealth>();
     }
-    void Start()
+    public void Start()
     {
         if (_savedSens == -1) _currentSensitivity = _tempSensitivity = 250; //  Initialize sensitivity once per launch, otherwise use the static saved variable
         else _currentSensitivity = _savedSens;
@@ -91,16 +98,18 @@ public class PlayerController : MonoBehaviour
         playerCol.isTrigger = false;
         _toolIndex = 0;
         _weaponDirection = 1;
+        _speedMultiplier = 1;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    void Update()
+    public void Update()
     {
         //HandleTools();
         HandleMouseClickInput();
         HandleKeyboardInput();
         Look();
+        _timeSinceLastDash += Time.deltaTime;
     }
     private void FixedUpdate()
     {
@@ -118,9 +127,49 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl)) verticalInput = -1;
 
         jumping = Input.GetKey(KeyCode.Space);
-        if (Input.GetKey(KeyCode.LeftShift)) Sprint(true);
-        else Sprint(false);
+        //if (Input.GetKey(KeyCode.LeftShift)) Sprint(true);
+        //else Sprint(false);
 
+        if (Input.GetKey(KeyCode.LeftShift) &&  _timeSinceLastDash > _dashCooldown)
+        {
+            if (Input.GetKey(KeyCode.W)) Dash(0);
+            if (Input.GetKey(KeyCode.A)) Dash(1);
+            if (Input.GetKey(KeyCode.S)) Dash(2);
+            if (Input.GetKey(KeyCode.D)) Dash(3);
+        }
+    }
+
+    private void Dash(int direction)
+    {
+        playerRB.velocity = Vector3.zero;
+        if (direction == 0) playerRB.AddForce(_playerCam.transform.forward * _dashForce);   //W
+        if (direction == 1) playerRB.AddForce(_playerCam.transform.right * -_dashForce);    //A
+        if (direction == 2) playerRB.AddForce(_playerCam.transform.forward * -_dashForce);  //S
+        if (direction == 3) playerRB.AddForce(_playerCam.transform.right * _dashForce);     //D
+        _timeSinceLastDash = 0;
+
+        InitiateLowDrag();
+    }
+
+    public void InitiateLowDrag()
+    {
+        //if (_dragCoroutine != null) StopCoroutine(LowDragMode());
+        _dragCoroutine = StartCoroutine(LowDragMode());
+    }
+
+    public IEnumerator LowDragMode()
+    {
+        //  Show Slipstream Deja Vu Eurobeat SFX you know the ones
+
+        _floatingDrag = 0;
+        for (int i = 0; i < 60; i++)
+        {
+            _floatingDrag = 3 * (i / 60f);
+            yield return new WaitForFixedUpdate();
+        }
+        _floatingDrag = 3;
+        _dragCoroutine = null;
+        yield return null;
     }
     private void HandleMouseClickInput()
     {
@@ -207,7 +256,7 @@ public class PlayerController : MonoBehaviour
             playerRB.drag = _floatingDrag;
             playerRB.AddForce((
                 _playerCam.transform.forward * forwardInput
-                + _playerCam.transform.up * verticalInput
+                + Vector3.up * verticalInput
                 + _playerCam.transform.right * horizontalInput)
                 * moveSpeedForce * Time.deltaTime * _speedMultiplier);
         }
@@ -367,7 +416,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Event.current.isKey)
         {
-            if (Event.current.keyCode != KeyCode.None) lastHitKey = Event.current.keyCode;
+            if (Event.current.keyCode != KeyCode.None) _lastHitKey = Event.current.keyCode;
         }
     }
     private void HandleToolIndex()
@@ -389,7 +438,7 @@ public class PlayerController : MonoBehaviour
         if (Input.anyKeyDown)
         {
             //  get any input and convert the ascii range into an int
-            int tmpToolIndex = Convert.ToInt32(lastHitKey) - 49; //49 = Alpha1 => 49 - 49 = 0 => Our first tool in the list 
+            int tmpToolIndex = Convert.ToInt32(_lastHitKey) - 49; //49 = Alpha1 => 49 - 49 = 0 => Our first tool in the list 
             if (tmpToolIndex < 0 || tmpToolIndex > 9) return; // the numbers in the ascii range are between 48 (= 0) and 57 (= 9), so only accept inputs between 1 and 9, else return
             if (tmpToolIndex != _toolIndex) swap = true; //if we are not selecting the same tool as last time, swap
             _toolIndex = tmpToolIndex; //now overwrite the tool index to compare with the next input at a later time

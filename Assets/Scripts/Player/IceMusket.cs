@@ -1,14 +1,24 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class IceMusket : AWeapon
 {
     public List<GameObject> _shotsReady;
+    private Animator iceMusketAnimator;
+    public List<UpgradeObjectList> _upgradeObjects;
+
+    [Serializable]
+    public class UpgradeObjectList
+    {
+        public List<GameObject> UpgradeTier;
+    }
 
     public override void Awake()
     {
         InitSystemStats();
+        iceMusketAnimator = GetComponentInChildren<Animator>();
         ProjectilePrefab = (GameObject) Resources.Load("Ice Ball");
         ChargeBegun = false;
         ChargeTime = 0;
@@ -23,6 +33,10 @@ public class IceMusket : AWeapon
 
         WeaponLevel = 3;
         MaxLevel = 3;
+    }
+    public void Start()
+    {
+        SetUpgradeLevel(WeaponLevel);
     }
     public override void Update()
     {
@@ -61,6 +75,9 @@ public class IceMusket : AWeapon
                     ChargeBegun = false;
                     _weaponFireSFX.Play();
                     SpawnProjectile();
+                    iceMusketAnimator.SetFloat("ReloadMultiplier", AttacksPerSecond);
+                    iceMusketAnimator.SetTrigger("ReloadInitiated");
+                    REF.CamScript.StartShake(RecoilDuration, Recoil);
                 }
             }
         }
@@ -128,7 +145,15 @@ public class IceMusket : AWeapon
 
     public void SetUpgradeLevel(int lvl)
     {
-
+        foreach (UpgradeObjectList list in _upgradeObjects)
+        {
+            foreach (GameObject g in list.UpgradeTier) g.SetActive(false);
+        }
+        for(int i = 0; i < lvl; i++)
+        {
+            if (i >= _upgradeObjects.Count) return;
+            foreach (GameObject g in _upgradeObjects[i].UpgradeTier) g.SetActive(true);
+        }
     }
 
     public void UpdateAmmoDisplay()

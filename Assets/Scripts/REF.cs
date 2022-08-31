@@ -6,4 +6,5 @@ public class REF : MonoBehaviour
 {
     public static PlayerUI PlayerUI;
     public static PlayerController PCon;
+    public static CameraScript CamScript;
 }

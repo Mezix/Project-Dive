@@ -16,7 +16,7 @@ MonoBehaviour:
   _UISprite: {fileID: 0}
   _damage: 10
   _projectileSpeed: 130
-  _attacksPerSecond: 0.5
-  _recoil: 50
-  _recoilDuration: 1
+  _attacksPerSecond: 2
+  _recoil: 0.1
+  _recoilDuration: 0.25
   _knockbackForce: 1500
