@@ -8,6 +8,7 @@ public class IceMusket : AWeapon
     public List<GameObject> _shotsReady;
     private Animator iceMusketAnimator;
     public List<UpgradeObjectList> _upgradeObjects;
+    public GameObject IceMusketSFX;
 
     [Serializable]
     public class UpgradeObjectList
@@ -55,6 +56,7 @@ public class IceMusket : AWeapon
         {
             ChargeTime += Time.deltaTime;
             ChargeLevel = Mathf.Max(1, Mathf.RoundToInt(Mathf.Min(ChargeTime, FullChargeTime)/FullChargeTime * WeaponLevel));
+            UpdateAmmoDisplay(MagazineSize - ChargeLevel);
         }
     }
     public override void TryFire()
@@ -63,13 +65,13 @@ public class IceMusket : AWeapon
         {
             if(AmmoLeft > 0)
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (Input.GetKeyDown(KeyCode.Mouse0) || (Input.GetKey(KeyCode.Mouse0) && !ChargeBegun))
                 {
                     ChargeTime = 0; //reset charge time for the first frame
                     ChargeBegun = true;
                 }
                 Charging = Input.GetKey(KeyCode.Mouse0);  //keep holding the charge as long as we press charge down
-
+                IceMusketSFX.SetActive(Charging);
                 if (ChargeBegun && !Charging) //once we let go, fire!
                 {
                     ChargeBegun = false;
@@ -129,7 +131,7 @@ public class IceMusket : AWeapon
     {
         AmmoLeft -= amount;
         ShouldRegenerateAmmo = true;
-        UpdateAmmoDisplay();
+        UpdateAmmoDisplay(AmmoLeft);
     }
 
     public void RegenerateAmmo(int amount)
@@ -140,7 +142,7 @@ public class IceMusket : AWeapon
             ShouldRegenerateAmmo = false;
             TimeElapsedBetweenAmmoRegeneration = 0;
         }
-        UpdateAmmoDisplay();
+        UpdateAmmoDisplay(AmmoLeft);
     }
 
     public void SetUpgradeLevel(int lvl)
@@ -156,13 +158,13 @@ public class IceMusket : AWeapon
         }
     }
 
-    public void UpdateAmmoDisplay()
+    public void UpdateAmmoDisplay(int ammoRemaining)
     {
-        for(int i = 0; i < AmmoLeft; i++)
+        for(int i = 0; i < ammoRemaining; i++)
         {
             _shotsReady[i].SetActive(true);
         }
-        for (int i = AmmoLeft; i < MagazineSize; i++)
+        for (int i = ammoRemaining; i < MagazineSize; i++)
         {
             _shotsReady[i].SetActive(false);
         }

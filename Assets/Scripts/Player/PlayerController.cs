@@ -165,9 +165,11 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < 60; i++)
         {
             _floatingDrag = 3 * (i / 60f);
+            _pUI.SpeedLinesUI(true, 0.5f * (1 - (i/60f)));
             yield return new WaitForFixedUpdate();
         }
         _floatingDrag = 3;
+        _pUI.SpeedLinesUI(false, 0.5f);
         _dragCoroutine = null;
         yield return null;
     }

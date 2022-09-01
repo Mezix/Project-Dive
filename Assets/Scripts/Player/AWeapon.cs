@@ -28,7 +28,7 @@ public abstract class AWeapon : MonoBehaviour
     public bool ChargeBegun { get; set; }
     public bool Charging { get; set; }
     public float ChargeTime { get; set; }
-    public float ChargeLevel { get; set; }
+    public int ChargeLevel { get; set; }
     public float FullChargeTime { get; set; }
     public int WeaponLevel { get; set; }
     public int MaxLevel { get; set; }
