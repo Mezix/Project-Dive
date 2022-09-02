@@ -11,17 +11,17 @@ public class Events : MonoBehaviour
         instance = this;
     }
     public event Action<GameObject> EnemyDead;
-    public event Action PlayerTankDestroyed;
+    public event Action PlayerDead;
     public event Action PlayerIsDying;
     public event Action<GameObject> CheckDoubleClick;
 
-    public void EnemyKilled(GameObject enemyTank)
+    public void EnemyKilled(GameObject enemy)
     {
-        if (EnemyDead != null) EnemyDead(enemyTank);
+        if (EnemyDead != null) EnemyDead(enemy);
     }
-    public void PlayerDestroyed()
+    public void PlayerKilled()
     {
-        if (PlayerTankDestroyed != null) PlayerTankDestroyed();
+        if (PlayerDead != null) PlayerDead();
     }
     public void PlayerDying()
     {

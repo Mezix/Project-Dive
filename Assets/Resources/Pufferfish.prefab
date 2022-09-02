@@ -187,10 +187,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4298165064066948755}
+  - component: {fileID: 8904328667213725513}
   - component: {fileID: 1933755674697897426}
   - component: {fileID: 2324885172741798805}
   - component: {fileID: 5527016307786232522}
-  - component: {fileID: 8904328667213725513}
+  - component: {fileID: 5158093014219419577}
   m_Layer: 0
   m_Name: Pufferfish
   m_TagString: Untagged
@@ -214,6 +215,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8904328667213725513
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4298165064066948756}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 09be117ebdf6b0143aa465affe3cc087, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!54 &1933755674697897426
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -255,27 +276,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c7c04cfd4ae4604b9ce26a6ef05d4fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyHealth: {fileID: 5158093014219419577}
+  _enemyDead: 0
   _projectileSpot: {fileID: 4298165062575570296}
---- !u!95 &8904328667213725513
-Animator:
-  serializedVersion: 4
+--- !u!114 &5158093014219419577
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4298165064066948756}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 09be117ebdf6b0143aa465affe3cc087, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6f53b6acc0a6434db2e7c5b1abfa6f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 0
+  _currentHealth: 0
 --- !u!1 &4694040835046978676
 GameObject:
   m_ObjectHideFlags: 0

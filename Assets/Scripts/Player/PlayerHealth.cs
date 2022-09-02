@@ -78,6 +78,7 @@ public class PlayerHealth : MonoBehaviour
     private void EnterVengeanceMode()
     {
         _vengeanceModeActive = true;
+        REF.PCon.SetVengeanceMode(true);
         REF.PCon._pUI.VeangenceModeUI(true);
 
     }
@@ -87,6 +88,7 @@ public class PlayerHealth : MonoBehaviour
         {
             _vengeanceModeActive = false;
             REF.PCon._pUI.VeangenceModeUI(false);
+            REF.PCon.SetVengeanceMode(false);
             Heal(0.3f * _maxHealth * _vengeanceDrainPercentage);
         }
     }

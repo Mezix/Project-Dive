@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +24,13 @@ public class Pufferfish : AEnemy
     {
         RotateTowardsPlayer();
         Fire();
+        //EnemyBehaviour();
         TimeElapsedBetweenLastAttack += Time.deltaTime;
+    }
+
+    private void EnemyBehaviour()
+    {
+        throw new NotImplementedException();
     }
 
     public void RotateTowardsPlayer()

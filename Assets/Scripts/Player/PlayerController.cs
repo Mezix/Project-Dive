@@ -13,7 +13,9 @@ public class PlayerController : MonoBehaviour
     private float _speedMultiplier;
     public float _sprintValue;
     private bool lockMovement;
-    public float moveSpeedForce;
+    public float normalMovementForce;
+    public float vengeanceMovementForce;
+    public float currentMovementForce;
     public float maxMoveSpeed;
     public float counterMovement;
 
@@ -89,6 +91,8 @@ public class PlayerController : MonoBehaviour
         else _currentSensitivity = _savedSens;
         _maxSensitivity = 700;
 
+        currentMovementForce =  normalMovementForce;
+
         _firstPersonActive = true;
         readyToJump = true;
         playerCol.isTrigger = false;
@@ -130,7 +134,7 @@ public class PlayerController : MonoBehaviour
         //if (Input.GetKey(KeyCode.LeftShift)) Sprint(true);
         //else Sprint(false);
 
-        if (Input.GetKey(KeyCode.LeftShift) &&  _timeSinceLastDash > _dashCooldown)
+        if (Input.GetKeyDown(KeyCode.LeftShift) &&  _timeSinceLastDash > _dashCooldown)
         {
             if (Input.GetKey(KeyCode.W)) Dash(0);
             if (Input.GetKey(KeyCode.A)) Dash(1);
@@ -138,6 +142,23 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKey(KeyCode.D)) Dash(3);
         }
     }
+    public void SetVengeanceMode(bool on)
+    {
+        if (on)
+        {
+            currentMovementForce = vengeanceMovementForce;
+            maxMoveSpeed = 21;
+            // update counter movement as well
+            //counterMovement;
+        }
+        else
+        {
+            currentMovementForce = normalMovementForce;
+            maxMoveSpeed = 7;
+            // update counter movement as well
+        }
+    }
+
 
     private void Dash(int direction)
     {
@@ -260,14 +281,14 @@ public class PlayerController : MonoBehaviour
                 _playerCam.transform.forward * forwardInput
                 + Vector3.up * verticalInput
                 + _playerCam.transform.right * horizontalInput)
-                * moveSpeedForce * Time.deltaTime * _speedMultiplier);
+                * currentMovementForce * Time.deltaTime * _speedMultiplier);
         }
         else
         {
             playerRB.useGravity = true;
             playerRB.drag = _walkingDrag;
-            playerRB.AddForce(_orientation.transform.forward * forwardInput * moveSpeedForce * Time.deltaTime * _speedMultiplier);
-            playerRB.AddForce(_orientation.transform.right * horizontalInput * moveSpeedForce * Time.deltaTime * _speedMultiplier);
+            playerRB.AddForce(_orientation.transform.forward * forwardInput * currentMovementForce * Time.deltaTime * _speedMultiplier);
+            playerRB.AddForce(_orientation.transform.right * horizontalInput * currentMovementForce * Time.deltaTime * _speedMultiplier);
         }
     }
     private void Sprint(bool printing)
@@ -305,11 +326,11 @@ public class PlayerController : MonoBehaviour
         //Counter movement
         if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0))
         {
-            playerRB.AddForce(moveSpeedForce * _orientation.transform.right * Time.deltaTime * -mag.x * counterMovement);
+            playerRB.AddForce(currentMovementForce * _orientation.transform.right * Time.deltaTime * -mag.x * counterMovement);
         }
         if (Math.Abs(mag.y) > threshold && Math.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0))
         {
-            playerRB.AddForce(moveSpeedForce * _orientation.transform.forward * Time.deltaTime * -mag.y * counterMovement);
+            playerRB.AddForce(currentMovementForce * _orientation.transform.forward * Time.deltaTime * -mag.y * counterMovement);
         }
 
         //Limit diagonal running. This will also cause a full stop if sliding fast and un-crouching, so not optimal.

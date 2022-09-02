@@ -7,14 +7,8 @@ public class IceMusket : AWeapon
 {
     public List<GameObject> _shotsReady;
     private Animator iceMusketAnimator;
-    public List<UpgradeObjectList> _upgradeObjects;
     public GameObject IceMusketSFX;
 
-    [Serializable]
-    public class UpgradeObjectList
-    {
-        public List<GameObject> UpgradeTier;
-    }
 
     public override void Awake()
     {
@@ -86,43 +80,17 @@ public class IceMusket : AWeapon
     }
     public override void SpawnProjectile()
     {
-        if (ChargeLevel == 2)
+        int bulletsFired = 0;
+        foreach (Transform t in _projectileSpots[ChargeLevel - 1].UpgradeTierSpots)
         {
+            bulletsFired++;
             GameObject proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
-            proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, _projectileSpots[1]);
+            proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, t);
             proj.SetActive(true);
-            proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
-            proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, _projectileSpots[2]);
-            proj.SetActive(true);
-            SubtractAmmo(2);
-            REF.PCon.ApplyKnockback(_knockbackForce * 2);
         }
-        else if (ChargeLevel == 3)
-        {
-            GameObject proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
-            proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, _projectileSpots[0]);
-            proj.SetActive(true);
-            proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
-            proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, _projectileSpots[3]);
-            proj.SetActive(true);
-            proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
-            proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, _projectileSpots[4]);
-            proj.SetActive(true);
-            proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
-            proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, _projectileSpots[5]);
-            proj.SetActive(true);
-            SubtractAmmo(3);
-            REF.PCon.ApplyKnockback(_knockbackForce * 3);
-        }
-        else //Fire one bullet by default
-        {
-            GameObject proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
-            proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, _projectileSpots[0]);
-            proj.SetActive(true);
-            SubtractAmmo(1);
-            REF.PCon.ApplyKnockback(_knockbackForce);
-        }
-
+        bulletsFired = Mathf.Min(MagazineSize, bulletsFired);
+        SubtractAmmo(bulletsFired);
+        REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired);
         ChargeLevel = 1;
         TimeElapsedBetweenLastAttack = 0;
     }

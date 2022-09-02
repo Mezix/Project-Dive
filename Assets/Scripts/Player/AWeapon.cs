@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,8 +23,20 @@ public abstract class AWeapon : MonoBehaviour
     public float _knockbackForce { get; set; }
     public AudioSource _weaponFireSFX;
     public GameObject ProjectilePrefab { get; set; }
-    public List<Transform> _projectileSpots = new List<Transform>();
+    //public List<Transform> _projectileSpots = new List<Transform>();
+    public List<ProjectileSpots> _projectileSpots;
+    [Serializable]
+    public class ProjectileSpots
+    {
+        public List<Transform> UpgradeTierSpots;
+    }
+    [Serializable]
+    public class UpgradeObjectList
+    {
+        public List<GameObject> UpgradeTier;
+    }
 
+    public List<UpgradeObjectList> _upgradeObjects;
     //  Charging Shots
     public bool ChargeBegun { get; set; }
     public bool Charging { get; set; }
@@ -75,7 +88,7 @@ public abstract class AWeapon : MonoBehaviour
     }
     public virtual void SpawnProjectile()
     {
-        foreach (Transform t in _projectileSpots)
+        foreach (Transform t in _projectileSpots[0].UpgradeTierSpots)
         {
             GameObject proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
             proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, t);
