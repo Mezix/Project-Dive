@@ -11,7 +11,7 @@ public class EnemyHealth : MonoBehaviour
     {
         _maxHealth = _currentHealth = max;
     }
-    public bool TakeDamage(int damage)
+    public bool TakeDamage(float damage)
     {
         _currentHealth -= damage;
         if (_currentHealth <= 0) return true;

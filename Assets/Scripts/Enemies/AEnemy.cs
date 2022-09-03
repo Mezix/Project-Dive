@@ -22,7 +22,7 @@ public class AEnemy : MonoBehaviour
     public float _timeSpentBurning;
     public float _burnDuration;
 
-    public int CurrentFreezeStacks;
+    public int _currentFreezeStacks;
     public int StacksUntilFreeze { get; private set; }
     public bool _frozen;
     public float _timeSpentFrozen;
@@ -30,9 +30,9 @@ public class AEnemy : MonoBehaviour
 
     //Misc
 
-    private List<MeshRenderer> _meshes = new List<MeshRenderer>();
     public List<Transform> _projectileSpots;
-    public Animator _enemyAnimator;
+    [HideInInspector]public Animator _enemyAnimator;
+    private List<MeshRenderer> _meshes = new List<MeshRenderer>();
 
     public virtual void Awake()
     {
@@ -68,8 +68,8 @@ public class AEnemy : MonoBehaviour
 
     public void AddFreezeStack(int stacks)
     {
-        CurrentFreezeStacks += stacks;
-        if (CurrentFreezeStacks >= StacksUntilFreeze) Freeze(true);
+        _currentFreezeStacks += stacks;
+        if (_currentFreezeStacks >= StacksUntilFreeze) Freeze(true);
     }
     public void Freeze(bool shouldFreeze)
     {
@@ -89,14 +89,14 @@ public class AEnemy : MonoBehaviour
             {
                 Material freezeMat = Resources.Load("Materials/Frozen Material") as Material;
                 AddMaterialToAllMeshes(false, freezeMat);
-                CurrentFreezeStacks = 0;
+                _currentFreezeStacks = 0;
                 _enemyAnimator.speed = 1;
             }
         }
         _frozen = shouldFreeze;
     }
     //  Damage
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if(_enemyHealth.TakeDamage(damage))
         {
@@ -109,7 +109,7 @@ public class AEnemy : MonoBehaviour
     }
     private void InitDamageTakenAnim()
     {
-        Debug.Log("Init Damage Taken Anim");
+        //Debug.Log("Init Damage Taken Anim");
         StartCoroutine(ApplyDamageMaterialAnim());
     }
 
@@ -124,12 +124,12 @@ public class AEnemy : MonoBehaviour
     public void EnemyKilled()
     {
         _enemyDead = true;
-        Debug.Log("Enemy Killed");
+        //  Debug.Log("Enemy Killed");
         Events.instance.EnemyKilled(this);
     }
     public void InitDeathBehaviour()
     {
-        print("death anim");
+        //print("death anim");
         Destroy(gameObject);
     }
 

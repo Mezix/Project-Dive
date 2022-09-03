@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput, forwardInput, verticalInput;
     private float desiredX;
     private float _speedMultiplier;
-    public float _sprintValue;
     private bool lockMovement;
     public float normalMovementForce;
     public float vengeanceMovementForce;
@@ -79,6 +78,15 @@ public class PlayerController : MonoBehaviour
     public float _backwardsKnockbackModifier; //does nothing so far!
     public Transform _armRotation;
 
+    //  Melee
+
+    public GameObject _melee;
+    public float _meleeBaseDamage;
+    float _meleeDistance;
+    float _meleeKnockback;
+    public float _meleeCooldown;
+    public float _timeSinceLastMelee;
+
     //  Death
 
     public bool _dead;
@@ -109,13 +117,19 @@ public class PlayerController : MonoBehaviour
         lockMovement = lockRotation = false;
         _holstered = _holstering = false;
         playerCol.isTrigger = false;
+
         _toolIndex = 0;
         _timeSinceLastDash = _dashCooldown;
         _weaponDirection = 1;
         _backwardsKnockbackModifier = 2; 
         _speedMultiplier = 1;
-        _dead = false;
 
+        _meleeBaseDamage = 20f;
+        _meleeDistance = 30f;
+        _meleeKnockback = 1000f;
+        _timeSinceLastMelee = 0;
+
+        _dead = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -128,6 +142,7 @@ public class PlayerController : MonoBehaviour
             HandleKeyboardInput();
             Look();
             _timeSinceLastDash += Time.deltaTime;
+            _timeSinceLastMelee += Time.deltaTime;
         }
     }
     private void FixedUpdate()
@@ -149,12 +164,13 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.Space)) verticalInput = 1;
         if (Input.GetKey(KeyCode.C)) verticalInput = -1;
 
+
+        if (Input.GetKeyDown(KeyCode.F)) TryMelee();
+
         if (Input.GetKey(KeyCode.LeftControl)) ReverseWeapon(true);
         else ReverseWeapon(false);
 
         jumping = Input.GetKey(KeyCode.Space);
-        //if (Input.GetKey(KeyCode.LeftShift)) Sprint(true);
-        //else Sprint(false);
 
         if (Input.GetKeyDown(KeyCode.LeftShift) &&  _timeSinceLastDash > _dashCooldown)
         {
@@ -162,8 +178,45 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKey(KeyCode.A)) Dash(1);
             if (Input.GetKey(KeyCode.S)) Dash(2);
             if (Input.GetKey(KeyCode.D)) Dash(3);
+            if (Input.GetKey(KeyCode.Space)) Dash(4);
+            if (Input.GetKey(KeyCode.C)) Dash(5);
         }
     }
+
+    //  Melee
+
+    private void TryMelee()
+    {
+        if (_timeSinceLastMelee >= _meleeCooldown)
+        {
+            _timeSinceLastMelee = 0;
+            StartCoroutine(Melee());
+        }
+    }
+
+    private IEnumerator Melee()
+    {
+        HM.RotateLocalTransformToAngle(_melee.transform, new Vector3(0, 0, 0));
+        RaycastHit hit = HM.RaycastAtPosition(_FPSLayerCam.transform.position, _FPSLayerCam.transform.forward, _meleeDistance, LayerMask.GetMask("Enemy"));
+        if (hit.collider)
+            
+            if (hit.collider.GetComponentInChildren<AEnemy>())
+            {
+                AEnemy enemy = hit.collider.GetComponentInChildren<AEnemy>();
+                float finalMeleeDamage               = _meleeBaseDamage;
+                finalMeleeDamage                    *= Mathf.Max(1, playerRB.velocity.magnitude/15f); // do at minimum base damage
+                finalMeleeDamage                     = Mathf.Min(_meleeBaseDamage * 3, finalMeleeDamage); // do maximum of 3 times the damage
+                if (enemy._frozen) finalMeleeDamage *= 2; //double damage if frozen
+                hit.collider.GetComponentInChildren<AEnemy>().TakeDamage(finalMeleeDamage);
+                playerRB.velocity = Vector3.zero;
+                ApplyKnockback(_meleeKnockback);
+            }
+        else ApplyKnockback(_meleeKnockback * 0.25f);
+
+        yield return new WaitForSeconds(_meleeCooldown * 0.25f);
+        HM.RotateLocalTransformToAngle(_melee.transform, new Vector3(30, 0, 0));
+    }
+
     public void SetVengeanceMode(bool on)
     {
         if (on)
@@ -185,10 +238,12 @@ public class PlayerController : MonoBehaviour
     private void Dash(int direction)
     {
         playerRB.velocity = Vector3.zero;
-        if (direction == 0) playerRB.AddForce(_playerCam.transform.forward * _dashForceMultiplier * currentMovementForce);   // W
-        if (direction == 1) playerRB.AddForce(_playerCam.transform.right * -_dashForceMultiplier * currentMovementForce);    // A
-        if (direction == 2) playerRB.AddForce(_playerCam.transform.forward * -_dashForceMultiplier * currentMovementForce);  // S
-        if (direction == 3) playerRB.AddForce(_playerCam.transform.right * _dashForceMultiplier * currentMovementForce);     // D
+        if (direction == 0) playerRB.AddForce(_playerCam.transform.forward  *      _dashForceMultiplier * currentMovementForce); // W
+        if (direction == 1) playerRB.AddForce(_playerCam.transform.right    * -1 * _dashForceMultiplier * currentMovementForce); // A
+        if (direction == 2) playerRB.AddForce(_playerCam.transform.forward  * -1 * _dashForceMultiplier * currentMovementForce); // S
+        if (direction == 3) playerRB.AddForce(_playerCam.transform.right    *      _dashForceMultiplier * currentMovementForce); // D
+        if (direction == 4) playerRB.AddForce(transform.up                  *      _dashForceMultiplier * currentMovementForce); // Space = Swim Up
+        if (direction == 5) playerRB.AddForce(transform.up                  * -1 * _dashForceMultiplier * currentMovementForce); // C = Swim Down
         _timeSinceLastDash = 0;
 
         InitiateLowDrag();
@@ -257,9 +312,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        //Extra gravity
-        //playerRB.AddForce(Vector3.down * Time.deltaTime * 10);
-
         //Find actual velocity relative to where player is looking
         Vector2 mag = FindVelRelativeToLook();
         float xMag = mag.x, yMag = mag.y;
@@ -313,11 +365,6 @@ public class PlayerController : MonoBehaviour
         lockRotation = true;
         REF.Dialog.StartDialogue(Resources.Load("Dialogue/Conversations/Game Over Conversation") as ConversationScriptObj, false, false);
         REF.PlayerUI.InitiateDeathUI();
-    }
-    private void Sprint(bool printing)
-    {
-        if (printing) _speedMultiplier = _sprintValue;
-        else _speedMultiplier = 1;
     }
     private void Jump()
     {

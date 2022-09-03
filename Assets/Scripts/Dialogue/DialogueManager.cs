@@ -81,10 +81,10 @@ public class DialogueManager : MonoBehaviour
             REF.Dialog.DisplayNextSentence();
         }
         
-        if (Input.GetKeyDown(KeyCode.F))
+        /*if (Input.GetKeyDown(KeyCode.F))
         {
             REF.Dialog.StartDialogue(Resources.Load("Dialogue/Conversations/TestConvo", typeof(ConversationScriptObj)) as ConversationScriptObj);
-        }
+        }*/
         timeSinceLastLine += Time.deltaTime;
         timeSinceLastWeaponFired += Time.deltaTime;
         if (mouseHoveringOverText || typing) timeSinceLastLine = 0;

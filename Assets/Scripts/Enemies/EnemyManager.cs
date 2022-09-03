@@ -88,6 +88,6 @@ public class EnemyManager : MonoBehaviour
         _bossSpawned = false;
         _enemyBossUI.SetActive(false);
         _spawnedBoss = null;
-        print("boss killed");
+        //print("boss killed");
     }
 }
