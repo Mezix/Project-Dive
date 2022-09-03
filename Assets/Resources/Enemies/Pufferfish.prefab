@@ -290,6 +290,7 @@ MonoBehaviour:
   _freezeDuration: 0
   _projectileSpots:
   - {fileID: 4298165062575570296}
+  _enemyAnimator: {fileID: 0}
 --- !u!114 &5158093014219419577
 MonoBehaviour:
   m_ObjectHideFlags: 0

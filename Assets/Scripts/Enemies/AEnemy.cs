@@ -78,18 +78,8 @@ public class AEnemy : MonoBehaviour
             _timeSpentFrozen = 0;
             if(!_frozen) //for the first time we are frozen, apply the effect
             {
-                Debug.Log("Freeze!");
                 Material freezeMat = Resources.Load("Materials/Frozen Material") as Material;
-                foreach(MeshRenderer mr in _meshes)
-                {
-                    List<Material> mats = mr.sharedMaterials.ToList();
-                    if (!mats.Contains(freezeMat))
-                    {
-                        mats.Add(freezeMat);
-                        mr.sharedMaterials = mats.ToArray();
-                    }
-                    else Debug.Log("Freeze Mat already applied");
-                }
+                AddMaterialToAllMeshes(true, freezeMat);
                 _enemyAnimator.speed = 0;
             }
         }
@@ -98,19 +88,7 @@ public class AEnemy : MonoBehaviour
             if(_frozen) //only for the first unfreeze
             {
                 Material freezeMat = Resources.Load("Materials/Frozen Material") as Material;
-                foreach (MeshRenderer mr in _meshes)
-                {
-                    List<Material> mats = mr.sharedMaterials.ToList();
-                    foreach(Material mat in mats)
-                    {
-                        if (mat.Equals(freezeMat))
-                        {
-                            mats.Remove(freezeMat);
-                            break;
-                        }
-                    }
-                    mr.sharedMaterials = mats.ToArray();
-                }
+                AddMaterialToAllMeshes(false, freezeMat);
                 CurrentFreezeStacks = 0;
                 _enemyAnimator.speed = 1;
             }
@@ -126,13 +104,23 @@ public class AEnemy : MonoBehaviour
         }
         else
         {
-            DamageTakenAnim();
+            InitDamageTakenAnim();
         }
     }
-    private void DamageTakenAnim()
+    private void InitDamageTakenAnim()
     {
         Debug.Log("Init Damage Taken Anim");
+        StartCoroutine(ApplyDamageMaterialAnim());
     }
+
+    private IEnumerator ApplyDamageMaterialAnim()
+    {
+        Material dmgMaterial = Resources.Load("Materials/Damaged Material") as Material;
+        AddMaterialToAllMeshes(true, dmgMaterial);
+        yield return new WaitForSecondsRealtime(0.1f);
+        AddMaterialToAllMeshes(false, dmgMaterial);
+    }
+
     public void EnemyKilled()
     {
         _enemyDead = true;
@@ -143,5 +131,39 @@ public class AEnemy : MonoBehaviour
     {
         print("death anim");
         Destroy(gameObject);
+    }
+
+    //  Misc 
+
+    private void AddMaterialToAllMeshes(bool add, Material matToAdd)
+    {
+        if(add)
+        {
+            foreach (MeshRenderer mr in _meshes)
+            {
+                List<Material> mats = mr.sharedMaterials.ToList();
+                if (!mats.Contains(matToAdd))
+                {
+                    mats.Add(matToAdd);
+                    mr.sharedMaterials = mats.ToArray();
+                }
+            }
+        }
+        else
+        {
+            foreach (MeshRenderer mr in _meshes)
+            {
+                List<Material> mats = mr.sharedMaterials.ToList();
+                foreach (Material mat in mats)
+                {
+                    if (mat.Equals(matToAdd))
+                    {
+                        mats.Remove(matToAdd);
+                        break;
+                    }
+                }
+                mr.sharedMaterials = mats.ToArray();
+            }
+        }
     }
 }
