@@ -9,14 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5866e59f8e76cec42ac043c44a08cc53, type: 3}
-  m_Name: IceMusket
+  m_Script: {fileID: 11500000, guid: 2e6382b88fa47b947b3d3f51f0f609ef, type: 3}
+  m_Name: PAPA PUFFERFISH
   m_EditorClassIdentifier: 
-  _weaponName: Ice Musket
-  _UISprite: {fileID: 0}
-  _damage: 10
-  _projectileSpeed: 130
-  _attacksPerSecond: 2
-  _recoil: 0.1
-  _recoilDuration: 0.25
-  _knockbackForce: 500
+  _attacksPerSecond: 0.5
+  _enemyHealth: 150

@@ -17,7 +17,21 @@ public class PlayerController : MonoBehaviour
     public float vengeanceMovementForce;
     public float currentMovementForce;
     public float maxMoveSpeed;
-    public float counterMovement;
+    public float counterMovementModifier;
+
+    // Dash
+    public float _timeSinceLastDash;
+    public float _dashCooldown;
+    public float _dashForceMultiplier;
+
+    //Physics
+
+    private float threshold = 0.01f;
+    public float maxSlopeAngle = 35f;
+    private Vector3 normalVector = Vector3.up;
+    private bool cancellingGrounded;
+    public float _floatingDrag;
+    public float _walkingDrag;
 
     //  Look
     [HideInInspector] public float _tempSensitivity;
@@ -37,6 +51,7 @@ public class PlayerController : MonoBehaviour
     public bool _grounded;
 
     //  Tools and UI
+
     public PlayerUI _pUI;
     public List<AToolUI> Tools;
     private int _toolIndex;
@@ -53,30 +68,19 @@ public class PlayerController : MonoBehaviour
     public LayerMask whatIsGround;
 
     //  Misc
+
     [HideInInspector] public KeyCode _lastHitKey;
     [HideInInspector] public Coroutine _dragCoroutine;
-
-    // Dash
-    public float _timeSinceLastDash;
-    public float _dashCooldown;
-    public float _dashForce;
-
-    //Physics
-
-    private float threshold = 0.01f;
-    public float maxSlopeAngle = 35f;
-    private Vector3 normalVector = Vector3.up;
-    private bool cancellingGrounded;
-    public float _floatingDrag;
-    public float _walkingDrag;
 
     //  Weapons
 
     public AWeapon _currentWeapon;
-    public int _weaponDirection; //1 is forward, -1 is back
+    [HideInInspector] public int _weaponDirection; //1 is forward, -1 is back
+    public float _backwardsKnockbackModifier; //does nothing so far!
     public Transform _armRotation;
 
     //  Death
+
     public bool _dead;
     public bool _dying;
 
@@ -91,7 +95,8 @@ public class PlayerController : MonoBehaviour
     }
     public void Start()
     {
-        if (_savedSens == -1) _currentSensitivity = _tempSensitivity = 250; //  Initialize sensitivity once per launch, otherwise use the static saved variable
+        //TODO: Player prefs!
+        if (_savedSens == -1) _currentSensitivity = _tempSensitivity = 100; //  Initialize sensitivity once per launch, otherwise use the static saved variable
         else _currentSensitivity = _savedSens;
         _maxSensitivity = 700;
 
@@ -105,7 +110,9 @@ public class PlayerController : MonoBehaviour
         _holstered = _holstering = false;
         playerCol.isTrigger = false;
         _toolIndex = 0;
+        _timeSinceLastDash = _dashCooldown;
         _weaponDirection = 1;
+        _backwardsKnockbackModifier = 2; 
         _speedMultiplier = 1;
         _dead = false;
 
@@ -178,10 +185,10 @@ public class PlayerController : MonoBehaviour
     private void Dash(int direction)
     {
         playerRB.velocity = Vector3.zero;
-        if (direction == 0) playerRB.AddForce(_playerCam.transform.forward * _dashForce);   //W
-        if (direction == 1) playerRB.AddForce(_playerCam.transform.right * -_dashForce);    //A
-        if (direction == 2) playerRB.AddForce(_playerCam.transform.forward * -_dashForce);  //S
-        if (direction == 3) playerRB.AddForce(_playerCam.transform.right * _dashForce);     //D
+        if (direction == 0) playerRB.AddForce(_playerCam.transform.forward * _dashForceMultiplier * currentMovementForce);   // W
+        if (direction == 1) playerRB.AddForce(_playerCam.transform.right * -_dashForceMultiplier * currentMovementForce);    // A
+        if (direction == 2) playerRB.AddForce(_playerCam.transform.forward * -_dashForceMultiplier * currentMovementForce);  // S
+        if (direction == 3) playerRB.AddForce(_playerCam.transform.right * _dashForceMultiplier * currentMovementForce);     // D
         _timeSinceLastDash = 0;
 
         InitiateLowDrag();
@@ -342,11 +349,11 @@ public class PlayerController : MonoBehaviour
         //Counter movement
         if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0))
         {
-            playerRB.AddForce(currentMovementForce * _orientation.transform.right * Time.deltaTime * -mag.x * counterMovement);
+            playerRB.AddForce(currentMovementForce * _orientation.transform.right * Time.deltaTime * -mag.x * counterMovementModifier);
         }
         if (Math.Abs(mag.y) > threshold && Math.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0))
         {
-            playerRB.AddForce(currentMovementForce * _orientation.transform.forward * Time.deltaTime * -mag.y * counterMovement);
+            playerRB.AddForce(currentMovementForce * _orientation.transform.forward * Time.deltaTime * -mag.y * counterMovementModifier);
         }
 
         //Limit diagonal running. This will also cause a full stop if sliding fast and un-crouching, so not optimal.

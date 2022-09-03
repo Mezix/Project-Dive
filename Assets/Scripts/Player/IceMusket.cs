@@ -13,7 +13,7 @@ public class IceMusket : AWeapon
     {
         InitSystemStats();
         iceMusketAnimator = GetComponentInChildren<Animator>();
-        ProjectilePrefab = (GameObject) Resources.Load("Ice Ball");
+        ProjectilePrefab = (GameObject) Resources.Load("Weapons/Ice Ball");
         ChargeBegun = false;
         ChargeTime = 0;
         ChargeLevel = 1;

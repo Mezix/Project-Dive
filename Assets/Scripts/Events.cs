@@ -10,12 +10,12 @@ public class Events : MonoBehaviour
     {
         instance = this;
     }
-    public event Action<GameObject> EnemyDead;
+    public event Action<AEnemy> EnemyDead;
     public event Action PlayerDead;
     public event Action PlayerIsDying;
     public event Action<GameObject> CheckDoubleClick;
 
-    public void EnemyKilled(GameObject enemy)
+    public void EnemyKilled(AEnemy enemy)
     {
         if (EnemyDead != null) EnemyDead(enemy);
     }

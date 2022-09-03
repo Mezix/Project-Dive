@@ -11,7 +11,7 @@ public class Pufferfish : AEnemy
     private float _projectileSpeed;
     private void Awake()
     {
-        _projectilePrefab = (GameObject) Resources.Load("Pufferfish Shot");
+        _projectilePrefab = (GameObject) Resources.Load("Weapons/Pufferfish Shot");
     }
     void Start()
     {
@@ -19,19 +19,17 @@ public class Pufferfish : AEnemy
         _damage = 10;
         _projectileSpeed = 100f;
         InitStats();
-        _enemyHealth.InitHealth(30);
     }
     void Update()
     {
-        RotateTowardsPlayer();
-        Fire();
-        //EnemyBehaviour();
+        EnemyBehaviour();
         TimeElapsedBetweenLastAttack += Time.deltaTime;
     }
 
     private void EnemyBehaviour()
     {
-        throw new NotImplementedException();
+        RotateTowardsPlayer();
+        Fire();
     }
 
     public void RotateTowardsPlayer()
