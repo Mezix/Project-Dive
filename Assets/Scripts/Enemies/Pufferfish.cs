@@ -5,31 +5,36 @@ using UnityEngine;
 
 public class Pufferfish : AEnemy
 {
-    public Transform _projectileSpot;
     private GameObject _projectilePrefab;
     private int _damage;
     private float _projectileSpeed;
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         _projectilePrefab = (GameObject) Resources.Load("Weapons/Pufferfish Shot");
     }
-    void Start()
+    public override void Start()
     {
+        base.Start();
         AttacksPerSecond = 1f;
         _damage = 10;
         _projectileSpeed = 100f;
         InitStats();
     }
-    void Update()
+    public override void Update()
     {
+        base.Update();
         EnemyBehaviour();
         TimeElapsedBetweenLastAttack += Time.deltaTime;
     }
 
     private void EnemyBehaviour()
     {
-        RotateTowardsPlayer();
-        Fire();
+        if(!_frozen)
+        {
+            RotateTowardsPlayer();
+            Fire();
+        }
     }
 
     public void RotateTowardsPlayer()
@@ -40,25 +45,27 @@ public class Pufferfish : AEnemy
     {
         if (TimeElapsedBetweenLastAttack >= TimeBetweenAttacks)
         {
-            SpawnProjectile();
-
+            SpawnProjectiles();
             return true;
         }
         return false;
     }
-    public void SpawnProjectile()
+    public void SpawnProjectiles()
     {
-        GameObject proj = ProjectilePool.Instance.GetProjectileFromPool(_projectilePrefab.tag);
-        AProjectile projectile = proj.GetComponent<AProjectile>();
+        foreach(Transform spot in _projectileSpots)
+        {
+            GameObject proj = ProjectilePool.Instance.GetProjectileFromPool(_projectilePrefab.tag);
+            AProjectile projectile = proj.GetComponent<AProjectile>();
 
-        projectile.Damage = _damage;
-        projectile.ProjectileSpeed = _projectileSpeed;
-        projectile.transform.position = _projectileSpot.position;
-        projectile.transform.rotation = _projectileSpot.rotation;
-        projectile.HitPlayer = true;
-        if (projectile.trailRenderer) projectile.trailRenderer.Clear();
+            projectile.Damage = _damage;
+            projectile.ProjectileSpeed = _projectileSpeed;
+            projectile.transform.position = spot.position;
+            projectile.transform.rotation = spot.rotation;
+            projectile.HitPlayer = true;
+            if (projectile.trailRenderer) projectile.trailRenderer.Clear();
+            proj.SetActive(true);
+            TimeElapsedBetweenLastAttack = 0;
+        }
 
-        proj.SetActive(true);
-        TimeElapsedBetweenLastAttack = 0;
     }
 }

@@ -10,10 +10,18 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
     public float ProjectileSpeed { get; set; }
     public bool HitPlayer { get; set; }
 
+    protected bool hasDoneDamage;
+
+    //  Status Effects
+
+    public int _freezeStackAmount;
+    public bool _shouldFreeze;
+
+    //  Misc
+
     private Rigidbody projectileRB;
     private Collider projectileCollider;
     protected bool despawnAnimationPlaying;
-    protected bool hasDoneDamage;
 
     [HideInInspector] public TrailRenderer trailRenderer;
     [HideInInspector] public AWeapon _weaponFromWhichProjectileWasFired;
@@ -24,6 +32,10 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
         projectileCollider = GetComponentInChildren<Collider>();
         trailRenderer = GetComponentInChildren<TrailRenderer>();
         MaxLifetime = 3;
+    }
+    public virtual void FixedUpdate()
+    {
+        if (!despawnAnimationPlaying) MoveProjectile();
     }
     private void OnEnable()
     {
@@ -86,7 +98,9 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
             {
                 if (col.GetComponentInChildren<AEnemy>())
                 {
-                    col.GetComponentInChildren<AEnemy>().TakeDamage(Damage);
+                    AEnemy enemy = col.GetComponentInChildren<AEnemy>();
+                    if(_shouldFreeze)enemy.AddFreezeStack(_freezeStackAmount);
+                    enemy.TakeDamage(Damage);
                     hasDoneDamage = true;
                     StartCoroutine(DespawnAnimation());
                 }

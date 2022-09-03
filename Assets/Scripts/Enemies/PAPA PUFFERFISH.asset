@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6382b88fa47b947b3d3f51f0f609ef, type: 3}
   m_Name: PAPA PUFFERFISH
   m_EditorClassIdentifier: 
-  _attacksPerSecond: 0.5
+  _attacksPerSecond: 0.25
   _enemyHealth: 150
+  _stacksUntilFreeze: 6
+  _maxFrozenTime: 1

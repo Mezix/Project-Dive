@@ -93,6 +93,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43cac39c5300d1d40b82246fcacfd21f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _freezeStackAmount: 1
+  _shouldFreeze: 1
   trailRenderer: {fileID: 0}
   _weaponFromWhichProjectileWasFired: {fileID: 0}
 --- !u!54 &8394897506248095698

@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Normal Pufferfish
   m_EditorClassIdentifier: 
   _attacksPerSecond: 0.5
-  _enemyHealth: 30
+  _enemyHealth: 50
+  _stacksUntilFreeze: 2
+  _maxFrozenTime: 3

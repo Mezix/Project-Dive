@@ -23,7 +23,6 @@ public abstract class AWeapon : MonoBehaviour
     public float _knockbackForce { get; set; }
     public AudioSource _weaponFireSFX;
     public GameObject ProjectilePrefab { get; set; }
-    //public List<Transform> _projectileSpots = new List<Transform>();
     public List<ProjectileSpots> _projectileSpots;
     [Serializable]
     public class ProjectileSpots
