@@ -19,6 +19,7 @@ public class Pufferfish : AEnemy
         _damage = 10;
         _projectileSpeed = 100f;
         InitStats();
+        _enemyHealth.InitHealth(30);
     }
     void Update()
     {

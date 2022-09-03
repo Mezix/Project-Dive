@@ -71,10 +71,17 @@ public class PlayerHealth : MonoBehaviour
         if(_vengeanceDrainPercentage <= 0)
         {
             //Game Over
-            print("Game Over");
+            HandlePlayerDeath();
         }
         REF.PCon._pUI.UpdateHealthBar(_currentHealth, _maxHealth, _vengeanceDrainPercentage);
     }
+
+    public void HandlePlayerDeath()
+    {
+        print("Game Over");
+        REF.PCon.InitPlayerDeath();
+    }
+
     private void EnterVengeanceMode()
     {
         _vengeanceModeActive = true;

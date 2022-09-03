@@ -9,7 +9,6 @@ public class IceMusket : AWeapon
     private Animator iceMusketAnimator;
     public GameObject IceMusketSFX;
 
-
     public override void Awake()
     {
         InitSystemStats();
@@ -36,9 +35,9 @@ public class IceMusket : AWeapon
     public override void Update()
     {
         base.Update();
-        TryFire();
+        //TryFire();
 
-        if(ShouldRegenerateAmmo)
+        if (ShouldRegenerateAmmo)
         {
             TimeElapsedBetweenAmmoRegeneration += Time.deltaTime;
             if(TimeElapsedBetweenAmmoRegeneration >= TimeBetweenAmmoRegeneration)
@@ -71,8 +70,6 @@ public class IceMusket : AWeapon
                     ChargeBegun = false;
                     _weaponFireSFX.Play();
                     SpawnProjectile();
-                    iceMusketAnimator.SetFloat("ReloadMultiplier", AttacksPerSecond);
-                    iceMusketAnimator.SetTrigger("ReloadInitiated");
                     REF.CamScript.StartShake(RecoilDuration, Recoil);
                 }
             }
@@ -90,7 +87,19 @@ public class IceMusket : AWeapon
         }
         bulletsFired = Mathf.Min(MagazineSize, bulletsFired);
         SubtractAmmo(bulletsFired);
-        REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired);
+
+        iceMusketAnimator.SetFloat("ReloadMultiplier", AttacksPerSecond);
+        if(ChargeLevel == 3)
+        {
+            iceMusketAnimator.SetTrigger("ReloadInitiated");
+            if(REF.PCon._weaponDirection == 1) REF.PCon.playerRB.velocity = Vector3.zero; //if facing forward, kill all velocity
+            REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired);
+        }
+        else
+        {
+            iceMusketAnimator.SetTrigger("Fired");
+            REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired);
+        }
         ChargeLevel = 1;
         TimeElapsedBetweenLastAttack = 0;
     }

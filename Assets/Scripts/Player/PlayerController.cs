@@ -76,6 +76,10 @@ public class PlayerController : MonoBehaviour
     public int _weaponDirection; //1 is forward, -1 is back
     public Transform _armRotation;
 
+    //  Death
+    public bool _dead;
+    public bool _dying;
+
     public void Awake()
     {
         REF.PCon = this;
@@ -103,32 +107,43 @@ public class PlayerController : MonoBehaviour
         _toolIndex = 0;
         _weaponDirection = 1;
         _speedMultiplier = 1;
+        _dead = false;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
     public void Update()
     {
-        //HandleTools();
-        HandleMouseClickInput();
-        HandleKeyboardInput();
-        Look();
-        _timeSinceLastDash += Time.deltaTime;
+        if (!_dead)
+        {
+            //HandleTools();
+            HandleMouseClickInput();
+            HandleKeyboardInput();
+            Look();
+            _timeSinceLastDash += Time.deltaTime;
+        }
     }
     private void FixedUpdate()
     {
-        HandleMovement();
+        if(!lockMovement) HandleMovement();
     }
 
     //  Input
 
+    private void HandleMouseClickInput()
+    {
+        if(_currentWeapon)_currentWeapon.TryFire();
+    }
     private void HandleKeyboardInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         forwardInput = Input.GetAxisRaw("Vertical");
         verticalInput = 0;
         if (Input.GetKey(KeyCode.Space)) verticalInput = 1;
-        if (Input.GetKey(KeyCode.LeftControl)) verticalInput = -1;
+        if (Input.GetKey(KeyCode.C)) verticalInput = -1;
+
+        if (Input.GetKey(KeyCode.LeftControl)) ReverseWeapon(true);
+        else ReverseWeapon(false);
 
         jumping = Input.GetKey(KeyCode.Space);
         //if (Input.GetKey(KeyCode.LeftShift)) Sprint(true);
@@ -194,15 +209,6 @@ public class PlayerController : MonoBehaviour
         _dragCoroutine = null;
         yield return null;
     }
-    private void HandleMouseClickInput()
-    {
-        if (Input.GetKey(KeyCode.Mouse0))
-        {
-            //_currentWeapon.TryFire();
-        }
-        if (Input.GetKey(KeyCode.Mouse1)) ReverseWeapon(true); 
-        else  ReverseWeapon(false); 
-    }
 
     private void ReverseWeapon(bool reversed)
     {
@@ -240,6 +246,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Movement
+
 
     private void HandleMovement()
     {
@@ -290,6 +297,15 @@ public class PlayerController : MonoBehaviour
             playerRB.AddForce(_orientation.transform.forward * forwardInput * currentMovementForce * Time.deltaTime * _speedMultiplier);
             playerRB.AddForce(_orientation.transform.right * horizontalInput * currentMovementForce * Time.deltaTime * _speedMultiplier);
         }
+    }
+    public void InitPlayerDeath()
+    {
+        if (_dead) return;
+        _dead = true;
+        lockMovement = true;
+        lockRotation = true;
+        REF.Dialog.StartDialogue(Resources.Load("Dialogue/Conversations/Game Over Conversation") as ConversationScriptObj, false, false);
+        REF.PlayerUI.InitiateDeathUI();
     }
     private void Sprint(bool printing)
     {

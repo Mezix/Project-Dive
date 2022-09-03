@@ -15,7 +15,6 @@ public class AEnemy : MonoBehaviour
     {
         TimeBetweenAttacks = 1 / AttacksPerSecond;
         TimeElapsedBetweenLastAttack = TimeBetweenAttacks;
-        _enemyHealth.InitHealth(30);
         _enemyDead = false;
     }
     public void TakeDamage(int damage)
