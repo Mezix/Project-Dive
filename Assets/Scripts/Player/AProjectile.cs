@@ -14,8 +14,8 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
 
     //  Status Effects
 
-    public int _freezeStackAmount;
     public bool _shouldFreeze;
+    public int _freezeStacksAppliedOnHit;
 
     //  Misc
 
@@ -99,7 +99,7 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
                 if (col.GetComponentInChildren<AEnemy>())
                 {
                     AEnemy enemy = col.GetComponentInChildren<AEnemy>();
-                    if(_shouldFreeze)enemy.AddFreezeStack(_freezeStackAmount);
+                    if(_shouldFreeze)enemy.AddFreezeStack(_freezeStacksAppliedOnHit);
                     enemy.TakeDamage(Damage);
                     hasDoneDamage = true;
                     StartCoroutine(DespawnAnimation());

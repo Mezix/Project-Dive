@@ -12,6 +12,7 @@ public abstract class AWeapon : MonoBehaviour
 
     public int MagazineSize { get; set; }
     public int AmmoLeft { get; set; }
+    public bool Reloading { get; set; }
     public bool ShouldRegenerateAmmo { get; set; }
     public float RegenSpeed { get; set; }
     public float TimeBetweenAmmoRegeneration { get; set; }

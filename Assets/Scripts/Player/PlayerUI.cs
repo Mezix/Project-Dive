@@ -115,12 +115,12 @@ public class PlayerUI : MonoBehaviour
 
     internal void SelectTool(int toolIndex)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     internal void ChangeToolBarOpacity(bool v)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
 }

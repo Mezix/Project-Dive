@@ -4,8 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Musketball
   - Pufferfish Shot
+  - Gravel Projectile
+  - Ice Ball
   layers:
   - Default
   - TransparentFX

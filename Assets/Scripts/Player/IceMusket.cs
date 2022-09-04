@@ -100,6 +100,7 @@ public class IceMusket : AWeapon
             iceMusketAnimator.SetTrigger("Fired");
             REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired);
         }
+        //Reloading = true;
         ChargeLevel = 1;
         TimeElapsedBetweenLastAttack = 0;
     }

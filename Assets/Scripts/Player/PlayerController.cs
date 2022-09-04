@@ -48,35 +48,20 @@ public class PlayerController : MonoBehaviour
     private bool jumping;
     private bool readyToJump;
     public bool _grounded;
-
-    //  Tools and UI
-
-    public PlayerUI _pUI;
-    public List<AToolUI> Tools;
-    private int _toolIndex;
-    public Transform ArmRotation;
-    [HideInInspector] public bool _holstered;
-    [HideInInspector] public bool _holstering;
-
-    [HideInInspector] public PlayerHealth _pHealth;
-    [HideInInspector] public Rigidbody playerRB;
-    [HideInInspector] public Collider playerCol;
-    [HideInInspector] public Camera _playerCam;
-    public Camera _FPSLayerCam;
-    [HideInInspector] public bool _firstPersonActive;
     public LayerMask whatIsGround;
-
-    //  Misc
-
-    [HideInInspector] public KeyCode _lastHitKey;
-    [HideInInspector] public Coroutine _dragCoroutine;
 
     //  Weapons
 
-    public AWeapon _currentWeapon;
-    [HideInInspector] public int _weaponDirection; //1 is forward, -1 is back
-    public float _backwardsKnockbackModifier; //does nothing so far!
+    public Transform _arm;
     public Transform _armRotation;
+    public List<GameObject> _weaponsToSpawn;
+    [HideInInspector] public List<AWeapon> _weapons;
+    [HideInInspector] public int _weaponIndex;
+    [HideInInspector] public float _weaponSwapDuration;
+    [HideInInspector] public int _weaponDirection; //1 is forward, -1 is back
+    [HideInInspector] public float _backwardsKnockbackModifier; //does nothing so far!
+    [HideInInspector] public bool _holstered;
+    [HideInInspector] public bool _holstering;
 
     //  Melee
 
@@ -92,11 +77,24 @@ public class PlayerController : MonoBehaviour
     public bool _dead;
     public bool _dying;
 
+    //  Misc
+
+    [HideInInspector] public PlayerUI _pUI;
+    [HideInInspector] public KeyCode _lastHitKey;
+    [HideInInspector] public Coroutine _dragCoroutine;
+    [HideInInspector] public PlayerHealth _pHealth;
+    [HideInInspector] public Rigidbody playerRB;
+    [HideInInspector] public Collider playerCol;
+    [HideInInspector] public Camera _playerCam;
+    public Camera _FPSLayerCam;
+    [HideInInspector] public bool _firstPersonActive;
+
     public void Awake()
     {
         REF.PCon = this;
         transform.tag = "Player";
         _playerCam = Camera.main;
+        _pUI = GetComponentInChildren<PlayerUI>();
         playerRB = GetComponentInChildren<Rigidbody>();
         playerCol = GetComponentInChildren<Collider>();
         _pHealth = GetComponentInChildren<PlayerHealth>();
@@ -104,8 +102,8 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         //TODO: Player prefs!
-        if (_savedSens == -1) _currentSensitivity = _tempSensitivity = 100; //  Initialize sensitivity once per launch, otherwise use the static saved variable
-        else _currentSensitivity = _savedSens;
+        if(!PlayerPrefs.HasKey("MouseSens")) PlayerPrefs.SetFloat("MouseSens", 100);
+        _currentSensitivity = _tempSensitivity = PlayerPrefs.GetFloat("MouseSens"); //  Initialize sensitivity once per launch, otherwise use the static saved variable
         _maxSensitivity = 700;
 
         currentMovementForce =  normalMovementForce;
@@ -118,7 +116,8 @@ public class PlayerController : MonoBehaviour
         _holstered = _holstering = false;
         playerCol.isTrigger = false;
 
-        _toolIndex = 0;
+        _weaponIndex = 0;
+        _weaponSwapDuration = 0.5f;
         _timeSinceLastDash = _dashCooldown;
         _weaponDirection = 1;
         _backwardsKnockbackModifier = 2; 
@@ -132,29 +131,45 @@ public class PlayerController : MonoBehaviour
         _dead = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        InitWeapons();
     }
+
     public void Update()
     {
         if (!_dead)
         {
-            //HandleTools();
             HandleMouseClickInput();
             HandleKeyboardInput();
+            HandleTools();
             Look();
             _timeSinceLastDash += Time.deltaTime;
             _timeSinceLastMelee += Time.deltaTime;
         }
     }
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         if(!lockMovement) HandleMovement();
     }
 
+    private void InitWeapons()
+    {
+        _weapons = new List<AWeapon>();
+        foreach (GameObject wep in _weaponsToSpawn)
+        {
+            GameObject wepObj = Instantiate(wep, _armRotation, false);
+            wepObj.SetActive(false);
+            AWeapon wepScript = wepObj.GetComponentInChildren<AWeapon>();
+            _weapons.Add(wepScript);
+        }
+        _weaponIndex = 0;
+        SetWeaponActive(_weaponIndex);
+    }
     //  Input
 
     private void HandleMouseClickInput()
     {
-        if(_currentWeapon)_currentWeapon.TryFire();
+        if(_weapons[_weaponIndex] && !_holstering && !_holstered) _weapons[_weaponIndex].TryFire();
     }
     private void HandleKeyboardInput()
     {
@@ -167,19 +182,19 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F)) TryMelee();
 
-        if (Input.GetKey(KeyCode.LeftControl)) ReverseWeapon(true);
+        if (Input.GetKey(KeyCode.LeftControl) && !_weapons[_weaponIndex].Reloading) ReverseWeapon(true);
         else ReverseWeapon(false);
 
         jumping = Input.GetKey(KeyCode.Space);
 
         if (Input.GetKeyDown(KeyCode.LeftShift) &&  _timeSinceLastDash > _dashCooldown)
         {
-            if (Input.GetKey(KeyCode.W)) Dash(0);
-            if (Input.GetKey(KeyCode.A)) Dash(1);
-            if (Input.GetKey(KeyCode.S)) Dash(2);
-            if (Input.GetKey(KeyCode.D)) Dash(3);
+            if (Input.GetKey(KeyCode.W))     Dash(0);
+            if (Input.GetKey(KeyCode.A))     Dash(1);
+            if (Input.GetKey(KeyCode.S))     Dash(2);
+            if (Input.GetKey(KeyCode.D))     Dash(3);
             if (Input.GetKey(KeyCode.Space)) Dash(4);
-            if (Input.GetKey(KeyCode.C)) Dash(5);
+            if (Input.GetKey(KeyCode.C))     Dash(5);
         }
     }
 
@@ -277,12 +292,12 @@ public class PlayerController : MonoBehaviour
         if(reversed)
         {
             _weaponDirection = -1;
-            HM.RotateLocalTransformToAngle(_armRotation, new Vector3(_armRotation.localRotation.eulerAngles.x, 180, ArmRotation.localRotation.eulerAngles.z));
+            HM.RotateLocalTransformToAngle(_armRotation, new Vector3(_armRotation.localRotation.eulerAngles.x, 180, _arm.localRotation.eulerAngles.z));
         }
         else
         {
             _weaponDirection = 1;
-            HM.RotateLocalTransformToAngle(_armRotation, new Vector3(_armRotation.localRotation.eulerAngles.x, 0, ArmRotation.localRotation.eulerAngles.z));
+            HM.RotateLocalTransformToAngle(_armRotation, new Vector3(_armRotation.localRotation.eulerAngles.x, 0, _arm.localRotation.eulerAngles.z));
         }
     }
 
@@ -411,27 +426,134 @@ public class PlayerController : MonoBehaviour
             playerRB.velocity = new Vector3(n.x, fallspeed, n.z);
         }
     }
-    /// <summary>
-    /// Find the velocity relative to where the player is looking
-    /// Useful for vectors calculations regarding movement and limiting movement
-    /// </summary>
-    /// <returns></returns>
-    public Vector2 FindVelRelativeToLook()
+
+    //  TOOLS
+
+    private void HandleTools()
     {
-        float lookAngle = _orientation.transform.eulerAngles.y;
-        float moveAngle = Mathf.Atan2(playerRB.velocity.x, playerRB.velocity.z) * Mathf.Rad2Deg;
+        if (Input.mouseScrollDelta.y != 0)
+        {
+            if (Input.mouseScrollDelta.y > 0)  NextWeapon();
+            else if (Input.mouseScrollDelta.y < 0) PreviousTool();
+        }
+        else HandleToolIndex();
+    }
+    private void HandleToolIndex()
+    {
+        int oldToolIndex = _weaponIndex;
+        bool swap = false;
 
-        float u = Mathf.DeltaAngle(lookAngle, moveAngle);
-        float v = 90 - u;
+        if (_holstering) return;
 
-        float magnitue = playerRB.velocity.magnitude;
-        float yMag = magnitue * Mathf.Cos(u * Mathf.Deg2Rad);
-        float xMag = magnitue * Mathf.Cos(v * Mathf.Deg2Rad);
+        //  Check if we have any inputs at all
+        if (Input.anyKeyDown)
+        {
+            //  get any input and convert the ascii range into an int
+            int inputToolIndex = Convert.ToInt32(_lastHitKey) - 49; //49 = Alpha1 => 49 - 49 = 0 => Our first tool in the list 
+            if (inputToolIndex < 0 || inputToolIndex > 9) return; // the numbers in the ascii range are between 48 (= 0) and 57 (= 9), so only accept inputs between 1 and 9, else return
+            if (inputToolIndex != _weaponIndex) swap = true; //if we are not selecting the same tool as last time, swap
+            _weaponIndex = inputToolIndex; //now overwrite the tool index to compare with the next input at a later time
 
-        return new Vector2(xMag, yMag);
+            if (_weaponIndex == oldToolIndex) return; //dont do anything if we have the same tool selected
+            if (_weaponIndex >= _weapons.Count) //dont go out of bounds
+            {
+                _weaponIndex = oldToolIndex;
+                return;
+            }
+            REF.PlayerUI.SelectTool(_weaponIndex);
+            if (swap)
+            {
+                StopAllCoroutines();
+                StartCoroutine(SwapAnimation());
+            }
+            else
+            {
+                if (_holstered || oldToolIndex != _weaponIndex)
+                {
+                    StopAllCoroutines();
+                    StartCoroutine(UnholsterTool(true));
+                }
+                else
+                {
+                    StopAllCoroutines();
+                    StartCoroutine(HolsterTool(true));
+                }
+            }
+        }
+    }
+    private IEnumerator HolsterTool(bool hideUI)
+    {
+        _holstering = true;
+        _holstered = false;
+        HM.RotateLocalTransformToAngle(_arm, new Vector3(0, 0, 0));
+
+        //  1s duration = 50 * 0.01 Real Time Second Waits = 0.5s for Holster
+        float duration = _weaponSwapDuration * 50;
+        for (int i = 0; i < duration; i++)
+        {
+            HM.RotateLocalTransformToAngle(_arm, new Vector3(i / duration * (duration * 2f), 0, 0));
+            yield return new WaitForSeconds(0.01f);
+        }
+        _holstered = true;
+        _holstering = false;
+        //if (hideUI) REF.PlayerUI.ChangeToolBarOpacity(false);
+    }
+    private IEnumerator UnholsterTool(bool showUI)
+    {
+        _holstering = true;
+        _holstered = true;
+        SetWeaponActive(_weaponIndex);
+
+        //  1s duration == 50 * 0.01 Real Time Second Waits = 0.5s for Unholster
+        float duration = _weaponSwapDuration * 50;
+        for (int i = 0; i < duration; i++)
+        {
+            HM.RotateLocalTransformToAngle(_arm, new Vector3((duration * 2f) - i / duration * (duration * 2f), 0, 0));
+            yield return new WaitForSeconds(0.01f);
+        }
+        HM.RotateLocalTransformToAngle(_arm, new Vector3(0, 0, 0));
+        _holstered = false;
+        _holstering = false;
+
+        if (showUI) REF.PlayerUI.ChangeToolBarOpacity(true);
     }
 
-
+    private void PreviousTool()
+    {
+        _weaponIndex--;
+        if (_weaponIndex < 0)
+        {
+            _weaponIndex = _weapons.Count - 1;
+        }
+        StopAllCoroutines();
+        StartCoroutine(SwapAnimation());
+    }
+    private void NextWeapon()
+    {
+        _weaponIndex++;
+        if (_weaponIndex > _weapons.Count - 1) _weaponIndex = 0;
+        StopAllCoroutines();
+        StartCoroutine(SwapAnimation());
+    }
+    private IEnumerator SwapAnimation()
+    {
+        REF.PlayerUI.SelectTool(_weaponIndex);
+        if (!_holstered)
+        {
+            StartCoroutine(HolsterTool(false));
+            yield return new WaitWhile(() => !_holstered);
+        }
+        StartCoroutine(UnholsterTool(true));
+    }
+    private void SetWeaponActive(int i)
+    {
+        if (_weapons.Count == 0) return;
+        foreach (AWeapon g in _weapons)
+        {
+            if (g) g.gameObject.SetActive(false);
+        }
+        if (_weapons[i]) _weapons[i].gameObject.SetActive(true);
+    }
 
     //  Grounded
     private bool IsFloor(Vector3 v)
@@ -439,7 +561,6 @@ public class PlayerController : MonoBehaviour
         float angle = Vector3.Angle(Vector3.up, v);
         return angle < maxSlopeAngle;
     }
-
 
     /// <summary>
     /// Handle ground detection
@@ -477,32 +598,31 @@ public class PlayerController : MonoBehaviour
         _grounded = false;
     }
 
+
+    //  Misc
+
+    /// <summary>
+    /// Find the velocity relative to where the player is looking
+    /// Useful for vectors calculations regarding movement and limiting movement
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 FindVelRelativeToLook()
+    {
+        float lookAngle = _orientation.transform.eulerAngles.y;
+        float moveAngle = Mathf.Atan2(playerRB.velocity.x, playerRB.velocity.z) * Mathf.Rad2Deg;
+
+        float u = Mathf.DeltaAngle(lookAngle, moveAngle);
+        float v = 90 - u;
+
+        float magnitue = playerRB.velocity.magnitude;
+        float yMag = magnitue * Mathf.Cos(u * Mathf.Deg2Rad);
+        float xMag = magnitue * Mathf.Cos(v * Mathf.Deg2Rad);
+
+        return new Vector2(xMag, yMag);
+    }
     public void ApplyKnockback(float knockback)
     {
-        playerRB.AddForce(_playerCam.transform.forward * (-1 * _weaponDirection ) * knockback);
-    }
-
-
-
-    //  TOOLS
-
-    private void HandleTools()
-    {
-        if (Input.mouseScrollDelta.y != 0)
-        {
-            if (Input.mouseScrollDelta.y > 0)
-            {
-                NextTool();
-            }
-            else if (Input.mouseScrollDelta.y < 0)
-            {
-                PreviousTool();
-            }
-        }
-        else
-        {
-            HandleToolIndex();
-        }
+        playerRB.AddForce(_playerCam.transform.forward * (-1 * _weaponDirection) * knockback);
     }
 
     private void OnGUI()
@@ -512,125 +632,4 @@ public class PlayerController : MonoBehaviour
             if (Event.current.keyCode != KeyCode.None) _lastHitKey = Event.current.keyCode;
         }
     }
-    private void HandleToolIndex()
-    {
-        int oldToolIndex = _toolIndex;
-        bool swap = false;
-
-        //  Check if we have any inputs at all
-        if (_holstering) return;
-        if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.X))
-        {
-            if (!_holstered)
-            {
-                StopAllCoroutines();
-                StartCoroutine(HolsterTool(true));
-            }
-        }
-
-        if (Input.anyKeyDown)
-        {
-            //  get any input and convert the ascii range into an int
-            int tmpToolIndex = Convert.ToInt32(_lastHitKey) - 49; //49 = Alpha1 => 49 - 49 = 0 => Our first tool in the list 
-            if (tmpToolIndex < 0 || tmpToolIndex > 9) return; // the numbers in the ascii range are between 48 (= 0) and 57 (= 9), so only accept inputs between 1 and 9, else return
-            if (tmpToolIndex != _toolIndex) swap = true; //if we are not selecting the same tool as last time, swap
-            _toolIndex = tmpToolIndex; //now overwrite the tool index to compare with the next input at a later time
-
-            if (_toolIndex >= Tools.Count) return; //dont go out of bounds
-            REF.PlayerUI.SelectTool(_toolIndex);
-            if (swap)
-            {
-                StopAllCoroutines();
-                StartCoroutine(SwapAnimation());
-            }
-            else
-            {
-                if (_holstered || oldToolIndex != _toolIndex)
-                {
-                    StopAllCoroutines();
-                    StartCoroutine(UnholsterTool(true));
-                }
-                else
-                {
-                    StopAllCoroutines();
-                    StartCoroutine(HolsterTool(true));
-                }
-            }
-        }
-    }
-    private IEnumerator HolsterTool(bool hideUI)
-    {
-        _holstering = true;
-        _holstered = false;
-        HM.RotateLocalTransformToAngle(ArmRotation, new Vector3(0, 0, 0));
-        float TimeToSwap = 25f;
-
-        for (int i = 0; i < TimeToSwap; i++)
-        {
-            HM.RotateLocalTransformToAngle(ArmRotation, new Vector3(i / TimeToSwap * (TimeToSwap * 2), 0, 0));
-            yield return new WaitForSecondsRealtime(0.01f);
-        }
-        _holstered = true;
-        _holstering = false;
-        //if (hideUI) REF.PlayerUI.ChangeToolBarOpacity(false);
-    }
-    private IEnumerator UnholsterTool(bool showUI)
-    {
-        _holstering = true;
-        _holstered = true;
-        SetToolActive(_toolIndex);
-
-        float TimeToSwap = 25f;
-        for (int i = 0; i < TimeToSwap; i++)
-        {
-            HM.RotateLocalTransformToAngle(ArmRotation, new Vector3((TimeToSwap * 2) - i / TimeToSwap * (TimeToSwap * 2), 0, 0));
-            yield return new WaitForSecondsRealtime(0.01f);
-        }
-        HM.RotateLocalTransformToAngle(ArmRotation, new Vector3(0, 0, 0));
-        _holstered = false;
-        _holstering = false;
-
-        if (showUI) REF.PlayerUI.ChangeToolBarOpacity(true);
-    }
-
-    private void PreviousTool()
-    {
-        _toolIndex--;
-        if (_toolIndex < 0)
-        {
-            _toolIndex = Tools.Count - 1;
-        }
-        StopAllCoroutines();
-        StartCoroutine(SwapAnimation());
-    }
-    private void NextTool()
-    {
-        _toolIndex++;
-        if (_toolIndex > Tools.Count - 1) _toolIndex = 0;
-        StopAllCoroutines();
-        StartCoroutine(SwapAnimation());
-    }
-    private IEnumerator SwapAnimation()
-    {
-        REF.PlayerUI.SelectTool(_toolIndex);
-        if (!_holstered)
-        {
-            StartCoroutine(HolsterTool(false));
-            yield return new WaitWhile(() => !_holstered);
-        }
-        StartCoroutine(UnholsterTool(true));
-    }
-    private void SetToolActive(int i)
-    {
-        if (Tools.Count == 0) return;
-        foreach (AToolUI g in Tools)
-        {
-            if (g) g.gameObject.SetActive(false);
-        }
-        if (Tools[i]) Tools[i].gameObject.SetActive(true);
-    }
-
-
-
-
 }
