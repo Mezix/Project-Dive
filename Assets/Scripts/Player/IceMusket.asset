@@ -20,3 +20,4 @@ MonoBehaviour:
   _recoil: 0.1
   _recoilDuration: 0.25
   _knockbackForce: 500
+  _backwardsModifier: 1

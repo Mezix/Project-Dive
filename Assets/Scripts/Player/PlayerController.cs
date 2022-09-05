@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public int _weaponIndex;
     [HideInInspector] public float _weaponSwapDuration;
     [HideInInspector] public int _weaponDirection; //1 is forward, -1 is back
-    [HideInInspector] public float _backwardsKnockbackModifier; //does nothing so far!
     [HideInInspector] public bool _holstered;
     [HideInInspector] public bool _holstering;
 
@@ -120,7 +119,6 @@ public class PlayerController : MonoBehaviour
         _weaponSwapDuration = 0.5f;
         _timeSinceLastDash = _dashCooldown;
         _weaponDirection = 1;
-        _backwardsKnockbackModifier = 2; 
         _speedMultiplier = 1;
 
         _meleeBaseDamage = 20f;

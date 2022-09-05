@@ -1673,15 +1673,14 @@ MonoBehaviour:
   _arm: {fileID: 1436183063}
   _armRotation: {fileID: 627101016}
   _weaponsToSpawn:
-  - {fileID: 7250384146651404948, guid: 2e95cc7fa4748a74098e2ca2aedf92f5, type: 3}
   - {fileID: 7250384146651404948, guid: ba8b871c90c5b644ab9647695f0d40f4, type: 3}
+  - {fileID: 7250384146651404948, guid: 2e95cc7fa4748a74098e2ca2aedf92f5, type: 3}
   _weapons:
   - {fileID: 0}
   - {fileID: 0}
   _weaponIndex: 0
   _weaponSwapDuration: 0
   _weaponDirection: 1
-  _backwardsKnockbackModifier: 0
   _holstered: 0
   _holstering: 0
   _melee: {fileID: 1121690797}

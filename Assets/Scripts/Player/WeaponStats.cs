@@ -13,4 +13,5 @@ public class WeaponStats : ScriptableObject
     public float _recoil;
     public float _recoilDuration;
     public float _knockbackForce;
+    public float _backwardsModifier;
 }

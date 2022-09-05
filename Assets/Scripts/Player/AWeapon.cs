@@ -22,6 +22,7 @@ public abstract class AWeapon : MonoBehaviour
     public float Recoil { get; set; }
     public float RecoilDuration { get; set; }
     public float _knockbackForce { get; set; }
+    public float _backwardsKnockbackModifier { get; set; } //does nothing so far!
     public AudioSource _weaponFireSFX;
     public GameObject ProjectilePrefab { get; set; }
     public List<ProjectileSpots> _projectileSpots;
@@ -64,6 +65,7 @@ public abstract class AWeapon : MonoBehaviour
             Recoil = _weaponStats._recoil;
             RecoilDuration = _weaponStats._recoilDuration;
             _knockbackForce = _weaponStats._knockbackForce;
+            _backwardsKnockbackModifier = _weaponStats._backwardsModifier;
         }
         else  //set default stats
         {
@@ -73,6 +75,7 @@ public abstract class AWeapon : MonoBehaviour
             Recoil = 0.05f;
             RecoilDuration = 0.05f;
             _knockbackForce = 100;
+            _backwardsKnockbackModifier = 1;
         }
         TimeBetweenAttacks = 1 / AttacksPerSecond;
         TimeElapsedBetweenLastAttack = TimeBetweenAttacks; //make sure we can fire right away

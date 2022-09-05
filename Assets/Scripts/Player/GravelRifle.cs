@@ -40,9 +40,7 @@ public class GravelRifle : AWeapon
 
         if(Input.GetKeyDown(KeyCode.R) && !Reloading && AmmoLeft < MagazineSize)
         {
-            Reloading = true;
-            gravelRifleAnimator.SetFloat("ReloadMultiplier", 1/TimeBetweenAmmoRegeneration);
-            gravelRifleAnimator.SetTrigger("ReloadInitiated");
+            InitiateReload();
         }
         if (Reloading)
         {
@@ -53,21 +51,35 @@ public class GravelRifle : AWeapon
             }
         }
     }
+
+    private void InitiateReload()
+    {
+        gravelRifleAnimator.SetFloat("ReloadMultiplier", 1 / TimeBetweenAmmoRegeneration);
+        gravelRifleAnimator.SetBool("Firing", false);
+        Reloading = true;
+        gravelRifleAnimator.SetTrigger("ReloadInitiated");
+    }
+
     public override void TryFire()
     {
-        if (TimeElapsedBetweenLastAttack >= TimeBetweenAttacks && !Reloading)
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            if (AmmoLeft > 0)
+            if (TimeElapsedBetweenLastAttack >= TimeBetweenAttacks && !Reloading)
             {
-                if (Input.GetKey(KeyCode.Mouse0))
+                if (AmmoLeft > 0)
                 {
-                    //gravelRifleFiredSFX.SetActive(Charging);
+                    gravelRifleAnimator.SetBool("Firing", true);
+                    //print("fire!");
                     _weaponFireSFX.Play();
                     SpawnProjectile();
                     gravelRifleFiredParticleSystem.Play();
                     REF.CamScript.StartShake(RecoilDuration, Recoil);
                 }
             }
+        }
+        else
+        {
+            gravelRifleAnimator.SetBool("Firing", false);
         }
     }
     public override void SpawnProjectile()
@@ -82,11 +94,12 @@ public class GravelRifle : AWeapon
         }
         bulletsFired = Mathf.Min(MagazineSize, bulletsFired);
         SubtractAmmo(bulletsFired);
-        gravelRifleAnimator.SetFloat("ReloadMultiplier", AttacksPerSecond);
-        gravelRifleAnimator.SetTrigger("Fired");
-         TimeElapsedBetweenLastAttack = 0;
+        gravelRifleAnimator.SetFloat("FireRate", AttacksPerSecond);
+        TimeElapsedBetweenLastAttack = 0;
         TimeElapsedBetweenAmmoRegeneration = 0;
-        REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired);
+
+        if (REF.PCon._weaponDirection == 1) REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired);
+        else                                REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired * _backwardsKnockbackModifier);
     }
 
     public void SubtractAmmo(int amount)
@@ -94,6 +107,8 @@ public class GravelRifle : AWeapon
         AmmoLeft -= amount;
         UpdateAmmoDisplay(AmmoLeft);
         Reloading = false;
+        print("subtract");
+        if (AmmoLeft <= 0) InitiateReload();
     }
 
     public void RegenerateAmmo(int amount)
