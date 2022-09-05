@@ -10,7 +10,7 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
     public float ProjectileSpeed { get; set; }
     public bool HitPlayer { get; set; }
 
-    protected bool hasDoneDamage;
+    public bool HasDoneDamage { get; set; }
 
     //  Status Effects
 
@@ -19,43 +19,47 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
 
     //  Misc
 
-    private Rigidbody projectileRB;
-    private Collider projectileCollider;
-    protected bool despawnAnimationPlaying;
+    [HideInInspector] public Rigidbody _projectileRB;
+    [HideInInspector] public Collider _projectileCollider;
+    [HideInInspector] public bool _despawnAnimationPlaying;
 
-    [HideInInspector] public TrailRenderer trailRenderer;
+    [HideInInspector] public TrailRenderer _trailRenderer;
     [HideInInspector] public AWeapon _weaponFromWhichProjectileWasFired;
 
-    private void Awake()
+    public virtual void Awake()
     {
-        projectileRB = GetComponentInChildren<Rigidbody>();
-        projectileCollider = GetComponentInChildren<Collider>();
-        trailRenderer = GetComponentInChildren<TrailRenderer>();
+        _projectileRB = GetComponentInChildren<Rigidbody>();
+        _projectileCollider = GetComponentInChildren<Collider>();
+        _trailRenderer = GetComponentInChildren<TrailRenderer>();
         MaxLifetime = 3;
+    }
+    public virtual void Start()
+    {
+
     }
     public virtual void FixedUpdate()
     {
-        if (!despawnAnimationPlaying) MoveProjectile();
+        if (!_despawnAnimationPlaying) MoveProjectile();
     }
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         // Physics.IgnoreCollision(col, REF.PCon.playerCol);
         CurrentLifeTime = 0;
-        despawnAnimationPlaying = false;
-        hasDoneDamage = false;
+        _despawnAnimationPlaying = false;
+        HasDoneDamage = false;
     }
-    private void Update()
+    public virtual void Update()
     {
         CurrentLifeTime += Time.deltaTime;
         CheckLifetime();
     }
     public virtual void MoveProjectile()
     {
-        projectileRB.MovePosition(transform.position + transform.forward * ProjectileSpeed * Time.deltaTime);
+        _projectileRB.MovePosition(transform.position + transform.forward * ProjectileSpeed * Time.deltaTime);
     }
     protected void CheckLifetime() //a function that checks if our projectile has reached the end of its lifespan, and then decides what to do now
     {
-        if (CurrentLifeTime >= MaxLifetime && !despawnAnimationPlaying)
+        if (CurrentLifeTime >= MaxLifetime && !_despawnAnimationPlaying)
         {
             StartCoroutine(DespawnAnimation());
         }
@@ -73,24 +77,24 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
         //if (REF.PCon) ProjectileSpeed += REF.PCon.playerRB.velocity.magnitude;
         transform.position = t.transform.position;
         transform.rotation = t.transform.rotation;
-        if (trailRenderer) trailRenderer.Clear();
+        if (_trailRenderer) _trailRenderer.Clear();
     }
     public virtual IEnumerator DespawnAnimation()
     {
-        despawnAnimationPlaying = true;
+        _despawnAnimationPlaying = true;
         yield return new WaitForSeconds(0f);
         DespawnBullet();
     }
-    private void OnTriggerEnter(Collider col)
+    public virtual void OnTriggerEnter(Collider col)
     {
-        if (!hasDoneDamage)
+        if (!HasDoneDamage)
         {
             if (HitPlayer)
             {
                 if (col.GetComponent<PlayerController>())
                 {
                     REF.PCon._pHealth.TakeDamage(Damage);
-                    hasDoneDamage = true;
+                    HasDoneDamage = true;
                     StartCoroutine(DespawnAnimation());
                 }
             }
@@ -101,7 +105,7 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
                     AEnemy enemy = col.GetComponentInChildren<AEnemy>();
                     if(_shouldFreeze)enemy.AddFreezeStack(_freezeStacksAppliedOnHit);
                     enemy.TakeDamage(Damage);
-                    hasDoneDamage = true;
+                    HasDoneDamage = true;
                     StartCoroutine(DespawnAnimation());
                 }
             }

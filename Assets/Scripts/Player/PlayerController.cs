@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
         playerCol.isTrigger = false;
 
         _weaponIndex = 0;
-        _weaponSwapDuration = 0.5f;
+        _weaponSwapDuration = 0.125f;
         _timeSinceLastDash = _dashCooldown;
         _weaponDirection = 1;
         _speedMultiplier = 1;
@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F)) TryMelee();
 
-        if (Input.GetKey(KeyCode.LeftControl) && !_weapons[_weaponIndex].Reloading) ReverseWeapon(true);
+        if (Input.GetKey(KeyCode.LeftControl) && _weapons[_weaponIndex]._canReverseWeapon && !_weapons[_weaponIndex].Reloading) ReverseWeapon(true);
         else ReverseWeapon(false);
 
         jumping = Input.GetKey(KeyCode.Space);

@@ -62,7 +62,7 @@ public class Pufferfish : AEnemy
             projectile.transform.position = spot.position;
             projectile.transform.rotation = spot.rotation;
             projectile.HitPlayer = true;
-            if (projectile.trailRenderer) projectile.trailRenderer.Clear();
+            if (projectile._trailRenderer) projectile._trailRenderer.Clear();
             proj.SetActive(true);
             TimeElapsedBetweenLastAttack = 0;
         }

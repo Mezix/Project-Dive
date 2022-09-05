@@ -1675,6 +1675,7 @@ MonoBehaviour:
   _weaponsToSpawn:
   - {fileID: 7250384146651404948, guid: ba8b871c90c5b644ab9647695f0d40f4, type: 3}
   - {fileID: 7250384146651404948, guid: 2e95cc7fa4748a74098e2ca2aedf92f5, type: 3}
+  - {fileID: 7250384146651404948, guid: 318c8002777d85f4291f5a6352c495cc, type: 3}
   _weapons:
   - {fileID: 0}
   - {fileID: 0}

@@ -14,4 +14,7 @@ public class WeaponStats : ScriptableObject
     public float _recoilDuration;
     public float _knockbackForce;
     public float _backwardsModifier;
+    public bool _canReverseWeapon;
+    public int _magazineSize;
+    public int _maxLevel;
 }

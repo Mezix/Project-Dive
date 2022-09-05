@@ -21,3 +21,6 @@ MonoBehaviour:
   _recoilDuration: 0.25
   _knockbackForce: 500
   _backwardsModifier: 1
+  _canReverseWeapon: 1
+  _magazineSize: 3
+  _maxLevel: 3

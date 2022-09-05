@@ -36,7 +36,6 @@ public class GravelRifle : AWeapon
     public override void Update()
     {
         base.Update();
-        //TryFire();
 
         if(Input.GetKeyDown(KeyCode.R) && !Reloading && AmmoLeft < MagazineSize)
         {
@@ -107,7 +106,6 @@ public class GravelRifle : AWeapon
         AmmoLeft -= amount;
         UpdateAmmoDisplay(AmmoLeft);
         Reloading = false;
-        print("subtract");
         if (AmmoLeft <= 0) InitiateReload();
     }
 

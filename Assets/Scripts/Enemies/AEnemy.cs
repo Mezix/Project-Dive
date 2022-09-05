@@ -130,6 +130,12 @@ public class AEnemy : MonoBehaviour
     public void InitDeathBehaviour()
     {
         //print("death anim");
+        StartCoroutine(DeathAnim());
+    }
+
+    private IEnumerator DeathAnim()
+    {
+        yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 

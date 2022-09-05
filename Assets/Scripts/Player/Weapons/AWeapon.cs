@@ -23,6 +23,8 @@ public abstract class AWeapon : MonoBehaviour
     public float RecoilDuration { get; set; }
     public float _knockbackForce { get; set; }
     public float _backwardsKnockbackModifier { get; set; } //does nothing so far!
+    public bool _canReverseWeapon { get; set; }
+
     public AudioSource _weaponFireSFX;
     public GameObject ProjectilePrefab { get; set; }
     public List<ProjectileSpots> _projectileSpots;
@@ -38,6 +40,7 @@ public abstract class AWeapon : MonoBehaviour
     }
 
     public List<UpgradeObjectList> _upgradeObjects;
+
     //  Charging Shots
     public bool ChargeBegun { get; set; }
     public bool Charging { get; set; }
@@ -50,7 +53,6 @@ public abstract class AWeapon : MonoBehaviour
     public virtual void Awake()
     {
         InitSystemStats();
-        ProjectilePrefab = (GameObject) Resources.Load("MusketBall");
     }
     public virtual void Update()
     {
@@ -60,12 +62,16 @@ public abstract class AWeapon : MonoBehaviour
     {
         if (_weaponStats)  //if we have a scriptableobject, use its stats
         {
-            AttacksPerSecond = _weaponStats._attacksPerSecond;
             Damage = _weaponStats._damage;
+            AttacksPerSecond = _weaponStats._attacksPerSecond;
             Recoil = _weaponStats._recoil;
             RecoilDuration = _weaponStats._recoilDuration;
             _knockbackForce = _weaponStats._knockbackForce;
             _backwardsKnockbackModifier = _weaponStats._backwardsModifier;
+            MagazineSize = _weaponStats._magazineSize;
+            MaxLevel = _weaponStats._maxLevel;
+            AmmoLeft = MagazineSize;
+            _canReverseWeapon = _weaponStats._canReverseWeapon;
         }
         else  //set default stats
         {
@@ -76,6 +82,10 @@ public abstract class AWeapon : MonoBehaviour
             RecoilDuration = 0.05f;
             _knockbackForce = 100;
             _backwardsKnockbackModifier = 1;
+            MagazineSize = 1;
+            MaxLevel = 1;
+            AmmoLeft = MagazineSize;
+            _canReverseWeapon = true;
         }
         TimeBetweenAttacks = 1 / AttacksPerSecond;
         TimeElapsedBetweenLastAttack = TimeBetweenAttacks; //make sure we can fire right away
