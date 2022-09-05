@@ -1629,7 +1629,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 501603228}
   serializedVersion: 2
-  m_Mass: 0.3
+  m_Mass: 0.6
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -1649,11 +1649,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 555f0b90a254d2a4e9284aef33df5fda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalMovementForce: 300
-  vengeanceMovementForce: 1000
+  normalMovementForce: 1000
+  vengeanceMovementForce: 3000
   currentMovementForce: 0
   maxMoveSpeed: 7
-  counterMovementModifier: 15
+  counterMovementModifier: 5
   _timeSinceLastDash: 0
   _dashCooldown: 2
   _dashForceMultiplier: 2
@@ -1673,8 +1673,8 @@ MonoBehaviour:
   _arm: {fileID: 1436183063}
   _armRotation: {fileID: 627101016}
   _weaponsToSpawn:
-  - {fileID: 7250384146651404948, guid: ba8b871c90c5b644ab9647695f0d40f4, type: 3}
   - {fileID: 7250384146651404948, guid: 2e95cc7fa4748a74098e2ca2aedf92f5, type: 3}
+  - {fileID: 7250384146651404948, guid: ba8b871c90c5b644ab9647695f0d40f4, type: 3}
   _weapons:
   - {fileID: 0}
   - {fileID: 0}
