@@ -244,10 +244,10 @@ Rigidbody:
   m_GameObject: {fileID: 4298165064066948756}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 3
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -259,7 +259,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4298165064066948756}
   m_Material: {fileID: 13400000, guid: 0ed72bf62bc73a14d99527c4084af59e, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 2
@@ -287,10 +287,11 @@ MonoBehaviour:
   _currentFreezeStacks: 0
   _frozen: 0
   _timeSpentFrozen: 0
-  _freezeDuration: 0
   _projectileSpots:
   - {fileID: 4298165062575570296}
   _enemyAnimator: {fileID: 0}
+  _enemyRB: {fileID: 0}
+  _enemyCol: {fileID: 0}
 --- !u!114 &5158093014219419577
 MonoBehaviour:
   m_ObjectHideFlags: 0

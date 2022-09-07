@@ -79,6 +79,8 @@ public class HarpoonGun : AWeapon
     {
         //print("retract!");
         if (_harpoonProjectile._stuckEnemy) _harpoonProjectile.Unstick();
+
+        harpoonAnimator.SetBool("Reloading", true);
         Reloading = true;
         _harpoonFired = false;
         _harpoonProjectile.HasDoneDamage = false;
@@ -91,6 +93,7 @@ public class HarpoonGun : AWeapon
         _harpoonProjectile.transform.localPosition = Vector3.zero;
         _harpoonProjectile.transform.localScale = Vector3.one;
         HM.RotateLocalTransformToAngle(_harpoonProjectile.transform, Vector3.zero);
+        // harpoonAnimator.SetBool("Reloading", false);
         Reloading = false;
     }
 

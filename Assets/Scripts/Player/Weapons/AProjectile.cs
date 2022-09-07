@@ -43,7 +43,6 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
     }
     public virtual void OnEnable()
     {
-        // Physics.IgnoreCollision(col, REF.PCon.playerCol);
         CurrentLifeTime = 0;
         _despawnAnimationPlaying = false;
         HasDoneDamage = false;

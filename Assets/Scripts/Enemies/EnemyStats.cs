@@ -10,4 +10,5 @@ public class EnemyStats : ScriptableObject
 
     public int _stacksUntilFreeze;
     public float _maxFrozenTime;
+    public float _weight;
 }

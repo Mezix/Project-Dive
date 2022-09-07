@@ -11,6 +11,7 @@ public class AEnemy : MonoBehaviour
     public float AttacksPerSecond { get; set; }
     public float TimeBetweenAttacks { get; private set; }
     public float TimeElapsedBetweenLastAttack { get; protected set; }
+    public float Weight { get; set; }
     public EnemyHealth _enemyHealth;
     public bool _enemyDead;
     public bool _isBoss;
@@ -26,19 +27,23 @@ public class AEnemy : MonoBehaviour
     public int StacksUntilFreeze { get; private set; }
     public bool _frozen;
     public float _timeSpentFrozen;
-    public float _freezeDuration;
+    public float FreezeDuration { get; set; }
 
-    //Misc
+    //  Misc
 
     public List<Transform> _projectileSpots;
-    [HideInInspector]public Animator _enemyAnimator;
+    [HideInInspector] public Animator _enemyAnimator;
     private List<MeshRenderer> _meshes = new List<MeshRenderer>();
+    public Rigidbody _enemyRB;
+    public Collider _enemyCol;
 
     public virtual void Awake()
     {
         _meshes = GetComponentsInChildren<MeshRenderer>().ToList();
         _timeSpentFrozen = 0;
         _enemyAnimator = GetComponentInChildren<Animator>();
+        _enemyRB = GetComponentInChildren<Rigidbody>();
+        _enemyCol = GetComponentInChildren<Collider>();
     }
     public virtual void Start()
     {
@@ -50,10 +55,22 @@ public class AEnemy : MonoBehaviour
 
     public void InitStats()
     {
-        TimeBetweenAttacks = 1 / _enemyStats._attacksPerSecond;
-        TimeElapsedBetweenLastAttack = TimeBetweenAttacks;
-        StacksUntilFreeze = _enemyStats._stacksUntilFreeze;
-        _freezeDuration = _enemyStats._maxFrozenTime;
+        if(_enemyStats)
+        {
+            TimeBetweenAttacks = 1 / _enemyStats._attacksPerSecond;
+            TimeElapsedBetweenLastAttack = TimeBetweenAttacks;
+            StacksUntilFreeze = _enemyStats._stacksUntilFreeze;
+            FreezeDuration = _enemyStats._maxFrozenTime;
+            Weight = _enemyStats._weight;
+        }
+        else
+        {
+            TimeBetweenAttacks = 1;
+            TimeElapsedBetweenLastAttack = TimeBetweenAttacks;
+            StacksUntilFreeze = 1000;
+            FreezeDuration = 1;
+            Weight = 1;
+        }
         _enemyDead = false;
         _enemyHealth.InitHealth(_enemyStats._enemyHealth);
     }
@@ -62,7 +79,7 @@ public class AEnemy : MonoBehaviour
 
     private void HandleStatusEffects()
     {
-        if(_timeSpentFrozen >= _freezeDuration) Freeze(false);
+        if(_timeSpentFrozen >= FreezeDuration) Freeze(false);
         if (_frozen) _timeSpentFrozen += Time.deltaTime;
     }
 

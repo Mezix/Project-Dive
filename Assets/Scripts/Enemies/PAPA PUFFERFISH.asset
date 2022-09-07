@@ -16,3 +16,4 @@ MonoBehaviour:
   _enemyHealth: 150
   _stacksUntilFreeze: 6
   _maxFrozenTime: 1
+  _weight: 1000
