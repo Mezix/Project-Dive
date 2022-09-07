@@ -30,10 +30,14 @@ public class Pufferfish : AEnemy
 
     private void EnemyBehaviour()
     {
-        if(!_frozen)
+        if(!_frozen && !_enemyDead)
         {
             RotateTowardsPlayer();
             Fire();
+        }
+        else
+        {
+            _enemyAnimator.speed = 0;
         }
     }
 

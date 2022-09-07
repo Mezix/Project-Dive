@@ -152,7 +152,12 @@ public class AEnemy : MonoBehaviour
 
     private IEnumerator DeathAnim()
     {
-        yield return new WaitForSeconds(1f);
+        for(int i = 0; i < 100; i++)
+        {
+            transform.Rotate(new Vector3(0,0,-0.9f), Space.Self);
+            _enemyRB.AddForce(Vector3.up * i);
+            yield return new WaitForFixedUpdate();
+        }
         Destroy(gameObject);
     }
 
