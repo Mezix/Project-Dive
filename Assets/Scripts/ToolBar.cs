@@ -13,11 +13,10 @@ public class ToolBar : MonoBehaviour
     public GameObject _circularParent;
     private float toolIconOffset;
     private int selectedIndex;
-
-    private void Start()
+    private void Awake()
     {
         toolIconOffset = 150;
-        selectedIndex = 0;
+        selectedIndex = -1;
     }
     private void Update()
     {
