@@ -119,6 +119,7 @@ public class SuperCavitationLance : AWeapon
     private void StartCharging()
     {
         AmmoLeft -= 10;
+        UpdateFuel();
         _lanceModel.transform.localPosition = new Vector3(-0.78f, 0.2f, -0.8f);
     }
 
@@ -155,13 +156,13 @@ public class SuperCavitationLance : AWeapon
             {
                 AEnemy enemy = hit.collider.GetComponentInChildren<AEnemy>();
                 float finalMeleeDamage = _stabDamage;
-                finalMeleeDamage *= Mathf.Max(_stabDamage, REF.PCon.playerRB.velocity.magnitude / 30f); // do at minimum base damage
+                finalMeleeDamage *= Mathf.Max(1, REF.PCon.playerRB.velocity.magnitude / 20f); // do at minimum base damage
                 finalMeleeDamage = Mathf.Min(_stabDamage * 6, finalMeleeDamage); // do maximum of 3 times the damage
                 if (enemy._frozen) finalMeleeDamage *= 2; //double damage if frozen
+                //Debug.Log("Stab damage: " + _stabDamage + " * Multiplier: " + REF.PCon.playerRB.velocity.magnitude/20f + " => Final Damage: " + finalMeleeDamage);
                 hit.collider.GetComponentInChildren<AEnemy>().TakeDamage(finalMeleeDamage);
                 REF.PCon.playerRB.velocity = Vector3.zero;
                 REF.PCon.ApplyKnockback(REF.PCon._meleeKnockback);
-                print(finalMeleeDamage);
             }
         StartCoroutine(SuperCavStabAnim());
     }
