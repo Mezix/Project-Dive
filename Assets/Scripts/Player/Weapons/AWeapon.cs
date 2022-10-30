@@ -26,6 +26,7 @@ public abstract class AWeapon : MonoBehaviour
     public bool CanReverseWeapon { get; set; }
 
     public AudioSource _weaponFireSFX;
+    public Sprite _toolIcon;
     public GameObject ProjectilePrefab { get; set; }
     public List<ProjectileSpots> _projectileSpots;
     [Serializable]

@@ -97,8 +97,8 @@ public class HarpoonProjectile : AProjectile
             while (enemy && _timePulled < _maxPullTime && Vector3.Distance(enemy.transform.position, REF.PCon.transform.position) > breakDistance)
             {
                 _timePulled += Time.deltaTime;
-                if (REF.PCon.playerRB.velocity.magnitude <= maxPlayerVelocity)
-                    REF.PCon.playerRB.AddForce((enemy.transform.position - REF.PCon.transform.position).normalized * _pullForce);
+                if (REF.PCon._playerRB.velocity.magnitude <= maxPlayerVelocity)
+                    REF.PCon._playerRB.AddForce((enemy.transform.position - REF.PCon.transform.position).normalized * _pullForce);
                 yield return new WaitForFixedUpdate();
             }
         }

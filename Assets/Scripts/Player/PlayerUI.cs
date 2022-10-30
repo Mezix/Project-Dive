@@ -35,6 +35,8 @@ public class PlayerUI : MonoBehaviour
     public Text _gameOverText;
     public Button _restartGameButton;
 
+    public ToolBar _toolbar;
+
     public void Awake()
     {
         REF.PlayerUI = this;
@@ -64,7 +66,7 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateSpeedDisplay()
     {
-        _speedTextDisplay.text = Mathf.FloorToInt(REF.PCon.playerRB.velocity.magnitude/15f).ToString();
+        _speedTextDisplay.text = Mathf.FloorToInt(REF.PCon._playerRB.velocity.magnitude/15f).ToString();
     }
 
     public void UpdateHealthBar(float currentHealth, float maxHealth, float drainPercentage)

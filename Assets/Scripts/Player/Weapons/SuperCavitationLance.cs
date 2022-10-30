@@ -20,6 +20,12 @@ public class SuperCavitationLance : AWeapon
     public GameObject _lanceModel;
     public Image _fuelfillImage;
 
+    //  Sound
+
+    public AudioSource _thrownSound;
+    public AudioSource _jettingSound;
+    public AudioSource _stabSound;
+
     public override void Awake()
     {
         InitSystemStats();
@@ -37,6 +43,7 @@ public class SuperCavitationLance : AWeapon
     }
     public void Start()
     {
+        _jettingSound.gameObject.SetActive(false);
         SetUpgradeLevel(WeaponLevel);
         Events.instance.DamageDealtByPlayer += DamageDealtByPlayer;
     }
@@ -51,9 +58,11 @@ public class SuperCavitationLance : AWeapon
         {
             _jetTime += Time.deltaTime;
             JetForward();
+            _jettingSound.gameObject.SetActive(true);
         }
         else
         {
+            _jettingSound.gameObject.SetActive(false);
             _jetTime = 0;
         }
     }
@@ -107,7 +116,7 @@ public class SuperCavitationLance : AWeapon
                     }
                 }
             }
-            else if(Input.GetKeyDown(KeyCode.Mouse0))
+            else if(Input.GetKeyDown(KeyCode.Mouse0) && _throwPossible)
             {
                 SuperCavStab();
             }
@@ -156,12 +165,12 @@ public class SuperCavitationLance : AWeapon
             {
                 AEnemy enemy = hit.collider.GetComponentInChildren<AEnemy>();
                 float finalMeleeDamage = _stabDamage;
-                finalMeleeDamage *= Mathf.Max(1, REF.PCon.playerRB.velocity.magnitude / 20f); // do at minimum base damage
+                finalMeleeDamage *= Mathf.Max(1, REF.PCon._playerRB.velocity.magnitude / 20f); // do at minimum base damage
                 finalMeleeDamage = Mathf.Min(_stabDamage * 6, finalMeleeDamage); // do maximum of 3 times the damage
                 if (enemy._frozen) finalMeleeDamage *= 2; //double damage if frozen
                 //Debug.Log("Stab damage: " + _stabDamage + " * Multiplier: " + REF.PCon.playerRB.velocity.magnitude/20f + " => Final Damage: " + finalMeleeDamage);
                 hit.collider.GetComponentInChildren<AEnemy>().TakeDamage(finalMeleeDamage);
-                REF.PCon.playerRB.velocity = Vector3.zero;
+                REF.PCon._playerRB.velocity = Vector3.zero;
                 REF.PCon.ApplyKnockback(REF.PCon._meleeKnockback);
             }
         StartCoroutine(SuperCavStabAnim());
@@ -170,6 +179,7 @@ public class SuperCavitationLance : AWeapon
     private IEnumerator SuperCavStabAnim()
     {
         REF.CamScript.ResetCameraShake();
+        _stabSound.Play();
         TimeElapsedBetweenLastAttack = 0;
         _lanceModel.transform.localPosition = new Vector3(-0.78f, 0.2f, 0);
         yield return new WaitForSeconds(0.5f);
@@ -190,6 +200,8 @@ public class SuperCavitationLance : AWeapon
     private void ThrowLance()
     {
         //  TODO: LOCK ONTO ENEMY!
+
+        _thrownSound.Play();
 
         StopCharging();
         _lanceModel.gameObject.SetActive(false);

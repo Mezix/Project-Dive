@@ -294,6 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponStats: {fileID: 11400000, guid: d93cf8de3c5775f4b870a736f1b157a9, type: 2}
   _weaponFireSFX: {fileID: 2215130604818920843}
+  _toolIcon: {fileID: 21300000, guid: 4d015fae3f4c0e74eafab4b26564a419, type: 3}
   _projectileSpots:
   - UpgradeTierSpots:
     - {fileID: 6853849419804549237}

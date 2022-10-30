@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     public float _dashCooldown;
     public float _dashForceMultiplier;
 
-    //Physics
+    // Physics
 
     private float threshold = 0.01f;
     public float maxSlopeAngle = 35f;
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public float _maxSensitivity;
     public static float _savedSens = -1;
     private float xRotation;
-    private bool lockRotation;
+    public bool _lockRotation;
     public Transform _orientation;
 
     //  Jump/Grounded
@@ -82,8 +82,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public KeyCode _lastHitKey;
     [HideInInspector] public Coroutine _dragCoroutine;
     [HideInInspector] public PlayerHealth _pHealth;
-    [HideInInspector] public Rigidbody playerRB;
-    [HideInInspector] public Collider playerCol;
+    [HideInInspector] public Rigidbody _playerRB;
+    [HideInInspector] public Collider _playerCol;
     [HideInInspector] public Camera _playerCam;
     public Camera _FPSLayerCam;
     [HideInInspector] public bool _firstPersonActive;
@@ -95,14 +95,13 @@ public class PlayerController : MonoBehaviour
         transform.tag = "Player";
         _playerCam = Camera.main;
         _pUI = GetComponentInChildren<PlayerUI>();
-        playerRB = GetComponentInChildren<Rigidbody>();
-        playerCol = GetComponentInChildren<Collider>();
+        _playerRB = GetComponentInChildren<Rigidbody>();
+        _playerCol = GetComponentInChildren<Collider>();
         _pHealth = GetComponentInChildren<PlayerHealth>();
     }
     public void Start()
     {
         Events.instance.DamageDealtByPlayer += AddTotalDamage;
-
 
         if(!PlayerPrefs.HasKey("MouseSens")) PlayerPrefs.SetFloat("MouseSens", 100);
         _currentSensitivity = _tempSensitivity = PlayerPrefs.GetFloat("MouseSens"); //  Initialize sensitivity once per launch, otherwise use the static saved variable
@@ -112,11 +111,11 @@ public class PlayerController : MonoBehaviour
 
         _firstPersonActive = true;
         readyToJump = true;
-        playerCol.isTrigger = false;
-        playerRB.freezeRotation = true;
-        lockMovement = lockRotation = false;
+        _playerCol.isTrigger = false;
+        _playerRB.freezeRotation = true;
+        lockMovement = _lockRotation = false;
         _holstered = _holstering = false;
-        playerCol.isTrigger = false;
+        _playerCol.isTrigger = false;
 
         _weaponIndex = 0;
         _weaponSwapDuration = 0.125f;
@@ -171,6 +170,7 @@ public class PlayerController : MonoBehaviour
         }
         _weaponIndex = 0;
         SetWeaponActive(_weaponIndex);
+        _pUI._toolbar.SpawnToolIcons(_weapons);
     }
     //  Input
 
@@ -226,11 +226,11 @@ public class PlayerController : MonoBehaviour
             {
                 AEnemy enemy = hit.collider.GetComponentInChildren<AEnemy>();
                 float finalMeleeDamage               = _meleeBaseDamage;
-                finalMeleeDamage                    *= Mathf.Max(1, playerRB.velocity.magnitude/15f); // do at minimum base damage
+                finalMeleeDamage                    *= Mathf.Max(1, _playerRB.velocity.magnitude/15f); // do at minimum base damage
                 finalMeleeDamage                     = Mathf.Min(_meleeBaseDamage * 3, finalMeleeDamage); // do maximum of 3 times the damage
                 if (enemy._frozen) finalMeleeDamage *= 2; //double damage if frozen
                 hit.collider.GetComponentInChildren<AEnemy>().TakeDamage(finalMeleeDamage);
-                playerRB.velocity = Vector3.zero;
+                _playerRB.velocity = Vector3.zero;
                 ApplyKnockback(_meleeKnockback);
             }
         else ApplyKnockback(_meleeKnockback * 0.25f);
@@ -259,13 +259,13 @@ public class PlayerController : MonoBehaviour
 
     private void Dash(int direction)
     {
-        playerRB.velocity = Vector3.zero;
-        if (direction == 0) playerRB.AddForce(_playerCam.transform.forward  *      _dashForceMultiplier * currentMovementForce); // W
-        if (direction == 1) playerRB.AddForce(_playerCam.transform.right    * -1 * _dashForceMultiplier * currentMovementForce); // A
-        if (direction == 2) playerRB.AddForce(_playerCam.transform.forward  * -1 * _dashForceMultiplier * currentMovementForce); // S
-        if (direction == 3) playerRB.AddForce(_playerCam.transform.right    *      _dashForceMultiplier * currentMovementForce); // D
-        if (direction == 4) playerRB.AddForce(transform.up                  *      _dashForceMultiplier * currentMovementForce); // Space = Swim Up
-        if (direction == 5) playerRB.AddForce(transform.up                  * -1 * _dashForceMultiplier * currentMovementForce); // C = Swim Down
+        _playerRB.velocity = Vector3.zero;
+        if (direction == 0) _playerRB.AddForce(_playerCam.transform.forward  *      _dashForceMultiplier * currentMovementForce); // W
+        if (direction == 1) _playerRB.AddForce(_playerCam.transform.right    * -1 * _dashForceMultiplier * currentMovementForce); // A
+        if (direction == 2) _playerRB.AddForce(_playerCam.transform.forward  * -1 * _dashForceMultiplier * currentMovementForce); // S
+        if (direction == 3) _playerRB.AddForce(_playerCam.transform.right    *      _dashForceMultiplier * currentMovementForce); // D
+        if (direction == 4) _playerRB.AddForce(transform.up                  *      _dashForceMultiplier * currentMovementForce); // Space = Swim Up
+        if (direction == 5) _playerRB.AddForce(transform.up                  * -1 * _dashForceMultiplier * currentMovementForce); // C = Swim Down
         _timeSinceLastDash = 0;
 
         InitiateLowDrag();
@@ -310,7 +310,7 @@ public class PlayerController : MonoBehaviour
 
     private void Look()
     {
-        if (lockRotation) return;
+        if (_lockRotation) return;
 
         float mouseX = Input.GetAxis("Mouse X") * _currentSensitivity * Time.fixedDeltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * _currentSensitivity * Time.fixedDeltaTime;
@@ -353,7 +353,7 @@ public class PlayerController : MonoBehaviour
         if (forwardInput > 0 && yMag > maxSpeed * _speedMultiplier) forwardInput = 0;
         if (forwardInput < 0 && yMag < -maxSpeed * _speedMultiplier) forwardInput = 0;
 
-        if (playerRB.velocity.magnitude > maxSpeed * _speedMultiplier)
+        if (_playerRB.velocity.magnitude > maxSpeed * _speedMultiplier)
         {
             horizontalInput = 0;
             forwardInput = 0;
@@ -363,9 +363,9 @@ public class PlayerController : MonoBehaviour
         //Apply forces to move player
         if (!_grounded) //if floating, move towards camera, otherwise, try walking on the seabed
         {
-            playerRB.useGravity = false;
-            playerRB.drag = _floatingDrag;
-            playerRB.AddForce((
+            _playerRB.useGravity = false;
+            _playerRB.drag = _floatingDrag;
+            _playerRB.AddForce((
                 _playerCam.transform.forward * forwardInput
                 + Vector3.up * verticalInput
                 + _playerCam.transform.right * horizontalInput)
@@ -373,10 +373,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            playerRB.useGravity = true;
-            playerRB.drag = _walkingDrag;
-            playerRB.AddForce(_orientation.transform.forward * forwardInput * currentMovementForce * Time.deltaTime * _speedMultiplier);
-            playerRB.AddForce(_orientation.transform.right * horizontalInput * currentMovementForce * Time.deltaTime * _speedMultiplier);
+            _playerRB.useGravity = true;
+            _playerRB.drag = _walkingDrag;
+            _playerRB.AddForce(_orientation.transform.forward * forwardInput * currentMovementForce * Time.deltaTime * _speedMultiplier);
+            _playerRB.AddForce(_orientation.transform.right * horizontalInput * currentMovementForce * Time.deltaTime * _speedMultiplier);
         }
     }
     public void InitPlayerDeath()
@@ -384,7 +384,7 @@ public class PlayerController : MonoBehaviour
         if (_dead) return;
         _dead = true;
         lockMovement = true;
-        lockRotation = true;
+        _lockRotation = true;
         REF.Dialog.StartDialogue(Resources.Load("Dialogue/Conversations/Game Over Conversation") as ConversationScriptObj, false, false);
         REF.PlayerUI.InitiateDeathUI();
     }
@@ -395,15 +395,15 @@ public class PlayerController : MonoBehaviour
             readyToJump = false;
 
             //Add jump forces
-            playerRB.AddForce(Vector2.up * jumpForce * 1.5f);
-            playerRB.AddForce(normalVector * jumpForce * 0.5f);
+            _playerRB.AddForce(Vector2.up * jumpForce * 1.5f);
+            _playerRB.AddForce(normalVector * jumpForce * 0.5f);
 
             //If jumping while falling, reset y velocity.
-            Vector3 vel = playerRB.velocity;
-            if (playerRB.velocity.y < 0.5f)
-                playerRB.velocity = new Vector3(vel.x, 0, vel.z);
-            else if (playerRB.velocity.y > 0)
-                playerRB.velocity = new Vector3(vel.x, vel.y / 2, vel.z);
+            Vector3 vel = _playerRB.velocity;
+            if (_playerRB.velocity.y < 0.5f)
+                _playerRB.velocity = new Vector3(vel.x, 0, vel.z);
+            else if (_playerRB.velocity.y > 0)
+                _playerRB.velocity = new Vector3(vel.x, vel.y / 2, vel.z);
 
             Invoke(nameof(ResetJump), jumpCooldown);
         }
@@ -418,19 +418,19 @@ public class PlayerController : MonoBehaviour
         //Counter movement
         if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0))
         {
-            playerRB.AddForce(currentMovementForce * _orientation.transform.right * Time.deltaTime * -mag.x * counterMovementModifier);
+            _playerRB.AddForce(currentMovementForce * _orientation.transform.right * Time.deltaTime * -mag.x * counterMovementModifier);
         }
         if (Math.Abs(mag.y) > threshold && Math.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0))
         {
-            playerRB.AddForce(currentMovementForce * _orientation.transform.forward * Time.deltaTime * -mag.y * counterMovementModifier);
+            _playerRB.AddForce(currentMovementForce * _orientation.transform.forward * Time.deltaTime * -mag.y * counterMovementModifier);
         }
 
         //Limit diagonal running. This will also cause a full stop if sliding fast and un-crouching, so not optimal.
-        if (Mathf.Sqrt((Mathf.Pow(playerRB.velocity.x, 2) + Mathf.Pow(playerRB.velocity.z, 2))) > maxMoveSpeed)
+        if (Mathf.Sqrt((Mathf.Pow(_playerRB.velocity.x, 2) + Mathf.Pow(_playerRB.velocity.z, 2))) > maxMoveSpeed)
         {
-            float fallspeed = playerRB.velocity.y;
-            Vector3 n = playerRB.velocity.normalized * maxMoveSpeed;
-            playerRB.velocity = new Vector3(n.x, fallspeed, n.z);
+            float fallspeed = _playerRB.velocity.y;
+            Vector3 n = _playerRB.velocity.normalized * maxMoveSpeed;
+            _playerRB.velocity = new Vector3(n.x, fallspeed, n.z);
         }
     }
 
@@ -488,6 +488,14 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public void SelectToolFromToolbar(int index)
+    {
+        if (index == _weaponIndex) return;
+        _weaponIndex = index;
+        StartCoroutine(SwapAnimation());
+    }
+
     private IEnumerator HolsterTool(bool hideUI)
     {
         _holstering = true;
@@ -503,7 +511,7 @@ public class PlayerController : MonoBehaviour
         }
         _holstered = true;
         _holstering = false;
-        //if (hideUI) REF.PlayerUI.ChangeToolBarOpacity(false);
+        if (hideUI) REF.PlayerUI.ChangeToolBarOpacity(false);
     }
     private IEnumerator UnholsterTool(bool showUI)
     {
@@ -616,12 +624,12 @@ public class PlayerController : MonoBehaviour
     public Vector2 FindVelRelativeToLook()
     {
         float lookAngle = _orientation.transform.eulerAngles.y;
-        float moveAngle = Mathf.Atan2(playerRB.velocity.x, playerRB.velocity.z) * Mathf.Rad2Deg;
+        float moveAngle = Mathf.Atan2(_playerRB.velocity.x, _playerRB.velocity.z) * Mathf.Rad2Deg;
 
         float u = Mathf.DeltaAngle(lookAngle, moveAngle);
         float v = 90 - u;
 
-        float magnitue = playerRB.velocity.magnitude;
+        float magnitue = _playerRB.velocity.magnitude;
         float yMag = magnitue * Mathf.Cos(u * Mathf.Deg2Rad);
         float xMag = magnitue * Mathf.Cos(v * Mathf.Deg2Rad);
 
@@ -629,7 +637,7 @@ public class PlayerController : MonoBehaviour
     }
     public void ApplyKnockback(float knockback)
     {
-        playerRB.AddForce(_playerCam.transform.forward * (-1 * _weaponDirection) * knockback);
+        _playerRB.AddForce(_playerCam.transform.forward * (-1 * _weaponDirection) * knockback);
     }
 
     private void OnGUI()

@@ -297,16 +297,17 @@ AudioSource:
   m_GameObject: {fileID: 2955034303832875522}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7687068675343232520, guid: 7b424fb47e0cc3d499e2d001420796e4,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: da1d127128e14634fb8dde92cd068030, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.758
+  m_Pitch: 1.39
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 39
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -517,6 +518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponStats: {fileID: 11400000, guid: 780ff0cbd6035b84ba85729f80188ea2, type: 2}
   _weaponFireSFX: {fileID: 2250865723212952914}
+  _toolIcon: {fileID: 21300000, guid: 7999453e5d38de84c890dda14ddbfe73, type: 3}
   _projectileSpots:
   - UpgradeTierSpots:
     - {fileID: 8675933063900378783}
@@ -529,6 +531,9 @@ MonoBehaviour:
   _lanceProjectile: {fileID: 5964751612485556979}
   _lanceModel: {fileID: 6396707627039944694}
   _fuelfillImage: {fileID: 9218936142638014617}
+  _thrownSound: {fileID: 2250865723212952914}
+  _jettingSound: {fileID: 7664723845628519183}
+  _stabSound: {fileID: 2352078893456369710}
 --- !u!1 &5035859159999743884
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,7 +716,8 @@ AudioSource:
   m_GameObject: {fileID: 7029914361735514222}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7687068675343232520, guid: 7b424fb47e0cc3d499e2d001420796e4,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: da1d127128e14634fb8dde92cd068030, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -839,12 +845,13 @@ AudioSource:
   m_GameObject: {fileID: 7126363693861327994}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: da1d127128e14634fb8dde92cd068030, type: 3}
+  OutputAudioMixerGroup: {fileID: -7687068675343232520, guid: 7b424fb47e0cc3d499e2d001420796e4,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: aac629a046e1d5c4daff7cd11c30861a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
