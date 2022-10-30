@@ -97,8 +97,8 @@ public class GravelRifle : AWeapon
         TimeElapsedBetweenLastAttack = 0;
         TimeElapsedBetweenAmmoRegeneration = 0;
 
-        if (REF.PCon._weaponDirection == 1) REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired);
-        else                                REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired * _backwardsKnockbackModifier);
+        if (REF.PCon._weaponDirection == 1) REF.PCon.ApplyKnockback(KnockbackForce * bulletsFired);
+        else                                REF.PCon.ApplyKnockback(KnockbackForce * bulletsFired * BackwardsKnockbackModifier);
     }
 
     public void SubtractAmmo(int amount)

@@ -21,9 +21,9 @@ public abstract class AWeapon : MonoBehaviour
     public int Damage { get; set; }
     public float Recoil { get; set; }
     public float RecoilDuration { get; set; }
-    public float _knockbackForce { get; set; }
-    public float _backwardsKnockbackModifier { get; set; } //does nothing so far!
-    public bool _canReverseWeapon { get; set; }
+    public float KnockbackForce { get; set; }
+    public float BackwardsKnockbackModifier { get; set; } //does nothing so far!
+    public bool CanReverseWeapon { get; set; }
 
     public AudioSource _weaponFireSFX;
     public GameObject ProjectilePrefab { get; set; }
@@ -66,12 +66,12 @@ public abstract class AWeapon : MonoBehaviour
             AttacksPerSecond = _weaponStats._attacksPerSecond;
             Recoil = _weaponStats._recoil;
             RecoilDuration = _weaponStats._recoilDuration;
-            _knockbackForce = _weaponStats._knockbackForce;
-            _backwardsKnockbackModifier = _weaponStats._backwardsModifier;
+            KnockbackForce = _weaponStats._knockbackForce;
+            BackwardsKnockbackModifier = _weaponStats._backwardsModifier;
             MagazineSize = _weaponStats._magazineSize;
             MaxLevel = _weaponStats._maxLevel;
             AmmoLeft = MagazineSize;
-            _canReverseWeapon = _weaponStats._canReverseWeapon;
+            CanReverseWeapon = _weaponStats._canReverseWeapon;
         }
         else  //set default stats
         {
@@ -80,12 +80,12 @@ public abstract class AWeapon : MonoBehaviour
             AttacksPerSecond = 1;
             Recoil = 0.05f;
             RecoilDuration = 0.05f;
-            _knockbackForce = 100;
-            _backwardsKnockbackModifier = 1;
+            KnockbackForce = 100;
+            BackwardsKnockbackModifier = 1;
             MagazineSize = 1;
             MaxLevel = 1;
             AmmoLeft = MagazineSize;
-            _canReverseWeapon = true;
+            CanReverseWeapon = true;
         }
         TimeBetweenAttacks = 1 / AttacksPerSecond;
         TimeElapsedBetweenLastAttack = TimeBetweenAttacks; //make sure we can fire right away
@@ -96,13 +96,14 @@ public abstract class AWeapon : MonoBehaviour
         {
             _weaponFireSFX.Play();
             SpawnProjectile();
-            REF.PCon.ApplyKnockback(_knockbackForce);
+            REF.PCon.ApplyKnockback(KnockbackForce);
         }
     }
     public virtual void SpawnProjectile()
     {
         foreach (Transform t in _projectileSpots[0].UpgradeTierSpots)
         {
+            if (!ProjectilePrefab) return;
             GameObject proj = ProjectilePool.Instance.GetProjectileFromPool(ProjectilePrefab.tag);
             proj.GetComponent<AProjectile>().SetBulletStatsAndTransformToWeaponStats(this, t);
             proj.SetActive(true);

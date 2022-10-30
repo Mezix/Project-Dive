@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5866e59f8e76cec42ac043c44a08cc53, type: 3}
+  m_Name: Super Cavitation Lance
+  m_EditorClassIdentifier: 
+  _weaponName: Super Cavitation Lance
+  _UISprite: {fileID: 0}
+  _damage: 30
+  _projectileSpeed: 150
+  _attacksPerSecond: 1
+  _recoil: 0.05
+  _recoilDuration: 0.1
+  _knockbackForce: 50
+  _backwardsModifier: 0
+  _canReverseWeapon: 0
+  _magazineSize: 100
+  _maxLevel: 3

@@ -10,11 +10,14 @@ public class HarpoonProjectile : AProjectile
     public AEnemy _stuckEnemy;
     public HarpoonGun _harpoonGun;
     public LineRenderer _lr;
-    public override void Start()
+    public override void Awake()
     {
         base.Awake();
+    }
+    public override void Start()
+    {
+        MaxLifetime = Mathf.Infinity;
         _trailRenderer.gameObject.SetActive(false);
-        Events.instance.EnemyDead += CheckHarpoonStuckInDeadEnemy;
     }
     public override void FixedUpdate()
     {
@@ -110,18 +113,5 @@ public class HarpoonProjectile : AProjectile
         _stuck = false;
         HasDoneDamage = false;
         _stuckEnemy = null;
-    }
-    private void CheckHarpoonStuckInDeadEnemy(AEnemy enemy)
-    {
-        //  TODO: move this to enemy, since we can stick a dead enemy and then our harpoon will be deleted!
-
-        // print("enemy killed: " + enemy);
-        //print("enemy stuck: " + _stuckEnemy);
-        if (_stuckEnemy)
-            if (enemy.Equals(_stuckEnemy))
-            {
-                HasDoneDamage = false;
-                _harpoonGun.ForceRetract();
-            }
     }
 }

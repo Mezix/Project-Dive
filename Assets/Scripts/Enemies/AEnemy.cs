@@ -141,12 +141,12 @@ public class AEnemy : MonoBehaviour
     public void EnemyKilled()
     {
         _enemyDead = true;
-        //  Debug.Log("Enemy Killed");
         Events.instance.EnemyKilled(this);
     }
     public void InitDeathBehaviour()
     {
         //print("death anim");
+        RemoveStuckProjectiles();
         StartCoroutine(DeathAnim());
     }
 
@@ -192,6 +192,24 @@ public class AEnemy : MonoBehaviour
                 }
                 mr.sharedMaterials = mats.ToArray();
             }
+        }
+    }
+
+    //  Check for Stuck Projectiles so they dont despawn with the enemy, especially important for the lance and harpoon
+    private void RemoveStuckProjectiles()
+    {
+        LanceProjectile _lance = GetComponentInChildren<LanceProjectile>();
+        if(_lance)
+        {
+            _lance.HasDoneDamage = false;
+            _lance._cavitationLance.ForceRetractLance();
+        }
+
+        HarpoonProjectile harpoon = GetComponentInChildren<HarpoonProjectile>();
+        if (harpoon)
+        {
+            harpoon.HasDoneDamage = false;
+            harpoon._harpoonGun.ForceRetract();
         }
     }
 }

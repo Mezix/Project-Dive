@@ -67,7 +67,7 @@ public class HarpoonGun : AWeapon
         _harpoonProjectile._stuck = false;
         TimeElapsedBetweenLastAttack = 0;
         harpoonFiredParticleSystem.Play();
-        REF.PCon.ApplyKnockback(_knockbackForce);
+        REF.PCon.ApplyKnockback(KnockbackForce);
         REF.CamScript.StartShake(RecoilDuration, Recoil);
     }
 

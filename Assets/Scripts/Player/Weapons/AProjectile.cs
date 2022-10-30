@@ -17,6 +17,15 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
     public bool _shouldFreeze;
     public int _freezeStacksAppliedOnHit;
 
+    public bool _shouldStun;
+    public float _stunDuration;
+
+    public bool _shouldBleed;
+    public int _bleedDamage;
+    public float _bleedDuration;
+    public float _timeBetweenBleedTicks;
+    public float _timeSinceLastBleedTick;
+
     //  Misc
 
     [HideInInspector] public Rigidbody _projectileRB;
@@ -102,7 +111,7 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
                 if (col.GetComponentInChildren<AEnemy>())
                 {
                     AEnemy enemy = col.GetComponentInChildren<AEnemy>();
-                    if(_shouldFreeze)enemy.AddFreezeStack(_freezeStacksAppliedOnHit);
+                    if(_shouldFreeze) enemy.AddFreezeStack(_freezeStacksAppliedOnHit);
                     enemy.TakeDamage(Damage);
                     HasDoneDamage = true;
                     StartCoroutine(DespawnAnimation());

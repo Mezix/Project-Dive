@@ -66,8 +66,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject _melee;
     public float _meleeBaseDamage;
-    float _meleeDistance;
-    float _meleeKnockback;
+    public float _meleeDistance;
+    public float _meleeKnockback;
     public float _meleeCooldown;
     public float _timeSinceLastMelee;
 
@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F)) TryMelee();
 
-        if (Input.GetKey(KeyCode.LeftControl) && _weapons[_weaponIndex]._canReverseWeapon && !_weapons[_weaponIndex].Reloading) ReverseWeapon(true);
+        if (Input.GetKey(KeyCode.LeftControl) && _weapons[_weaponIndex].CanReverseWeapon && !_weapons[_weaponIndex].Reloading) ReverseWeapon(true);
         else ReverseWeapon(false);
 
         jumping = Input.GetKey(KeyCode.Space);

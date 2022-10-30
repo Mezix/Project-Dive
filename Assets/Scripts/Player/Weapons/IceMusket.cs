@@ -93,12 +93,12 @@ public class IceMusket : AWeapon
         {
             iceMusketAnimator.SetTrigger("ReloadInitiated");
             if(REF.PCon._weaponDirection == 1) REF.PCon.playerRB.velocity = Vector3.zero; //if facing forward, kill all velocity
-            REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired);
+            REF.PCon.ApplyKnockback(KnockbackForce * bulletsFired);
         }
         else
         {
             iceMusketAnimator.SetTrigger("Fired");
-            REF.PCon.ApplyKnockback(_knockbackForce * bulletsFired);
+            REF.PCon.ApplyKnockback(KnockbackForce * bulletsFired);
         }
         //Reloading = true;
         ChargeLevel = 1;
