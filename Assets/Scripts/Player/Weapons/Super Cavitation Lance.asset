@@ -17,10 +17,10 @@ MonoBehaviour:
   _damage: 30
   _projectileSpeed: 150
   _attacksPerSecond: 1
-  _recoil: 0.05
-  _recoilDuration: 0.1
+  _recoil: 0.15
+  _recoilDuration: 0.05
   _knockbackForce: 50
   _backwardsModifier: 0
   _canReverseWeapon: 0
-  _magazineSize: 100
+  _magazineSize: 300
   _maxLevel: 3

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SuperCavitationLance : AWeapon
 {
@@ -17,12 +18,13 @@ public class SuperCavitationLance : AWeapon
 
     //  Misc
     public GameObject _lanceModel;
+    public Image _fuelfillImage;
 
     public override void Awake()
     {
         InitSystemStats();
         _lanceProjectile.gameObject.SetActive(false);
-        LanceIntoHoldPosition();
+        StopCharging();
         AmmoLeft = MagazineSize;
         ShouldRegenerateAmmo = false;
         TimeBetweenAmmoRegeneration = Mathf.Infinity;
@@ -36,28 +38,39 @@ public class SuperCavitationLance : AWeapon
     public void Start()
     {
         SetUpgradeLevel(WeaponLevel);
+        Events.instance.DamageDealtByPlayer += DamageDealtByPlayer;
     }
 
     public override void Update()
     {
         base.Update();
     }
+    public void FixedUpdate()
+    {
+        if (_jetsOn)
+        {
+            _jetTime += Time.deltaTime;
+            JetForward();
+        }
+        else
+        {
+            _jetTime = 0;
+        }
+    }
+
     public override void TryFire()
     {
+        if (Input.GetKeyDown(KeyCode.R)) ForceRetractLance();  
+
+        //TODO: Melee key also automatically stabs forward, or at least doesnt cancel the momentum! Or the melee is disabled during jetting!
+
         if (TimeElapsedBetweenLastAttack >= TimeBetweenAttacks)
         {
-            if(!_jetsOn)
+            if (!_jetsOn)
             {
-                if (Input.GetKeyDown(KeyCode.Mouse1))
+                if (_throwPossible && Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    if(_throwPossible)
-                    {
-                        ThrowLance();
-                    }
-                    else
-                    {
-                        ForceRetractLance();
-                    }
+                    ThrowLance();
                 }
             }
 
@@ -69,18 +82,17 @@ public class SuperCavitationLance : AWeapon
                     if (Input.GetKeyDown(KeyCode.Mouse0))
                     {
                         _jetsOn = !_jetsOn;
-                        LanceIntoChargePosition();
+                        if(_jetsOn) StartCharging();
                     }
                     if (jetsOldStatus && !_jetsOn)
                     {
                         SuperCavStab();
-                        LanceIntoHoldPosition();
                     }
                 }
                 else // Hold mode: Holding left click jets you forward, releasing stabs forwadd
                 {
                     bool jetsOldStatus = _jetsOn;
-                    if(Input.GetKeyDown(KeyCode.Mouse0)) LanceIntoChargePosition();
+                    if(Input.GetKeyDown(KeyCode.Mouse0)) StartCharging();
                     if (Input.GetKey(KeyCode.Mouse0))
                     {
                         _jetsOn = true;
@@ -91,19 +103,94 @@ public class SuperCavitationLance : AWeapon
                         if (jetsOldStatus && !_jetsOn)
                         {
                             SuperCavStab();
-                            LanceIntoHoldPosition();
                         }
                     }
                 }
             }
+            else if(Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                SuperCavStab();
+            }
         }
+    }
+
+    //  Charging: Left Click
+
+    private void StartCharging()
+    {
+        AmmoLeft -= 10;
+        _lanceModel.transform.localPosition = new Vector3(-0.78f, 0.2f, -0.8f);
+    }
+
+    private void StopCharging()
+    {
+        _lanceModel.transform.localPosition = new Vector3(0.1f, 0, -0.8f);
+    }
+
+    private void JetForward()
+    {
+        if (AmmoLeft > 0)
+        {
+            AmmoLeft -= 1;
+            REF.CamScript.StartShake(RecoilDuration, Recoil);
+            float jetTimeMultiplier = Mathf.Min(1, _jetTime);
+            REF.PCon.ApplyKnockback(KnockbackForce * -1 * (1 + jetTimeMultiplier * 0.5f));
+        }
+        else
+        {
+            SuperCavStab();
+        }
+        UpdateFuel();
+    }
+
+    //  Stabbing
+
+    private void SuperCavStab()
+    {
+        TimeElapsedBetweenLastAttack = 0;
+        _jetsOn = false;
+        RaycastHit hit = HM.RaycastAtPosition(REF.PCon._FPSLayerCam.transform.position, REF.PCon._FPSLayerCam.transform.forward, REF.PCon._meleeDistance, LayerMask.GetMask("Enemy"));
+        if (hit.collider)
+            if (hit.collider.GetComponentInChildren<AEnemy>())
+            {
+                AEnemy enemy = hit.collider.GetComponentInChildren<AEnemy>();
+                float finalMeleeDamage = _stabDamage;
+                finalMeleeDamage *= Mathf.Max(_stabDamage, REF.PCon.playerRB.velocity.magnitude / 30f); // do at minimum base damage
+                finalMeleeDamage = Mathf.Min(_stabDamage * 6, finalMeleeDamage); // do maximum of 3 times the damage
+                if (enemy._frozen) finalMeleeDamage *= 2; //double damage if frozen
+                hit.collider.GetComponentInChildren<AEnemy>().TakeDamage(finalMeleeDamage);
+                REF.PCon.playerRB.velocity = Vector3.zero;
+                REF.PCon.ApplyKnockback(REF.PCon._meleeKnockback);
+                print(finalMeleeDamage);
+            }
+        StartCoroutine(SuperCavStabAnim());
+    }
+
+    private IEnumerator SuperCavStabAnim()
+    {
+        REF.CamScript.ResetCameraShake();
+        TimeElapsedBetweenLastAttack = 0;
+        _lanceModel.transform.localPosition = new Vector3(-0.78f, 0.2f, 0);
+        yield return new WaitForSeconds(0.5f);
+        StartCharging();
+        yield return new WaitForSeconds(0.5f);
+        StopCharging();
+    }
+
+    //  Throwing : Right Click
+
+    private void UpdateFuel()
+    {
+        AmmoLeft = Mathf.Max(0, AmmoLeft);
+        AmmoLeft = Mathf.Min(MagazineSize, AmmoLeft);
+        _fuelfillImage.fillAmount = AmmoLeft / (float)MagazineSize;
     }
 
     private void ThrowLance()
     {
         //  TODO: LOCK ONTO ENEMY!
 
-        LanceIntoHoldPosition();
+        StopCharging();
         _lanceModel.gameObject.SetActive(false);
         _lanceProjectile.gameObject.SetActive(true);
 
@@ -117,7 +204,6 @@ public class SuperCavitationLance : AWeapon
         _lanceProjectile._launched = true;
         _lanceProjectile._stuck = false;
         TimeElapsedBetweenLastAttack = 0;
-        //harpoonFiredParticleSystem.Play();
         REF.PCon.ApplyKnockback(KnockbackForce);
         REF.CamScript.StartShake(RecoilDuration, Recoil);
     }
@@ -140,53 +226,6 @@ public class SuperCavitationLance : AWeapon
         HM.RotateLocalTransformToAngle(_lanceProjectile.transform, Vector3.zero);
     }
 
-    public void FixedUpdate()
-    {
-        if(_jetsOn)
-        {
-            //Drain Fuel
-            _jetTime += Time.deltaTime;
-            _jetTime = Mathf.Min(1, _jetTime);
-            JetForward();
-            REF.CamScript.StartShake(RecoilDuration, Recoil);
-        }
-        else
-        {
-            _jetTime = 0;
-        }
-    }
-    private void JetForward()
-    {
-        REF.PCon.ApplyKnockback(KnockbackForce * -1 * (1 + _jetTime));
-    }
-
-    private void SuperCavStab()
-    {
-        RaycastHit hit = HM.RaycastAtPosition(REF.PCon._FPSLayerCam.transform.position, REF.PCon._FPSLayerCam.transform.forward, REF.PCon._meleeDistance, LayerMask.GetMask("Enemy"));
-        if (hit.collider)
-
-            if (hit.collider.GetComponentInChildren<AEnemy>())
-            {
-                AEnemy enemy = hit.collider.GetComponentInChildren<AEnemy>();
-                float finalMeleeDamage = _stabDamage;
-                finalMeleeDamage *= Mathf.Max(_stabDamage, REF.PCon.playerRB.velocity.magnitude / 15f); // do at minimum base damage
-                finalMeleeDamage = Mathf.Min(_stabDamage * 6, finalMeleeDamage); // do maximum of 3 times the damage
-                if (enemy._frozen) finalMeleeDamage *= 2; //double damage if frozen
-                hit.collider.GetComponentInChildren<AEnemy>().TakeDamage(finalMeleeDamage);
-                REF.PCon.playerRB.velocity = Vector3.zero;
-                REF.PCon.ApplyKnockback(REF.PCon._meleeKnockback); 
-            }
-    }
-
-    private void LanceIntoChargePosition()
-    {
-        _lanceModel.transform.localPosition = new Vector3(-0.78f, 0.2f, -0.8f);
-    }
-
-    private void LanceIntoHoldPosition()
-    {
-        _lanceModel.transform.localPosition = new Vector3(0.1f, 0, -0.8f);
-    }
     public void SetUpgradeLevel(int lvl)
     {
         foreach (UpgradeObjectList list in _upgradeObjects)
@@ -198,5 +237,12 @@ public class SuperCavitationLance : AWeapon
             if (i >= _upgradeObjects.Count) return;
             //foreach (GameObject g in _upgradeObjects[i].UpgradeTier) g.SetActive(true);
         }
+    }
+
+    //  Events
+    private void DamageDealtByPlayer(float dmg)
+    {
+        AmmoLeft += Mathf.FloorToInt(dmg * 2);
+        UpdateFuel();
     }
 }

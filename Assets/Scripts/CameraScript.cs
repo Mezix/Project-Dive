@@ -16,6 +16,11 @@ public class CameraScript : MonoBehaviour
     {
         StartCoroutine(Shake(duration, magnitude));
     }
+    public void ResetCameraShake()
+    {
+        StopAllCoroutines();
+        _FPSCameraShake.transform.localPosition = new Vector3(0,0,0);
+    }
     private IEnumerator Shake(float duration, float magnitude)
     {
         Vector3 originalPos = cam.transform.localPosition;

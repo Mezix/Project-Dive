@@ -123,6 +123,7 @@ public class AEnemy : MonoBehaviour
         {
             InitDamageTakenAnim();
         }
+        Events.instance.DamageDealtEvent(damage);
     }
     private void InitDamageTakenAnim()
     {
@@ -141,7 +142,7 @@ public class AEnemy : MonoBehaviour
     public void EnemyKilled()
     {
         _enemyDead = true;
-        Events.instance.EnemyKilled(this);
+        Events.instance.EnemyKilledEvent(this);
     }
     public void InitDeathBehaviour()
     {

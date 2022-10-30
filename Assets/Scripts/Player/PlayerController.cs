@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Camera _playerCam;
     public Camera _FPSLayerCam;
     [HideInInspector] public bool _firstPersonActive;
+    public float _totalDamageDealtByPlayer;
 
     public void Awake()
     {
@@ -100,7 +101,9 @@ public class PlayerController : MonoBehaviour
     }
     public void Start()
     {
-        //TODO: Player prefs!
+        Events.instance.DamageDealtByPlayer += AddTotalDamage;
+
+
         if(!PlayerPrefs.HasKey("MouseSens")) PlayerPrefs.SetFloat("MouseSens", 100);
         _currentSensitivity = _tempSensitivity = PlayerPrefs.GetFloat("MouseSens"); //  Initialize sensitivity once per launch, otherwise use the static saved variable
         _maxSensitivity = 700;
@@ -127,10 +130,16 @@ public class PlayerController : MonoBehaviour
         _timeSinceLastMelee = 0;
 
         _dead = false;
+        _totalDamageDealtByPlayer = 0;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         InitWeapons();
+    }
+
+    private void AddTotalDamage(float dmg)
+    {
+        _totalDamageDealtByPlayer += dmg;
     }
 
     public void Update()

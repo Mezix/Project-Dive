@@ -15,20 +15,26 @@ public class Events : MonoBehaviour
     public event Action PlayerIsDying;
     public event Action<GameObject> CheckDoubleClick;
 
-    public void EnemyKilled(AEnemy enemy)
+    public event Action<float> DamageDealtByPlayer;
+
+    public void EnemyKilledEvent(AEnemy enemy)
     {
         if (EnemyDead != null) EnemyDead(enemy);
     }
-    public void PlayerKilled()
+    public void PlayerKilledEvent()
     {
         if (PlayerDead != null) PlayerDead();
     }
-    public void PlayerDying()
+    public void PlayerDyingEvent()
     {
         if (PlayerIsDying != null)PlayerIsDying();
     }
-    public void DoubleClickAttempted(GameObject obj)
+    public void DoubleClickAttemptedEvent(GameObject obj)
     {
         if (CheckDoubleClick != null) CheckDoubleClick(obj);
+    }
+    public void DamageDealtEvent(float damage)
+    {
+        if (DamageDealtByPlayer != null) DamageDealtByPlayer(damage);
     }
 }
