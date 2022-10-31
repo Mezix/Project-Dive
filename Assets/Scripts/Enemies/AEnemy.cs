@@ -37,6 +37,12 @@ public class AEnemy : MonoBehaviour
     public Rigidbody _enemyRB;
     public Collider _enemyCol;
 
+    //  Damage Indicator
+
+    public DamagePrefabScript currentDamagePrefabScript;
+    public float _timeBetweenDamageStacking;
+    public float _timeSinceLastDamage;
+
     public virtual void Awake()
     {
         _meshes = GetComponentsInChildren<MeshRenderer>().ToList();
@@ -44,6 +50,8 @@ public class AEnemy : MonoBehaviour
         _enemyAnimator = GetComponentInChildren<Animator>();
         _enemyRB = GetComponentInChildren<Rigidbody>();
         _enemyCol = GetComponentInChildren<Collider>();
+        _timeBetweenDamageStacking = 0.3f;
+        _timeSinceLastDamage = _timeBetweenDamageStacking;
     }
     public virtual void Start()
     {
@@ -51,6 +59,9 @@ public class AEnemy : MonoBehaviour
     public virtual void Update()
     {
         HandleStatusEffects();
+        _timeSinceLastDamage += Time.deltaTime;
+        if (_timeSinceLastDamage > _timeBetweenDamageStacking)
+            if (currentDamagePrefabScript) currentDamagePrefabScript = null;
     }
 
     public void InitStats()
@@ -123,6 +134,16 @@ public class AEnemy : MonoBehaviour
         {
             InitDamageTakenAnim();
         }
+
+        _timeSinceLastDamage = 0;
+        if (currentDamagePrefabScript)
+        {
+            ProjectilePool.Instance.AddToPool(currentDamagePrefabScript.gameObject);
+            damage += currentDamagePrefabScript._damage;
+        }
+        GameObject g = ProjectilePool.Instance.GetProjectileFromPool("Damage Text");
+        currentDamagePrefabScript = g.GetComponent<DamagePrefabScript>();
+        currentDamagePrefabScript.InitDamage(damage, this);
         Events.instance.DamageDealtEvent(damage);
     }
     private void InitDamageTakenAnim()

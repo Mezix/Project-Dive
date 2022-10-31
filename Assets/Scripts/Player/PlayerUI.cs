@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -27,7 +26,7 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Image dashFill;
 
     //  Speed Display
-    [SerializeField] private TextMeshProUGUI _speedTextDisplay;
+    [SerializeField] private Text _speedTextDisplay;
 
     //  Death Screen
     public GameObject _deathUI;
@@ -66,7 +65,7 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateSpeedDisplay()
     {
-        _speedTextDisplay.text = Mathf.FloorToInt(REF.PCon._playerRB.velocity.magnitude/15f).ToString();
+        _speedTextDisplay.text = HM.FloatToString(REF.PCon._playerRB.velocity.magnitude / 15f, 1);
     }
 
     public void UpdateHealthBar(float currentHealth, float maxHealth, float drainPercentage)

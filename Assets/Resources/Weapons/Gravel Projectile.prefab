@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 920701718977346785}
   - component: {fileID: 9173914340097637581}
   - component: {fileID: 1942971054336638250}
-  - component: {fileID: 6045890291365054538}
   m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6045890291365054538
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3386980159513521885}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3694862773145944815
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,6 +94,7 @@ GameObject:
   - component: {fileID: 3466083506304504492}
   - component: {fileID: 8394897506248095698}
   - component: {fileID: 6415576782485204654}
+  - component: {fileID: 2613332068990916546}
   m_Layer: 6
   m_Name: Gravel Projectile
   m_TagString: Gravel Projectile
@@ -162,8 +149,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shouldFreeze: 0
   _freezeStacksAppliedOnHit: 0
-  trailRenderer: {fileID: 0}
+  _shouldStun: 0
+  _stunDuration: 0
+  _shouldBleed: 0
+  _bleedDamage: 0
+  _bleedDuration: 0
+  _timeBetweenBleedTicks: 0
+  _timeSinceLastBleedTick: 0
+  _projectileRB: {fileID: 0}
+  _projectileCollider: {fileID: 0}
+  _despawnAnimationPlaying: 0
+  _trailRenderer: {fileID: 0}
   _weaponFromWhichProjectileWasFired: {fileID: 0}
+--- !u!135 &2613332068990916546
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3694862773145944815}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4894367360428876276
 GameObject:
   m_ObjectHideFlags: 0

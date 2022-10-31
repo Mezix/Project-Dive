@@ -48,4 +48,15 @@ public static class HM
     {
         return Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, layerMask);
     }
+
+    public static string FloatToString(float f, int decimals = 0)
+    {
+        string formatString = "0.";
+        for(int i = 0; i < decimals; i++)
+        {
+            formatString += "#";
+        }
+        string output = f.ToString(formatString);
+        return output;
+    }
 }
