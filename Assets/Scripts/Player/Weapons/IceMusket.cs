@@ -2,12 +2,17 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IceMusket : AWeapon
 {
     public List<GameObject> _shotsReady;
     private Animator iceMusketAnimator;
     public GameObject IceMusketSFX;
+
+    //  Weapon UI
+    public Text _magazineSize;
+    public Text _ammoLeft;
 
     public override void Awake()
     {
@@ -35,7 +40,7 @@ public class IceMusket : AWeapon
     public override void Update()
     {
         base.Update();
-        //TryFire();
+        UpdateAmmoUI();
 
         if (ShouldRegenerateAmmo)
         {
@@ -138,7 +143,7 @@ public class IceMusket : AWeapon
 
     public void UpdateAmmoDisplay(int ammoRemaining)
     {
-        for(int i = 0; i < ammoRemaining; i++)
+        for (int i = 0; i < ammoRemaining; i++)
         {
             _shotsReady[i].SetActive(true);
         }
@@ -146,5 +151,10 @@ public class IceMusket : AWeapon
         {
             _shotsReady[i].SetActive(false);
         }
+    }
+    public void UpdateAmmoUI()
+    {
+        _magazineSize.text = "/" + MagazineSize.ToString();
+        _ammoLeft.text = AmmoLeft.ToString();
     }
 }

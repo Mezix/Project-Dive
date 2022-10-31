@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    public Slider _sensitivitySlider;
-
     public RectTransform _leftFOV;
     public RectTransform _rightFOV;
 
@@ -27,6 +25,7 @@ public class PlayerUI : MonoBehaviour
 
     //  Speed Display
     [SerializeField] private Text _speedTextDisplay;
+    public Image _speedDisplayFill;
 
     //  Death Screen
     public GameObject _deathUI;
@@ -59,14 +58,16 @@ public class PlayerUI : MonoBehaviour
     }
     public void Update()
     {
-        //UpdateDamageIndicator();
         UpdateDashBar(REF.PCon._timeSinceLastDash/REF.PCon._dashCooldown);
         UpdateSpeedDisplay();
 }
 
     private void UpdateSpeedDisplay()
     {
-        _speedTextDisplay.text = HM.FloatToString(REF.PCon._playerRB.velocity.magnitude / 15f, 1);
+        float speed = REF.PCon._playerRB.velocity.magnitude / 15f;
+        _speedTextDisplay.text = HM.FloatToString(speed, 1);
+        speed = Mathf.Min(speed, 5);
+        _speedDisplayFill.fillAmount = speed / 5;
     }
 
     public void UpdateHealthBar(float currentHealth, float maxHealth, float drainPercentage)

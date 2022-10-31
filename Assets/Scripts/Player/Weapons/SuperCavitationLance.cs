@@ -8,7 +8,6 @@ public class SuperCavitationLance : AWeapon
 {
     //  Jet Charge
     public float _stabDamage; //the regular "Damage" field in this case refers to the thrown damage
-    public bool _toggleOrHoldToJet;
     public bool _jetsOn;
     public float _jetTime;
 
@@ -85,7 +84,7 @@ public class SuperCavitationLance : AWeapon
 
             if (AmmoLeft > 0 && _throwPossible)
             {
-                if(_toggleOrHoldToJet) // Toggle Mode: Pressing left click jets you forward until you click again, after which you stab forward
+                if(HM.StringToBool(PlayerPrefs.GetString("ToggleOrHoldCavLance")))// Toggle Mode: Pressing left click jets you forward until you click again, after which you stab forward
                 {
                     bool jetsOldStatus = _jetsOn;
                     if (Input.GetKeyDown(KeyCode.Mouse0))

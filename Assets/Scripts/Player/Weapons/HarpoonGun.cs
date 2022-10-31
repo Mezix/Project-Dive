@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HarpoonGun : AWeapon
 {
@@ -11,6 +12,10 @@ public class HarpoonGun : AWeapon
     public bool _harpoonFired;
     public HarpoonProjectile _harpoonProjectile;
 
+    //  Weapon UI
+    public Text _magazineSize;
+    public Text _ammoLeft;
+
     public override void Awake()
     {
         InitSystemStats();
@@ -19,9 +24,8 @@ public class HarpoonGun : AWeapon
 
         ShouldRegenerateAmmo = false;
         TimeBetweenAmmoRegeneration = 2;
-        AmmoRegenAmount = MagazineSize;
+        AmmoLeft = MagazineSize;
         WeaponLevel = 1;
-
         _harpoonProjectile._harpoonGun = this;
     }
     public void Start()
@@ -31,7 +35,7 @@ public class HarpoonGun : AWeapon
     public override void Update()
     {
         base.Update();
-
+        UpdateAmmoDisplay();
         if (Input.GetKeyDown(KeyCode.R) && !Reloading)
         {
             RetractHarpoon();
@@ -54,7 +58,7 @@ public class HarpoonGun : AWeapon
 
     private void FireHarpoon()
     {
-        //print("fire!");
+        AmmoLeft = 0;
         _harpoonFired = true;
         harpoonAnimator.SetTrigger("Fired");
         _weaponFireSFX.Play();
@@ -77,7 +81,7 @@ public class HarpoonGun : AWeapon
     }
     private void RetractHarpoon()
     {
-        //print("retract!");
+        AmmoLeft = MagazineSize;
         if (_harpoonProjectile._stuckEnemy) _harpoonProjectile.Unstick();
 
         harpoonAnimator.SetBool("Reloading", true);
@@ -110,15 +114,9 @@ public class HarpoonGun : AWeapon
         }
     }
 
-    public void UpdateAmmoDisplay(int ammoRemaining)
+    public void UpdateAmmoDisplay()
     {
-        for (int i = 0; i < ammoRemaining; i++)
-        {
-            //_shotsReady[i].SetActive(true);
-        }
-        for (int i = ammoRemaining; i < MagazineSize; i++)
-        {
-            // _shotsReady[i].SetActive(false);
-        }
+        _magazineSize.text = "/" + MagazineSize.ToString();
+        _ammoLeft.text = AmmoLeft.ToString();
     }
 }

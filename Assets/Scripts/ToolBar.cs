@@ -20,7 +20,7 @@ public class ToolBar : MonoBehaviour
     }
     private void Update()
     {
-        if(_toolIcons.Count > 1 && !REF.PlayerUI._menu._menuOn)
+        if(_toolIcons.Count > 1 && !REF.PlayerUI._menu._menuOn && !REF.PCon._dead)
         {
             if (Input.GetKeyUp(KeyCode.Mouse2))
             {

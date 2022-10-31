@@ -2,22 +2,25 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GravelRifle : AWeapon
 {
-    public List<GameObject> _shotsReady;
     private Animator gravelRifleAnimator;
     public ParticleSystem gravelRifleFiredParticleSystem;
+
+    //  Weapon UI
+    public Text _magazineSize;
+    public Text _ammoLeft;
+    public Text _totalAmmo;
 
     public override void Awake()
     {
         InitSystemStats();
         gravelRifleAnimator = GetComponentInChildren<Animator>();
         ProjectilePrefab = (GameObject)Resources.Load("Weapons/Gravel Projectile");
-        //ChargeBegun = false;
-        //ChargeTime = 0;
-        //ChargeLevel = 1;
-        //FullChargeTime = 2f;
+        ChargeBegun = false;
+        ChargeTime = 0;
 
         MagazineSize = 30;
         AmmoLeft = 30;
@@ -26,18 +29,20 @@ public class GravelRifle : AWeapon
         AmmoRegenAmount = MagazineSize;
 
         WeaponLevel = 1;
-        //MaxLevel = 3;
-        //gravelRifleFiredParticleSystem.gameObject.SetActive(false);
+        MaxLevel = 3;
+        gravelRifleFiredParticleSystem.gameObject.SetActive(false);
     }
     public void Start()
     {
         SetUpgradeLevel(WeaponLevel);
+        UpdateAmmoDisplay();
     }
     public override void Update()
     {
         base.Update();
+        UpdateAmmoDisplay();
 
-        if(Input.GetKeyDown(KeyCode.R) && !Reloading && AmmoLeft < MagazineSize)
+        if (Input.GetKeyDown(KeyCode.R) && !Reloading && AmmoLeft < MagazineSize)
         {
             InitiateReload();
         }
@@ -68,7 +73,6 @@ public class GravelRifle : AWeapon
                 if (AmmoLeft > 0)
                 {
                     gravelRifleAnimator.SetBool("Firing", true);
-                    //print("fire!");
                     _weaponFireSFX.Play();
                     SpawnProjectile();
                     gravelRifleFiredParticleSystem.Play();
@@ -104,7 +108,6 @@ public class GravelRifle : AWeapon
     public void SubtractAmmo(int amount)
     {
         AmmoLeft -= amount;
-        UpdateAmmoDisplay(AmmoLeft);
         Reloading = false;
         if (AmmoLeft <= 0) InitiateReload();
     }
@@ -114,10 +117,10 @@ public class GravelRifle : AWeapon
         AmmoLeft += amount;
         if (AmmoLeft >= MagazineSize)
         {
+            AmmoLeft = MagazineSize;
             Reloading = false;
             TimeElapsedBetweenAmmoRegeneration = 0;
         }
-        UpdateAmmoDisplay(AmmoLeft);
     }
 
     public void SetUpgradeLevel(int lvl)
@@ -133,15 +136,10 @@ public class GravelRifle : AWeapon
         }
     }
 
-    public void UpdateAmmoDisplay(int ammoRemaining)
+    public void UpdateAmmoDisplay()
     {
-        for (int i = 0; i < ammoRemaining; i++)
-        {
-            //_shotsReady[i].SetActive(true);
-        }
-        for (int i = ammoRemaining; i < MagazineSize; i++)
-        {
-           // _shotsReady[i].SetActive(false);
-        }
+        _magazineSize.text = "/" + MagazineSize.ToString();
+        _totalAmmo.text = "Inf";
+        _ammoLeft.text = AmmoLeft.ToString();
     }
 }

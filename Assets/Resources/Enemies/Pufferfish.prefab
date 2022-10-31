@@ -262,7 +262,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5527016307786232522
 MonoBehaviour:
@@ -292,6 +292,9 @@ MonoBehaviour:
   _enemyAnimator: {fileID: 0}
   _enemyRB: {fileID: 0}
   _enemyCol: {fileID: 0}
+  currentDamagePrefabScript: {fileID: 0}
+  _timeBetweenDamageStacking: 0
+  _timeSinceLastDamage: 0
 --- !u!114 &5158093014219419577
 MonoBehaviour:
   m_ObjectHideFlags: 0

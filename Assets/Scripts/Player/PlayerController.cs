@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     //  Look
     [HideInInspector] public float _tempSensitivity;
     [HideInInspector] public float _currentSensitivity;
-    [HideInInspector] public float _maxSensitivity;
+    //[HideInInspector] public float _maxSensitivity;
     public static float _savedSens = -1;
     private float xRotation;
     public bool _lockRotation;
@@ -102,10 +102,6 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         Events.instance.DamageDealtByPlayer += AddTotalDamage;
-
-        if(!PlayerPrefs.HasKey("MouseSens")) PlayerPrefs.SetFloat("MouseSens", 100);
-        _currentSensitivity = _tempSensitivity = PlayerPrefs.GetFloat("MouseSens"); //  Initialize sensitivity once per launch, otherwise use the static saved variable
-        _maxSensitivity = 700;
 
         currentMovementForce =  normalMovementForce;
 

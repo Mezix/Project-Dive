@@ -59,4 +59,13 @@ public static class HM
         string output = f.ToString(formatString);
         return output;
     }
+
+    public static bool StringToBool(string s)
+    {
+        s = s.ToLower();
+        if (s == "true") return true;
+        if (s == "false") return false;
+        Debug.Log("ERROR: Not a valid bool");
+        return false;
+    }
 }

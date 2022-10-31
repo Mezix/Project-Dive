@@ -11,6 +11,11 @@ public class EnemyHealth : MonoBehaviour
     {
         _maxHealth = _currentHealth = max;
     }
+    /// <summary>
+    /// Returns true if dead, otherwise false.
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <returns></returns>
     public bool TakeDamage(float damage)
     {
         _currentHealth -= damage;

@@ -126,15 +126,21 @@ public class AEnemy : MonoBehaviour
     //  Damage
     public void TakeDamage(float damage)
     {
-        if(_enemyHealth.TakeDamage(damage))
+        bool enemyHPIsZero = _enemyHealth.TakeDamage(damage);
+        if(!_enemyDead)
         {
-            if(!_enemyDead) EnemyKilled();
-        }
-        else
-        {
+            AddDamagePrefab(damage);
             InitDamageTakenAnim();
         }
+        if (enemyHPIsZero && !_enemyDead)
+        {
+            KillEnemy();
+        }
+        
+    }
 
+    private void AddDamagePrefab(float damage)
+    {
         _timeSinceLastDamage = 0;
         if (currentDamagePrefabScript)
         {
@@ -146,9 +152,9 @@ public class AEnemy : MonoBehaviour
         currentDamagePrefabScript.InitDamage(damage, this);
         Events.instance.DamageDealtEvent(damage);
     }
+
     private void InitDamageTakenAnim()
     {
-        //Debug.Log("Init Damage Taken Anim");
         StartCoroutine(ApplyDamageMaterialAnim());
     }
 
@@ -160,7 +166,7 @@ public class AEnemy : MonoBehaviour
         AddMaterialToAllMeshes(false, dmgMaterial);
     }
 
-    public void EnemyKilled()
+    public void KillEnemy()
     {
         _enemyDead = true;
         Events.instance.EnemyKilledEvent(this);

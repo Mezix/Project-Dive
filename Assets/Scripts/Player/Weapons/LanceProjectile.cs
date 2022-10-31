@@ -19,7 +19,6 @@ public class LanceProjectile : AProjectile
         _timeSinceLastBleedTick = _timeBetweenBleedTicks;
         MaxLifetime = Mathf.Infinity;
         _trailRenderer.gameObject.SetActive(false);
-        //Events.instance.EnemyDead += CheckHarpoonStuckInDeadEnemy;
     }
     public override void FixedUpdate()
     {
