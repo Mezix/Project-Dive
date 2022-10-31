@@ -9,12 +9,6 @@ public static class Loader {
 
     public static void Load(Scene scene)
     {
-        if (scene.ToString() == "GameScene")
-        {
-        }
-        if(scene.ToString() == "MenuScene")
-        {
-        }
         SceneManager.LoadScene(scene.ToString());
     }
 }

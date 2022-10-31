@@ -20,7 +20,7 @@ public class ToolBar : MonoBehaviour
     }
     private void Update()
     {
-        if(_toolIcons.Count > 1)
+        if(_toolIcons.Count > 1 && !REF.PlayerUI._menu._menuOn)
         {
             if (Input.GetKeyUp(KeyCode.Mouse2))
             {
@@ -32,9 +32,8 @@ public class ToolBar : MonoBehaviour
                 _circularParent.gameObject.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                REF.PCon._lockRotation = true;
                 Time.timeScale = 0.5f;
-
+                REF.PCon._lockRotation = true;
                 HoverCircularMenu();
             }
             else
@@ -42,8 +41,8 @@ public class ToolBar : MonoBehaviour
                 _circularParent.gameObject.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
-                REF.PCon._lockRotation = false;
                 Time.timeScale = 1f;
+                REF.PCon._lockRotation = false;
             }
         }
     }

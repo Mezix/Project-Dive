@@ -35,6 +35,7 @@ public class PlayerUI : MonoBehaviour
     public Button _restartGameButton;
 
     public ToolBar _toolbar;
+    public PlayerMenu _menu;
 
     public void Awake()
     {
