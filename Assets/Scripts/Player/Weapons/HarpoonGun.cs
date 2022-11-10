@@ -115,7 +115,7 @@ public class HarpoonGun : AWeapon
 
     public void UpdateAmmoDisplay()
     {
-        if(AmmoLeft == 0) _harpoonProjectileUI.sprite = Resources.Load("Graphics/UI/Weapons/Harpoon Empty", typeof(Sprite)) as Sprite;
-        else _harpoonProjectileUI.sprite = Resources.Load("Graphics/UI/Weapons/Ammo/Harpoon Full", typeof(Sprite)) as Sprite;
+        if(AmmoLeft == 0) _harpoonProjectileUI.sprite = Resources.Load("Graphics/UI/Weapons/Ammo/Harpoon Empty", typeof(Sprite)) as Sprite;
+        else _harpoonProjectileUI.sprite =              Resources.Load("Graphics/UI/Weapons/Ammo/Harpoon Full", typeof(Sprite)) as Sprite;
     }
 }
