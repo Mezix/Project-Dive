@@ -9,13 +9,10 @@ public class GravelRifle : AWeapon
     private Animator gravelRifleAnimator;
     public ParticleSystem gravelRifleFiredParticleSystem;
 
+    //  Weapon UI
     public RectTransform _vLayoutGroup;
     private List<GameObject> hLayoutGroups = new List<GameObject>();
     private List<Image> bulletUIList = new List<Image>();
-    //  Weapon UI
-    //public Text _magazineSize;
-    //public Text _ammoLeft;
-    //public Text _totalAmmo;
 
     public override void Awake()
     {
@@ -168,9 +165,6 @@ public class GravelRifle : AWeapon
 
     public void UpdateAmmoDisplay()
     {
-        //_magazineSize.text = "/" + MagazineSize.ToString();
-        //_totalAmmo.text = "Inf";
-        //_ammoLeft.text = AmmoLeft.ToString();
         for (int i = 0; i < MagazineSize - AmmoLeft; i++)
         {
             bulletUIList[i].sprite = Resources.Load("Graphics/UI/Weapons/Ammo/Gravel Rifle Empty", typeof(Sprite)) as Sprite;

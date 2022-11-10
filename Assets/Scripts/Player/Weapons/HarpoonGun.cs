@@ -13,8 +13,7 @@ public class HarpoonGun : AWeapon
     public HarpoonProjectile _harpoonProjectile;
 
     //  Weapon UI
-    public Text _magazineSize;
-    public Text _ammoLeft;
+    public Image _harpoonProjectileUI;
 
     public override void Awake()
     {
@@ -116,7 +115,7 @@ public class HarpoonGun : AWeapon
 
     public void UpdateAmmoDisplay()
     {
-        _magazineSize.text = "/" + MagazineSize.ToString();
-        _ammoLeft.text = AmmoLeft.ToString();
+        if(AmmoLeft == 0) _harpoonProjectileUI.sprite = Resources.Load("Graphics/UI/Weapons/Harpoon Empty", typeof(Sprite)) as Sprite;
+        else _harpoonProjectileUI.sprite = Resources.Load("Graphics/UI/Weapons/Ammo/Harpoon Full", typeof(Sprite)) as Sprite;
     }
 }

@@ -11,8 +11,8 @@ public class IceMusket : AWeapon
     public GameObject IceMusketSFX;
 
     //  Weapon UI
-    public Text _magazineSize;
-    public Text _ammoLeft;
+    public Transform _hLayoutGroup;
+    private List<Image> bulletUIList = new List<Image>();
 
     public override void Awake()
     {
@@ -36,6 +36,7 @@ public class IceMusket : AWeapon
     public void Start()
     {
         SetUpgradeLevel(WeaponLevel);
+        InitBulletsUI();
     }
     public override void Update()
     {
@@ -55,6 +56,16 @@ public class IceMusket : AWeapon
             ChargeTime += Time.deltaTime;
             ChargeLevel = Mathf.Max(1, Mathf.RoundToInt(Mathf.Min(ChargeTime, FullChargeTime)/FullChargeTime * WeaponLevel));
             UpdateAmmoDisplay(MagazineSize - ChargeLevel);
+        }
+    }
+    private void InitBulletsUI()
+    {
+        for (int i = 0; i < MagazineSize; i++)
+        {
+            GameObject bulletUI = Instantiate((GameObject)Resources.Load("Weapons/Weapon UI/IceMusketBullet"));
+            bulletUI.transform.SetParent(_hLayoutGroup, false);
+            Image bulletImg = bulletUI.GetComponent<Image>();
+            bulletUIList.Add(bulletImg);
         }
     }
     public override void TryFire()
@@ -154,7 +165,13 @@ public class IceMusket : AWeapon
     }
     public void UpdateAmmoUI()
     {
-        _magazineSize.text = "/" + MagazineSize.ToString();
-        _ammoLeft.text = AmmoLeft.ToString();
+        for (int i = 0; i < MagazineSize - AmmoLeft; i++)
+        {
+            bulletUIList[i].sprite = Resources.Load("Graphics/UI/Weapons/Ammo/Ice Musket Empty", typeof(Sprite)) as Sprite;
+        }
+        for (int i = MagazineSize - AmmoLeft; i < MagazineSize; i++)
+        {
+            bulletUIList[i].sprite = Resources.Load("Graphics/UI/Weapons/Ammo/Ice Musket Full", typeof(Sprite)) as Sprite;
+        }
     }
 }
