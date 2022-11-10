@@ -9,10 +9,13 @@ public class GravelRifle : AWeapon
     private Animator gravelRifleAnimator;
     public ParticleSystem gravelRifleFiredParticleSystem;
 
+    public RectTransform _vLayoutGroup;
+    private List<GameObject> hLayoutGroups = new List<GameObject>();
+    private List<Image> bulletUIList = new List<Image>();
     //  Weapon UI
-    public Text _magazineSize;
-    public Text _ammoLeft;
-    public Text _totalAmmo;
+    //public Text _magazineSize;
+    //public Text _ammoLeft;
+    //public Text _totalAmmo;
 
     public override void Awake()
     {
@@ -35,8 +38,10 @@ public class GravelRifle : AWeapon
     public void Start()
     {
         SetUpgradeLevel(WeaponLevel);
+        InitBulletsUI();
         UpdateAmmoDisplay();
     }
+
     public override void Update()
     {
         base.Update();
@@ -56,6 +61,31 @@ public class GravelRifle : AWeapon
         }
     }
 
+
+    private void InitBulletsUI()
+    {
+        GameObject layoutGroup = Instantiate((GameObject) Resources.Load("Weapons/Weapon UI/GravelRifleHorizontalLayoutGroup"));
+        layoutGroup.transform.SetParent(_vLayoutGroup, false);
+        hLayoutGroups.Add(layoutGroup);
+        int newGroupCounter = 0;
+
+        for (int i = 0; i < MagazineSize; i++)
+        {
+            if(newGroupCounter >= 15)
+            {
+                layoutGroup = Instantiate((GameObject)Resources.Load("Weapons/Weapon UI/GravelRifleHorizontalLayoutGroup"));
+                layoutGroup.transform.SetParent(_vLayoutGroup, false);
+                hLayoutGroups.Add(layoutGroup);
+                newGroupCounter = 0;
+            }
+            GameObject bulletUI = Instantiate((GameObject) Resources.Load("Weapons/Weapon UI/GravelRifleBullet"));
+            bulletUI.transform.SetParent(layoutGroup.transform, false);
+            Image bulletImg = bulletUI.GetComponent<Image>();
+            bulletUIList.Add(bulletImg);
+            newGroupCounter++;
+        }
+        _vLayoutGroup.sizeDelta = new Vector2(0, hLayoutGroups.Count * 30);
+    }
     private void InitiateReload()
     {
         gravelRifleAnimator.SetFloat("ReloadMultiplier", 1 / TimeBetweenAmmoRegeneration);
@@ -138,8 +168,16 @@ public class GravelRifle : AWeapon
 
     public void UpdateAmmoDisplay()
     {
-        _magazineSize.text = "/" + MagazineSize.ToString();
-        _totalAmmo.text = "Inf";
-        _ammoLeft.text = AmmoLeft.ToString();
+        //_magazineSize.text = "/" + MagazineSize.ToString();
+        //_totalAmmo.text = "Inf";
+        //_ammoLeft.text = AmmoLeft.ToString();
+        for (int i = 0; i < MagazineSize - AmmoLeft; i++)
+        {
+            bulletUIList[i].sprite = Resources.Load("Graphics/UI/Weapons/Ammo/Gravel Rifle Empty", typeof(Sprite)) as Sprite;
+        }
+        for (int i = MagazineSize - AmmoLeft; i < MagazineSize; i++)
+        {
+            bulletUIList[i].sprite = Resources.Load("Graphics/UI/Weapons/Ammo/Gravel Rifle Full", typeof (Sprite)) as Sprite;
+        }
     }
 }

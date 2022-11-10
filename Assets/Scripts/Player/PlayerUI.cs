@@ -9,8 +9,8 @@ public class PlayerUI : MonoBehaviour
     public RectTransform _leftFOV;
     public RectTransform _rightFOV;
 
-    public RectTransform _maxHealth; private float _maxHealthWidth;
-    public RectTransform _currentHealth; private float _currentHealthWidth;
+    //public RectTransform _maxHealth; private float _maxHealthWidth;
+    public Image _currentHealth; //private float _currentHealthWidth;
 
     //  VengeanceMode
     [SerializeField] private GameObject vengeanceHUD;
@@ -20,7 +20,7 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Image speedLinesImage;
 
     //  Dash
-    [SerializeField] private Image dashBG;
+    //[SerializeField] private Image dashBG;
     [SerializeField] private Image dashFill;
 
     //  Speed Display
@@ -39,8 +39,8 @@ public class PlayerUI : MonoBehaviour
     public void Awake()
     {
         REF.PlayerUI = this;
-        _maxHealthWidth = _maxHealth.sizeDelta.x;
-        _currentHealthWidth = _currentHealth.sizeDelta.x;
+        //_maxHealthWidth = _maxHealth.sizeDelta.x;
+        //_currentHealthWidth = _currentHealth.sizeDelta.x;
 
         InitButtons();
     }
@@ -72,8 +72,9 @@ public class PlayerUI : MonoBehaviour
 
     public void UpdateHealthBar(float currentHealth, float maxHealth, float drainPercentage)
     {
-        _currentHealth.sizeDelta = new Vector2(currentHealth/maxHealth *  _currentHealthWidth, _currentHealth.sizeDelta.y);
-        _maxHealth.sizeDelta = new Vector2(drainPercentage * _maxHealthWidth, _maxHealth.sizeDelta.y);
+        //_currentHealth.sizeDelta = new Vector2(currentHealth/maxHealth *  _currentHealthWidth, _currentHealth.sizeDelta.y);
+        _currentHealth.fillAmount = currentHealth / maxHealth;
+        //_maxHealth.sizeDelta = new Vector2(drainPercentage * _maxHealthWidth, _maxHealth.sizeDelta.y);
 
 
         _leftFOV.anchoredPosition = new Vector3(-960 + 480 * (1 - currentHealth / maxHealth), 0);
