@@ -43,7 +43,7 @@ public class MainMenu : MonoBehaviour
     {
         PlayerPrefs.SetFloat("MinSens", 100);
         PlayerPrefs.SetFloat("MaxSens", 1000);
-        if (!PlayerPrefs.HasKey("MouseSens"))    PlayerPrefs.SetFloat("MouseSens", PlayerPrefs.GetFloat("MinSens"));
+        if (!PlayerPrefs.HasKey("MouseSens")) PlayerPrefs.SetFloat("MouseSens", PlayerPrefs.GetFloat("MinSens"));
         _sensitivitySlider.minValue = PlayerPrefs.GetFloat("MinSens") / PlayerPrefs.GetFloat("MaxSens");
         _sensitivitySlider.maxValue = 1;
         _sensitivitySlider.SetValueWithoutNotify(PlayerPrefs.GetFloat("MouseSens") / PlayerPrefs.GetFloat("MaxSens"));

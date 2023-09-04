@@ -14,24 +14,31 @@ public class AudioManager : MonoBehaviour
     public Slider _musicVolumeSlider;
     public Slider _SFXVolumeSlider;
 
+    public enum AudioEnums
+    {
+        MasterVolume,
+        MusicVolume,
+        SFXVolume
+    }
+    private void Awake()
+    {
+        _masterVolumeSlider.onValueChanged.AddListener(delegate { SetMasterVolume(_masterVolumeSlider.value); });
+        _musicVolumeSlider.onValueChanged.AddListener(delegate { SetMusicVolume(_musicVolumeSlider.value); });
+        _SFXVolumeSlider.onValueChanged.AddListener(delegate { SetSFXVolume(_SFXVolumeSlider.value); });
+    }
     private void Start()
     {
         InitAudio();
     }
-
     private void InitAudio()
     {
-        if (!PlayerPrefs.HasKey("MasterVolume")) PlayerPrefs.SetFloat("MasterVolume", 1);
-        if (!PlayerPrefs.HasKey("MusicVolume")) PlayerPrefs.SetFloat("MusicVolume", 0.5f);
-        if (!PlayerPrefs.HasKey("SFXVolume")) PlayerPrefs.SetFloat("SFXVolume", 0.5f);
+        if (!PlayerPrefs.HasKey(AudioEnums.MasterVolume.ToString())) PlayerPrefs.SetFloat(AudioEnums.MasterVolume.ToString(), 1);
+        if (!PlayerPrefs.HasKey(AudioEnums.MusicVolume.ToString())) PlayerPrefs.SetFloat(AudioEnums.MusicVolume.ToString(), 0.5f);
+        if (!PlayerPrefs.HasKey(AudioEnums.SFXVolume.ToString())) PlayerPrefs.SetFloat(AudioEnums.SFXVolume.ToString(), 0.5f);
 
-        SetMasterVolume(PlayerPrefs.GetFloat("MasterVolume"));
-        SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
-        SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume"));
-
-        _masterVolumeSlider.onValueChanged.AddListener(delegate { SetMasterVolume(_masterVolumeSlider.value); });
-        _musicVolumeSlider.onValueChanged.AddListener(delegate { SetMusicVolume(_musicVolumeSlider.value); });
-        _SFXVolumeSlider.onValueChanged.AddListener(delegate { SetSFXVolume(_SFXVolumeSlider.value); });
+        SetMasterVolume(PlayerPrefs.GetFloat(AudioEnums.MasterVolume.ToString()));
+        SetMusicVolume(PlayerPrefs.GetFloat(AudioEnums.MusicVolume.ToString()));
+        SetSFXVolume(PlayerPrefs.GetFloat(AudioEnums.SFXVolume.ToString()));
     }
 
 
@@ -39,53 +46,53 @@ public class AudioManager : MonoBehaviour
 
     public void SetMasterVolume(float volume)
     {
-        if (_masterVolumeSlider.value == 1)
+        if (volume == 1)
         {
-            _audioMixer.SetFloat("MasterVolume", 0);
+            _audioMixer.SetFloat(AudioEnums.MasterVolume.ToString(), 0);
         }
-        else if (_masterVolumeSlider.value == 0)
+        else if (volume == 0)
         {
-            _audioMixer.SetFloat("MasterVolume", -80);
+            _audioMixer.SetFloat(AudioEnums.MasterVolume.ToString(), -80);
         }
         else
         {
-            _audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
+            _audioMixer.SetFloat(AudioEnums.MasterVolume.ToString(), Mathf.Log10(volume) * 20);
         }
-        PlayerPrefs.SetFloat("MasterVolume", volume);
-        _masterVolumeSlider.value = volume;
+        PlayerPrefs.SetFloat(AudioEnums.MasterVolume.ToString(), volume);
+        _masterVolumeSlider.SetValueWithoutNotify(volume);
     }
     public void SetMusicVolume(float volume)
     {
-        if (_musicVolumeSlider.value == 1)
+        if (volume == 1)
         {
-            _audioMixer.SetFloat("MusicVolume", 0);
+            _audioMixer.SetFloat(AudioEnums.MusicVolume.ToString(), 0);
         }
-        else if (_musicVolumeSlider.value == 0)
+        else if (volume == 0)
         {
-            _audioMixer.SetFloat("MusicVolume", -80);
+            _audioMixer.SetFloat(AudioEnums.MusicVolume.ToString(), -80);
         }
         else
         {
-            _audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
+            _audioMixer.SetFloat(AudioEnums.MusicVolume.ToString(), Mathf.Log10(volume) * 20);
         }
-        PlayerPrefs.SetFloat("MusicVolume", volume);
-        _musicVolumeSlider.value = volume;
+        PlayerPrefs.SetFloat(AudioEnums.MusicVolume.ToString(), volume);
+        _musicVolumeSlider.SetValueWithoutNotify(volume);
     }
     public void SetSFXVolume(float volume)
     {
-        if (_SFXVolumeSlider.value == 1)
+        if (volume == 1)
         {
-            _audioMixer.SetFloat("SFXVolume", 0);
+            _audioMixer.SetFloat(AudioEnums.SFXVolume.ToString(), 0);
         }
-        else if (_SFXVolumeSlider.value == 0)
+        else if (volume == 0)
         {
-            _audioMixer.SetFloat("SFXVolume", -80);
+            _audioMixer.SetFloat(AudioEnums.SFXVolume.ToString(), -80);
         }
         else
         {
-            _audioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
+            _audioMixer.SetFloat(AudioEnums.SFXVolume.ToString(), Mathf.Log10(volume) * 20);
         }
-        PlayerPrefs.SetFloat("SFXVolume", volume);
-        _SFXVolumeSlider.value = volume;
+        PlayerPrefs.SetFloat(AudioEnums.SFXVolume.ToString(), volume);
+        _SFXVolumeSlider.SetValueWithoutNotify(volume);
     }
 }
