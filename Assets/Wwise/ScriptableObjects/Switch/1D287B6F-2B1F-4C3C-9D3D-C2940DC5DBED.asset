@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98682c9fa85d2234fbfe28bbb490e935, type: 3}
+  m_Name: 1D287B6F-2B1F-4C3C-9D3D-C2940DC5DBED
+  m_EditorClassIdentifier: 
+  objectName: CavLance
+  id: 620697482
+  guid: 1D287B6F-2B1F-4C3C-9D3D-C2940DC5DBED
+  WwiseSwitchGroupReference: {fileID: 11400000, guid: 79d201626f0daa34e894d76cef21a315,
+    type: 2}

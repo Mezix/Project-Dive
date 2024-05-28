@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo>
+	<Project Name="Game Audio Course Project" GUID="{3D7CC650-C400-49E2-A627-2F585CE5396B}" Generator="2023.1.3.8471"/>
+	<CacheRoot>../../../../../../WWise Projects/Game Audio Course Project/.cache</CacheRoot>
+	<Platforms>
+		<Platform Name="Windows" GUID="{AC85B586-D138-41A8-92C9-1318CE9F772C}" BasePlatform="Windows" BasePlatformGUID="{6E0CB257-C6C8-4C5C-8366-2740DFC441EB}" Path="../../../../../../Godot/FPS Starter Kit/GeneratedSoundBanks"/>
+	</Platforms>
+	<Languages>
+		<Language Name="English(US)" Id="684519430" GUID="{CCF5B111-2C8A-427F-891B-911109BEF4EF}" Default="true" UseAsStandIn="true"/>
+	</Languages>
+	<FileHash>{9DC2E36D-9D9B-BD76-0B78-00BE80087046}</FileHash>
+</ProjectInfo>

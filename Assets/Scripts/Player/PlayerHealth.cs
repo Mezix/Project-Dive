@@ -87,7 +87,6 @@ public class PlayerHealth : MonoBehaviour
         _vengeanceModeActive = true;
         REF.PCon.SetVengeanceMode(true);
         REF.PCon._pUI.VeangenceModeUI(true);
-
     }
     private void ResetVengeance(AEnemy enemy = null)
     {

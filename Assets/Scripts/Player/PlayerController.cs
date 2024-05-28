@@ -89,6 +89,9 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool _firstPersonActive;
     public float _totalDamageDealtByPlayer;
 
+    [SerializeField]
+    private AK.Wwise.RTPC speedRPTC;
+
     public void Awake()
     {
         REF.PCon = this;
@@ -179,8 +182,18 @@ public class PlayerController : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         forwardInput = Input.GetAxisRaw("Vertical");
         verticalInput = 0;
-        if (Input.GetKey(KeyCode.Space)) verticalInput = 1;
+        if (Input.GetKey(KeyCode.Space))
+        {
+            speedRPTC.SetGlobalValue(15);
+            verticalInput = 1;
+        }
+        else
+        {
+            speedRPTC.SetGlobalValue(1);
+        }
         if (Input.GetKey(KeyCode.C)) verticalInput = -1;
+
+
 
 
         if (Input.GetKeyDown(KeyCode.F)) TryMelee();
