@@ -303,7 +303,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 66f89a0a1b0b434691d2ee4a6c35db00
     GuidInternal: 
-    m_lastTime: -8584859720299723470
+    m_lastTime: -8584846971769263414
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -319,6 +319,34 @@ MonoBehaviour:
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus
+    - name: Music Bus
+      guid: 996f8b76c399214ab18f5ed2a0113b1d
+      id: 3127962312
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 66f89a0a1b0b434691d2ee4a6c35db00
+      - ElementName: Music Bus
+        ObjectType: 2
+        guid: 996f8b76c399214ab18f5ed2a0113b1d
+      Path: Master-Mixer Hierarchy\Default Work Unit\Music Bus
+    - name: SFX Bus
+      guid: b0dc04938e86cf45bada7b113119ccd8
+      id: 1502772432
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 66f89a0a1b0b434691d2ee4a6c35db00
+      - ElementName: SFX Bus
+        ObjectType: 2
+        guid: b0dc04938e86cf45bada7b113119ccd8
+      Path: Master-Mixer Hierarchy\Default Work Unit\SFX Bus
   BankWwu:
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
     PathAndIcons:
@@ -813,7 +841,7 @@ MonoBehaviour:
         ObjectType: 14
         guid: 485fc41b1f764048853f471696cdf134
       Path: Triggers\Default Work Unit\Kick
-  ExpandedFileSystemItemIds: 0200000003000000060000000700000008000000090000000a0000000b0000000c000000
+  ExpandedFileSystemItemIds: 0200000003000000060000000700000008000000090000000a0000000b0000000c0000002f00000030000000
   ExpandedWaapiItemIds: 0600000007000000090000000a0000000b0000000c000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1

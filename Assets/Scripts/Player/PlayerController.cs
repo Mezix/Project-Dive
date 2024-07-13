@@ -528,6 +528,9 @@ public class PlayerController : MonoBehaviour
         _holstered = true;
         SetWeaponActive(_weaponIndex);
 
+        //TODO: add weapon swap sound here!!
+        AkSoundEngine.PostEvent(_weapons[_weaponIndex].weaponSwapSoundID, gameObject);
+
         //  1s duration == 50 * 0.01 Real Time Second Waits = 0.5s for Unholster
         float duration = _weaponSwapDuration * 50;
         for (int i = 0; i < duration; i++)

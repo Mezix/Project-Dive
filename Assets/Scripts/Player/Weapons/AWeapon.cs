@@ -25,7 +25,6 @@ public abstract class AWeapon : MonoBehaviour
     public float BackwardsKnockbackModifier { get; set; } //does nothing so far!
     public bool CanReverseWeapon { get; set; }
 
-    public AudioSource _weaponFireSFX;
     public Sprite _toolIcon;
     public GameObject ProjectilePrefab { get; set; }
     public List<ProjectileSpots> _projectileSpots;
@@ -50,6 +49,12 @@ public abstract class AWeapon : MonoBehaviour
     public float FullChargeTime { get; set; }
     public int WeaponLevel { get; set; }
     public int MaxLevel { get; set; }
+
+    // Audio
+
+    public AudioSource _weaponFireSFX;
+    public string weaponSwapSoundID;
+
 
     public virtual void Awake()
     {
