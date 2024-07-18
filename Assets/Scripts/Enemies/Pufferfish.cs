@@ -8,8 +8,16 @@ public class Pufferfish : AEnemy
     private GameObject _projectilePrefab;
     private int _damage;
     private float _projectileSpeed;
-    private float VisionRange = 150;
-    bool playerHasBeenSpotted = false;
+    private float VisionRange = 10;
+    public enemyState eState = enemyState.Patrolling;
+
+    public List<Transform> patrolPositions;
+    public int posIndex = 0;
+    public enum enemyState
+    {
+        Patrolling, 
+        FoundPlayer
+    }
     public override void Awake()
     {
         base.Awake();
@@ -34,19 +42,46 @@ public class Pufferfish : AEnemy
     {
         if (!_frozen && !_enemyDead)
         {
-            if (playerHasBeenSpotted)
+            if (eState == enemyState.FoundPlayer)
             {
                 MoveTowardsPlayer();
-            }
-            if (CanSeePlayer())
-            {
                 RotateTowardsPlayer();
-                Fire();
+                if (CanSeePlayer())
+                {
+                    Fire();
+                }
+            }
+            else if(eState == enemyState.Patrolling)
+            {
+                GoToNextPosition();
+                CanSeePlayer();
             }
         }
         else
         {
             _enemyAnimator.speed = 0;
+        }
+    }
+
+    private void GoToNextPosition()
+    {
+        if(patrolPositions.Count == 0)
+        {
+            return;
+        }
+        if (_enemyRB.velocity.magnitude < 10)
+        {
+            Vector3 moveDir = (patrolPositions[posIndex].transform.position - transform.position).normalized;
+            _enemyRB.AddForce(moveDir * 5);
+        }
+        transform.LookAt(transform.position + _enemyRB.velocity);
+        if (Vector3.Distance(patrolPositions[posIndex].transform.position, transform.position) < 10)
+        {
+            posIndex++;
+            if(posIndex >= patrolPositions.Count)
+            {
+                posIndex = 0;
+            }
         }
     }
 
@@ -62,11 +97,12 @@ public class Pufferfish : AEnemy
     public bool CanSeePlayer()
     {
         RaycastHit hit;
-        if (Physics.Raycast(_projectileSpots[0].position, (REF.PCon.transform.position - _projectileSpots[0].position).normalized, out hit, VisionRange))
+        int layerMask = ~(1 << 2 | 1 << 8);
+        if (Physics.Raycast(_projectileSpots[0].position, (REF.PCon.transform.position - _projectileSpots[0].position).normalized, out hit, VisionRange, layerMask))
         {
             if (hit.transform.GetComponent<PlayerController>())
             {
-                if (!playerHasBeenSpotted) SpotPlayerFirstTime();
+                if (eState == enemyState.Patrolling) SpotPlayerFirstTime();
                 return true;
             }
         }
@@ -80,7 +116,7 @@ public class Pufferfish : AEnemy
     private void SpotPlayerFirstTime()
     {
         Debug.Log("Player spotted for the first time!");
-        playerHasBeenSpotted = true;
+        eState = enemyState.FoundPlayer;
     }
 
     public void RotateTowardsPlayer()

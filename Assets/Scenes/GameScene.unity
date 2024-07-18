@@ -547,6 +547,44 @@ Transform:
   - {fileID: 1821868141}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &23751753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 23751754}
+  m_Layer: 0
+  m_Name: Pod 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &23751754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23751753}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 381952119}
+  - {fileID: 441811656}
+  - {fileID: 1302366810}
+  - {fileID: 88268182}
+  - {fileID: 83003731}
+  - {fileID: 1477665506}
+  - {fileID: 871834840}
+  m_Father: {fileID: 849230049}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &40427930
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,6 +1059,37 @@ Transform:
   - {fileID: 1479273027}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &83003730
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 83003731}
+  m_Layer: 0
+  m_Name: patrol pos (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &83003731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83003730}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -37.4, y: 85, z: 56.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 23751754}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &84196861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1095,6 +1164,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 595458627}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &88268181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 88268182}
+  m_Layer: 0
+  m_Name: patrol pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &88268182
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88268181}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 98.6, z: 56.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 23751754}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &91959537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3436,7 +3536,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 849230049}
+    m_TransformParent: {fileID: 23751754}
     m_Modifications:
     - target: {fileID: 4298165064066948755, guid: 9d563fef7bffc344fb8942a0905cb6c6,
         type: 3}
@@ -3451,7 +3551,7 @@ PrefabInstance:
     - target: {fileID: 4298165064066948755, guid: 9d563fef7bffc344fb8942a0905cb6c6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 17.8
+      value: 7.9
       objectReference: {fileID: 0}
     - target: {fileID: 4298165064066948755, guid: 9d563fef7bffc344fb8942a0905cb6c6,
         type: 3}
@@ -3493,6 +3593,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pufferfish
       objectReference: {fileID: 0}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[0]
+      value: 
+      objectReference: {fileID: 88268182}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[1]
+      value: 
+      objectReference: {fileID: 83003731}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[2]
+      value: 
+      objectReference: {fileID: 1477665506}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[3]
+      value: 
+      objectReference: {fileID: 871834840}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4101,7 +4226,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 849230049}
+    m_TransformParent: {fileID: 23751754}
     m_Modifications:
     - target: {fileID: 4298165064066948755, guid: 9d563fef7bffc344fb8942a0905cb6c6,
         type: 3}
@@ -4158,6 +4283,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pufferfish (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[0]
+      value: 
+      objectReference: {fileID: 88268182}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[1]
+      value: 
+      objectReference: {fileID: 83003731}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[2]
+      value: 
+      objectReference: {fileID: 1477665506}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[3]
+      value: 
+      objectReference: {fileID: 871834840}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7722,9 +7872,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 381952119}
-  - {fileID: 441811656}
-  - {fileID: 1302366810}
+  - {fileID: 23751754}
   - {fileID: 1252086127}
   - {fileID: 365242502}
   m_Father: {fileID: 1821868141}
@@ -8042,6 +8190,37 @@ MonoBehaviour:
   _restartGameButton: {fileID: 637857642}
   _toolbar: {fileID: 1399912334}
   _menu: {fileID: 141518634}
+--- !u!1 &871834839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 871834840}
+  m_Layer: 0
+  m_Name: patrol pos (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &871834840
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871834839}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -16.8, y: 111.76, z: -18.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 23751754}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &923538372
 GameObject:
   m_ObjectHideFlags: 0
@@ -16608,7 +16787,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 849230049}
+    m_TransformParent: {fileID: 23751754}
     m_Modifications:
     - target: {fileID: 4298165064066948755, guid: 9d563fef7bffc344fb8942a0905cb6c6,
         type: 3}
@@ -16623,7 +16802,7 @@ PrefabInstance:
     - target: {fileID: 4298165064066948755, guid: 9d563fef7bffc344fb8942a0905cb6c6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12.5
+      value: -11.9
       objectReference: {fileID: 0}
     - target: {fileID: 4298165064066948755, guid: 9d563fef7bffc344fb8942a0905cb6c6,
         type: 3}
@@ -16665,6 +16844,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pufferfish (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[0]
+      value: 
+      objectReference: {fileID: 88268182}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[1]
+      value: 
+      objectReference: {fileID: 83003731}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[2]
+      value: 
+      objectReference: {fileID: 1477665506}
+    - target: {fileID: 5527016307786232522, guid: 9d563fef7bffc344fb8942a0905cb6c6,
+        type: 3}
+      propertyPath: patrolPositions.Array.data[3]
+      value: 
+      objectReference: {fileID: 871834840}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17817,6 +18021,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455575111}
   m_CullTransparentMesh: 1
+--- !u!1 &1477665505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1477665506}
+  m_Layer: 0
+  m_Name: patrol pos (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1477665506
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477665505}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -68.3, y: 72, z: -38.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 23751754}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1479273026
 GameObject:
   m_ObjectHideFlags: 0
@@ -17913,7 +18148,7 @@ GameObject:
   - component: {fileID: 1486807337}
   - component: {fileID: 1486807338}
   - component: {fileID: 1486807339}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SoundtrackChangerCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19424,7 +19659,7 @@ GameObject:
   - component: {fileID: 1534393332}
   - component: {fileID: 1534393334}
   - component: {fileID: 1534393333}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SoundtrackChangerCollider (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21141,7 +21376,7 @@ GameObject:
   - component: {fileID: 1882219248}
   - component: {fileID: 1882219250}
   - component: {fileID: 1882219249}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SoundtrackChangerCollider (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22097,7 +22332,7 @@ GameObject:
   - component: {fileID: 1991468378}
   - component: {fileID: 1991468380}
   - component: {fileID: 1991468379}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SoundtrackChangerCollider (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
