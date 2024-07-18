@@ -99,22 +99,34 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
         {
             if (HitPlayer)
             {
+                if (!(col.GetComponentInChildren<AEnemy>() 
+                    || col.GetComponentInChildren<AProjectile>()
+                    || col.GetComponentInChildren<SoundtrackChangerCollider>())) // dont hit ourselves
+                {
+                    StartCoroutine(DespawnAnimation());
+                }
                 if (col.GetComponent<PlayerController>())
                 {
                     REF.PCon._pHealth.TakeDamage(Damage);
                     HasDoneDamage = true;
-                    StartCoroutine(DespawnAnimation());
                 }
             }
-            else
+            else // not supposed to hit player
             {
+                if (!(col.GetComponent<PlayerController>() 
+                    || col.GetComponentInChildren<AProjectile>()
+                    || col.GetComponentInChildren<SoundtrackChangerCollider>())) // dont hit ourselves
+                {
+                    StartCoroutine(DespawnAnimation());
+                    //Debug.Log(col.name);
+                }
                 if (col.GetComponentInChildren<AEnemy>())
                 {
                     AEnemy enemy = col.GetComponentInChildren<AEnemy>();
                     if(_shouldFreeze) enemy.AddFreezeStack(_freezeStacksAppliedOnHit);
                     enemy.TakeDamage(Damage);
                     HasDoneDamage = true;
-                    StartCoroutine(DespawnAnimation());
+                   // StartCoroutine(DespawnAnimation());
                 }
             }
         }

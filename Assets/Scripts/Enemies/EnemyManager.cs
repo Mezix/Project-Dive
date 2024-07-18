@@ -30,10 +30,12 @@ public class EnemyManager : MonoBehaviour
     }
     public void Update()
     {
+        /*
         if (_bossSpawned) UpdateBossHealth();
         if (_enemiesUntilBoss <= 0 && !_bossSpawned) SpawnBoss();
         if (_enemiesSpawned >= _maxEnemies) return;
         SpawnEnemy(_enemyTypes[0]);
+    */
     }
 
     private void EnemyKilled(AEnemy enemy)
