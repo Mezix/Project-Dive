@@ -15,5 +15,5 @@ MonoBehaviour:
   _attacksPerSecond: 0.25
   _enemyHealth: 150
   _stacksUntilFreeze: 6
-  _maxFrozenTime: 1
+  _maxFrozenTime: 3
   _weight: 1000
