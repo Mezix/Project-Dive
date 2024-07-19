@@ -359,7 +359,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 097df28bab9d1a47b8ef134f1e04e182
     GuidInternal: 
-    m_lastTime: -8584802045577685144
+    m_lastTime: -8584802005257729280
     List:
     - name: Main
       guid: 37c5c687f64e924eb871fd27a40a7513
@@ -387,7 +387,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: d4d6c9fcfec72e468bb5ee3b16b6699e
     GuidInternal: 
-    m_lastTime: -8584802066859319393
+    m_lastTime: -8584802005345007704
     List:
     - name: Play_Music_Playlist
       guid: 05963b47a3c79543a47dd8857a3411e7
@@ -423,6 +423,40 @@ MonoBehaviour:
       maxAttenuation: 50
       maxDuration: -1
       minDuration: -1
+    - name: Play_Whale_Call
+      guid: 3b515449446ee74e9e0de1db75d5f27b
+      id: 3331366668
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_Whale_Call
+        ObjectType: 3
+        guid: 3b515449446ee74e9e0de1db75d5f27b
+      Path: Events\Default Work Unit\Play_Whale_Call
+      maxAttenuation: 0
+      maxDuration: 16.188251
+      minDuration: 16.188251
+    - name: PlayAmbientBubbles
+      guid: b7f6fdb09d1d554381ec15b4b211d5ca
+      id: 2298162194
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: PlayAmbientBubbles
+        ObjectType: 3
+        guid: b7f6fdb09d1d554381ec15b4b211d5ca
+      Path: Events\Default Work Unit\PlayAmbientBubbles
+      maxAttenuation: 200
+      maxDuration: -1
+      minDuration: -1
     - name: PlayIceMusketFire
       guid: d208527decd8c947906da03513714c1d
       id: 3490887315
@@ -438,8 +472,8 @@ MonoBehaviour:
         guid: d208527decd8c947906da03513714c1d
       Path: Events\Default Work Unit\PlayIceMusketFire
       maxAttenuation: 0
-      maxDuration: 0.7818838
-      minDuration: 0.7818838
+      maxDuration: 1.6522083
+      minDuration: 1.6522083
     - name: Trigger_Kick
       guid: c2cb6772575bd04698941c8039fad0de
       id: 1627674700
