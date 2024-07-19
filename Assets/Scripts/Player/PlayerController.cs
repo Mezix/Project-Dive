@@ -89,8 +89,14 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool _firstPersonActive;
     public float _totalDamageDealtByPlayer;
 
+    //private AK.Wwise.RTPC speedRPTC;
     [SerializeField]
-    private AK.Wwise.RTPC speedRPTC;
+    private AK.Wwise.RTPC lowpassfilterRPC;
+    [SerializeField]
+    private AK.Wwise.RTPC reverseWeaponRPC;
+
+    const float maxTiltAngle = 7.5f;
+    public float tiltAngle = 0;
 
     public void Awake()
     {
@@ -102,6 +108,9 @@ public class PlayerController : MonoBehaviour
         _playerCol = GetComponentInChildren<Collider>();
         _pHealth = GetComponentInChildren<PlayerHealth>();
     }
+
+    public WeaponSoundsOrigin WeaponSoundOrigin;
+
     public void Start()
     {
         Events.instance.DamageDealtByPlayer += AddTotalDamage;
@@ -180,16 +189,32 @@ public class PlayerController : MonoBehaviour
     private void HandleKeyboardInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
+        float tiltLerpTime = 2.5f * Time.deltaTime;
+        if (horizontalInput < 0)
+        {
+            tiltAngle = Mathf.Lerp(tiltAngle, maxTiltAngle, tiltLerpTime);
+        }
+        else if(horizontalInput > 0)
+        {
+            tiltAngle = Mathf.Lerp(tiltAngle, -maxTiltAngle, tiltLerpTime);
+        }
+        else
+        {
+            tiltAngle = Mathf.Lerp(tiltAngle, 0, tiltLerpTime);
+        }
+
         forwardInput = Input.GetAxisRaw("Vertical");
         verticalInput = 0;
         if (Input.GetKey(KeyCode.Space))
         {
-            speedRPTC.SetGlobalValue(15);
+            //speedRPTC.SetGlobalValue(15);
+            lowpassfilterRPC.SetGlobalValue(50);
             verticalInput = 1;
         }
         else
         {
-            speedRPTC.SetGlobalValue(1);
+            //speedRPTC.SetGlobalValue(1);
+            lowpassfilterRPC.SetGlobalValue(1);
         }
         if (Input.GetKey(KeyCode.C)) verticalInput = -1;
 
@@ -269,10 +294,10 @@ public class PlayerController : MonoBehaviour
     private void Dash(int direction)
     {
         _playerRB.velocity = Vector3.zero;
-        if (direction == 0) _playerRB.AddForce(_playerCam.transform.forward  *      _dashForceMultiplier * currentMovementForce); // W
-        if (direction == 1) _playerRB.AddForce(_playerCam.transform.right    * -1 * _dashForceMultiplier * currentMovementForce); // A
-        if (direction == 2) _playerRB.AddForce(_playerCam.transform.forward  * -1 * _dashForceMultiplier * currentMovementForce); // S
-        if (direction == 3) _playerRB.AddForce(_playerCam.transform.right    *      _dashForceMultiplier * currentMovementForce); // D
+        if (direction == 0) _playerRB.AddForce(_playerCam.transform.parent.forward  *      _dashForceMultiplier * currentMovementForce); // W
+        if (direction == 1) _playerRB.AddForce(_playerCam.transform.parent.right    * -1 * _dashForceMultiplier * currentMovementForce); // A
+        if (direction == 2) _playerRB.AddForce(_playerCam.transform.parent.forward  * -1 * _dashForceMultiplier * currentMovementForce); // S
+        if (direction == 3) _playerRB.AddForce(_playerCam.transform.parent.right    *      _dashForceMultiplier * currentMovementForce); // D
         if (direction == 4) _playerRB.AddForce(transform.up                  *      _dashForceMultiplier * currentMovementForce); // Space = Swim Up
         if (direction == 5) _playerRB.AddForce(transform.up                  * -1 * _dashForceMultiplier * currentMovementForce); // C = Swim Down
         _timeSinceLastDash = 0;
@@ -307,12 +332,16 @@ public class PlayerController : MonoBehaviour
     {
         if(reversed)
         {
+            reverseWeaponRPC.SetGlobalValue(100);
             _weaponDirection = -1;
+            WeaponSoundOrigin.transform.localPosition = new Vector3(0, 0, -5);
             HM.RotateLocalTransformToAngle(_armRotation, new Vector3(_armRotation.localRotation.eulerAngles.x, 180, _arm.localRotation.eulerAngles.z));
         }
         else
         {
+            reverseWeaponRPC.SetGlobalValue(0);
             _weaponDirection = 1;
+            WeaponSoundOrigin.transform.localPosition = new Vector3(0, 0, 1);
             HM.RotateLocalTransformToAngle(_armRotation, new Vector3(_armRotation.localRotation.eulerAngles.x, 0, _arm.localRotation.eulerAngles.z));
         }
     }
@@ -325,7 +354,7 @@ public class PlayerController : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * _currentSensitivity * Time.fixedDeltaTime;
 
         //Find current look rotation
-        Vector3 rot = _playerCam.transform.localRotation.eulerAngles;
+        Vector3 rot = _playerCam.transform.parent.localRotation.eulerAngles;
         desiredX = rot.y + mouseX;
 
         //Rotate, and also make sure we dont over- or under-rotate.
@@ -333,9 +362,17 @@ public class PlayerController : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         //Perform the rotations
-        _playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
-        _FPSLayerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
+
+        // actual rotation of player
+        _playerCam.transform.parent.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
         _orientation.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
+
+        //  tilt cameras for effect
+        _playerCam.transform.localRotation = Quaternion.Euler(0, 0, tiltAngle);
+        _FPSLayerCam.transform.localRotation = Quaternion.Euler(0, 0, tiltAngle);
+
+        //_playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, tiltAngle);
+        //_FPSLayerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, tiltAngle);
     }
 
     // Movement
@@ -375,9 +412,9 @@ public class PlayerController : MonoBehaviour
             _playerRB.useGravity = false;
             _playerRB.drag = _floatingDrag;
             _playerRB.AddForce((
-                _playerCam.transform.forward * forwardInput
+                _playerCam.transform.parent.forward * forwardInput
                 + Vector3.up * verticalInput
-                + _playerCam.transform.right * horizontalInput)
+                + _playerCam.transform.parent.right * horizontalInput)
                 * currentMovementForce * Time.deltaTime * _speedMultiplier);
         }
         else
@@ -649,7 +686,7 @@ public class PlayerController : MonoBehaviour
     }
     public void ApplyKnockback(float knockback)
     {
-        _playerRB.AddForce(_playerCam.transform.forward * (-1 * _weaponDirection) * knockback);
+        _playerRB.AddForce(_playerCam.transform.parent.forward * (-1 * _weaponDirection) * knockback);
     }
 
     private void OnGUI()

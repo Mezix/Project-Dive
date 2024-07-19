@@ -359,7 +359,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 097df28bab9d1a47b8ef134f1e04e182
     GuidInternal: 
-    m_lastTime: -8584802005257729280
+    m_lastTime: -8584801792636373367
     List:
     - name: Main
       guid: 37c5c687f64e924eb871fd27a40a7513
@@ -387,8 +387,42 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: d4d6c9fcfec72e468bb5ee3b16b6699e
     GuidInternal: 
-    m_lastTime: -8584802005345007704
+    m_lastTime: -8584801794022704986
     List:
+    - name: Play_CreatureAlerted
+      guid: c0014bc9e666194ba446c8d7e7d9e9f9
+      id: 2639507062
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_CreatureAlerted
+        ObjectType: 3
+        guid: c0014bc9e666194ba446c8d7e7d9e9f9
+      Path: Events\Default Work Unit\Play_CreatureAlerted
+      maxAttenuation: 300
+      maxDuration: 0.78358334
+      minDuration: 0.78358334
+    - name: Play_CreatureShotFired
+      guid: d696ed5a9dff0a4099f1448bbd747a40
+      id: 1940054143
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_CreatureShotFired
+        ObjectType: 3
+        guid: d696ed5a9dff0a4099f1448bbd747a40
+      Path: Events\Default Work Unit\Play_CreatureShotFired
+      maxAttenuation: 300
+      maxDuration: 0.7818838
+      minDuration: 0.7818838
     - name: Play_Music_Playlist
       guid: 05963b47a3c79543a47dd8857a3411e7
       id: 4264879856
@@ -503,7 +537,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 07e2d3c13c14c547a350af032ddc3de6
     GuidInternal: 
-    m_lastTime: -8584806437397158236
+    m_lastTime: -8584801828376062825
     List:
     - name: Speed
       guid: 86515b2f04dc7f4c8629f6f90fabb24c
@@ -519,6 +553,34 @@ MonoBehaviour:
         ObjectType: 13
         guid: 86515b2f04dc7f4c8629f6f90fabb24c
       Path: Game Parameters\Default Work Unit\Speed
+    - name: VengeanceModeLPF
+      guid: 0ba6c282b498f44db7b37ca2c84a9af9
+      id: 274353946
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 07e2d3c13c14c547a350af032ddc3de6
+      - ElementName: VengeanceModeLPF
+        ObjectType: 13
+        guid: 0ba6c282b498f44db7b37ca2c84a9af9
+      Path: Game Parameters\Default Work Unit\VengeanceModeLPF
+    - name: WeaponReversed
+      guid: 70b13f9f94b8e7448d1244fe0a9c53a3
+      id: 161550127
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 07e2d3c13c14c547a350af032ddc3de6
+      - ElementName: WeaponReversed
+        ObjectType: 13
+        guid: 70b13f9f94b8e7448d1244fe0a9c53a3
+      Path: Game Parameters\Default Work Unit\WeaponReversed
   - PhysicalPath: Game Parameters\Factory Soundseed Air Game Syncs.wwu
     PathAndIcons:
     - ElementName: Game Parameters
@@ -892,7 +954,7 @@ MonoBehaviour:
         ObjectType: 14
         guid: 485fc41b1f764048853f471696cdf134
       Path: Triggers\Default Work Unit\Kick
-  ExpandedFileSystemItemIds: 0200000003000000060000000700000008000000090000000a0000000b0000000c0000002f00000030000000
+  ExpandedFileSystemItemIds: 03000000060000000700000008000000090000000b0000000c000000120000002f000000300000003400000035000000
   ExpandedWaapiItemIds: 0600000007000000090000000a0000000b0000000c000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1

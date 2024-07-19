@@ -8,11 +8,14 @@ public class Pufferfish : AEnemy
     private GameObject _projectilePrefab;
     private int _damage;
     private float _projectileSpeed;
-    private float VisionRange = 10;
     public enemyState eState = enemyState.Patrolling;
 
     public List<Transform> patrolPositions;
-    public int posIndex = 0;
+    private int posIndex = 0;
+
+    public float VisionRange = 150;
+    public float moveForce = 50;
+
     public enum enemyState
     {
         Patrolling, 
@@ -35,7 +38,10 @@ public class Pufferfish : AEnemy
     {
         base.Update();
         EnemyBehaviour();
-        TimeElapsedBetweenLastAttack += Time.deltaTime;
+        if(eState == enemyState.FoundPlayer)
+        {
+            TimeElapsedBetweenLastAttack += Time.deltaTime;
+        }
     }
 
     private void EnemyBehaviour()
@@ -90,7 +96,7 @@ public class Pufferfish : AEnemy
         if (_enemyRB.velocity.magnitude < 10)
         {
             Vector3 moveDir = (REF.PCon.transform.position - _projectileSpots[0].position).normalized;
-            _enemyRB.AddForce(moveDir * 50);
+            _enemyRB.AddForce(moveDir * moveForce);
         }
     }
 
@@ -116,7 +122,8 @@ public class Pufferfish : AEnemy
     private void SpotPlayerFirstTime()
     {
         Debug.Log("Player spotted for the first time!");
-        eState = enemyState.FoundPlayer;
+        AkSoundEngine.PostEvent("Play_CreatureAlerted", gameObject);
+         eState = enemyState.FoundPlayer;
     }
 
     public void RotateTowardsPlayer()
@@ -134,6 +141,7 @@ public class Pufferfish : AEnemy
     }
     public void SpawnProjectiles()
     {
+        AkSoundEngine.PostEvent("Play_CreatureShotFired", gameObject);
         foreach (Transform spot in _projectileSpots)
         {
             GameObject proj = ProjectilePool.Instance.GetProjectileFromPool(_projectilePrefab.tag);
