@@ -359,7 +359,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 097df28bab9d1a47b8ef134f1e04e182
     GuidInternal: 
-    m_lastTime: -8584806437384102022
+    m_lastTime: -8584802045577685144
     List:
     - name: Main
       guid: 37c5c687f64e924eb871fd27a40a7513
@@ -387,7 +387,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: d4d6c9fcfec72e468bb5ee3b16b6699e
     GuidInternal: 
-    m_lastTime: -8584806437397178257
+    m_lastTime: -8584802066859319393
     List:
     - name: Play_Music_Playlist
       guid: 05963b47a3c79543a47dd8857a3411e7
@@ -423,6 +423,23 @@ MonoBehaviour:
       maxAttenuation: 50
       maxDuration: -1
       minDuration: -1
+    - name: PlayIceMusketFire
+      guid: d208527decd8c947906da03513714c1d
+      id: 3490887315
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: PlayIceMusketFire
+        ObjectType: 3
+        guid: d208527decd8c947906da03513714c1d
+      Path: Events\Default Work Unit\PlayIceMusketFire
+      maxAttenuation: 0
+      maxDuration: 0.7818838
+      minDuration: 0.7818838
     - name: Trigger_Kick
       guid: c2cb6772575bd04698941c8039fad0de
       id: 1627674700

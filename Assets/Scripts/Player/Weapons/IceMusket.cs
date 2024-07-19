@@ -87,6 +87,7 @@ public class IceMusket : AWeapon
                     _weaponFireSFX.Play();
                     SpawnProjectile();
                     REF.CamScript.StartShake(RecoilDuration, Recoil);
+                    AkSoundEngine.PostEvent("PlayIceMusketFire", gameObject);
                 }
             }
         }
