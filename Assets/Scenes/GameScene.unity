@@ -14666,7 +14666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1494354514
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14800,7 +14800,7 @@ MonoBehaviour:
   data:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 97117e904cbb50941a3637e383cdf473,
+    WwiseObjectReference: {fileID: 11400000, guid: 3544856ec9c43c14d8b3374e6342ba5a,
       type: 2}
   useCallbacks: 0
   Callbacks: []

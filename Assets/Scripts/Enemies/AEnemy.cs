@@ -103,6 +103,7 @@ public class AEnemy : MonoBehaviour
     {
         if (shouldFreeze)
         {
+            AkSoundEngine.PostEvent("Play_FreezeEffect", gameObject);
             _timeSpentFrozen = 0;
             if(!_frozen) //for the first time we are frozen, apply the effect
             {

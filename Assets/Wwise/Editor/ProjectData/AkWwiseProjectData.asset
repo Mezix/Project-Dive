@@ -359,7 +359,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 097df28bab9d1a47b8ef134f1e04e182
     GuidInternal: 
-    m_lastTime: -8584801792636373367
+    m_lastTime: -8584801183004146307
     List:
     - name: Main
       guid: 37c5c687f64e924eb871fd27a40a7513
@@ -387,7 +387,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: d4d6c9fcfec72e468bb5ee3b16b6699e
     GuidInternal: 
-    m_lastTime: -8584801794022704986
+    m_lastTime: -8584801183156137541
     List:
     - name: Play_CreatureAlerted
       guid: c0014bc9e666194ba446c8d7e7d9e9f9
@@ -423,6 +423,23 @@ MonoBehaviour:
       maxAttenuation: 300
       maxDuration: 0.7818838
       minDuration: 0.7818838
+    - name: Play_FreezeEffect
+      guid: 49d01ef294f05c4b962119b00dd32813
+      id: 2542320004
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_FreezeEffect
+        ObjectType: 3
+        guid: 49d01ef294f05c4b962119b00dd32813
+      Path: Events\Default Work Unit\Play_FreezeEffect
+      maxAttenuation: 0
+      maxDuration: 4.904896
+      minDuration: 4.904896
     - name: Play_Music_Playlist
       guid: 05963b47a3c79543a47dd8857a3411e7
       id: 4264879856
@@ -440,6 +457,57 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 109.091156
       minDuration: 109.091156
+    - name: Play_PressureSoundtrack
+      guid: 77647e312483604e89f2ea3b6c6a0a7c
+      id: 1447075405
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_PressureSoundtrack
+        ObjectType: 3
+        guid: 77647e312483604e89f2ea3b6c6a0a7c
+      Path: Events\Default Work Unit\Play_PressureSoundtrack
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_PressureSoundtrack_OLD
+      guid: 3ce11eb51eb0a44f91db0c06eb497893
+      id: 787482943
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_PressureSoundtrack_OLD
+        ObjectType: 3
+        guid: 3ce11eb51eb0a44f91db0c06eb497893
+      Path: Events\Default Work Unit\Play_PressureSoundtrack_OLD
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_PufferfishProjectileSound
+      guid: 194744531fe96d47aab9cec1c8b79eb2
+      id: 2036857218
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_PufferfishProjectileSound
+        ObjectType: 3
+        guid: 194744531fe96d47aab9cec1c8b79eb2
+      Path: Events\Default Work Unit\Play_PufferfishProjectileSound
+      maxAttenuation: 15
+      maxDuration: -1
+      minDuration: -1
     - name: Play_Somewhere_Far_Away
       guid: dd6ff8d7cc11b24c8d9136a95b27a0bd
       id: 1724341794
@@ -472,8 +540,8 @@ MonoBehaviour:
         guid: 3b515449446ee74e9e0de1db75d5f27b
       Path: Events\Default Work Unit\Play_Whale_Call
       maxAttenuation: 0
-      maxDuration: 16.188251
-      minDuration: 16.188251
+      maxDuration: 1.9407166
+      minDuration: 1.9407166
     - name: PlayAmbientBubbles
       guid: b7f6fdb09d1d554381ec15b4b211d5ca
       id: 2298162194
@@ -506,8 +574,25 @@ MonoBehaviour:
         guid: d208527decd8c947906da03513714c1d
       Path: Events\Default Work Unit\PlayIceMusketFire
       maxAttenuation: 0
-      maxDuration: 1.6522083
-      minDuration: 1.6522083
+      maxDuration: 1.0955
+      minDuration: 1.0955
+    - name: Set_Voice_Pitch_IceMusketFired
+      guid: 6add7c63dbfef34bb962448ae93fdeef
+      id: 2626953872
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Set_Voice_Pitch_IceMusketFired
+        ObjectType: 3
+        guid: 6add7c63dbfef34bb962448ae93fdeef
+      Path: Events\Default Work Unit\Set_Voice_Pitch_IceMusketFired
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
     - name: Trigger_Kick
       guid: c2cb6772575bd04698941c8039fad0de
       id: 1627674700
@@ -842,8 +927,172 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 7aa8763c6e730047b61d343d2cb27d19
     GuidInternal: 
-    m_lastTime: -8584806437384087008
+    m_lastTime: -8584801220788434293
     List:
+    - name: KillstreakMusicSwitch
+      guid: 39a90a91ad142d41b2c2fd9086a58f16
+      id: 4224996836
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7aa8763c6e730047b61d343d2cb27d19
+      - ElementName: KillstreakMusicSwitch
+        ObjectType: 11
+        guid: 39a90a91ad142d41b2c2fd9086a58f16
+      Path: Switches\Default Work Unit\KillstreakMusicSwitch
+      values:
+      - name: KIllstreak0
+        guid: c5a7915eec94614cafc1c42c450dcce2
+        id: 1764340601
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: KillstreakMusicSwitch
+          ObjectType: 11
+          guid: 39a90a91ad142d41b2c2fd9086a58f16
+        - ElementName: KIllstreak0
+          ObjectType: 10
+          guid: c5a7915eec94614cafc1c42c450dcce2
+      - name: Killstreak1
+        guid: 4ff45c75ed1c824d9106bd3a786e1c01
+        id: 1764340600
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: KillstreakMusicSwitch
+          ObjectType: 11
+          guid: 39a90a91ad142d41b2c2fd9086a58f16
+        - ElementName: Killstreak1
+          ObjectType: 10
+          guid: 4ff45c75ed1c824d9106bd3a786e1c01
+      - name: Killstreak2
+        guid: 352272f36baf3b4fac68900429c24230
+        id: 1764340603
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: KillstreakMusicSwitch
+          ObjectType: 11
+          guid: 39a90a91ad142d41b2c2fd9086a58f16
+        - ElementName: Killstreak2
+          ObjectType: 10
+          guid: 352272f36baf3b4fac68900429c24230
+      - name: Killstreak3
+        guid: b70b7d2c8e2b1645ab4be9120d354ab6
+        id: 1764340602
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: KillstreakMusicSwitch
+          ObjectType: 11
+          guid: 39a90a91ad142d41b2c2fd9086a58f16
+        - ElementName: Killstreak3
+          ObjectType: 10
+          guid: b70b7d2c8e2b1645ab4be9120d354ab6
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+    - name: PressureSoundtrackSwitch
+      guid: 1c6fb229aa3a7c47b8d911bf80207f75
+      id: 3406546638
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7aa8763c6e730047b61d343d2cb27d19
+      - ElementName: PressureSoundtrackSwitch
+        ObjectType: 11
+        guid: 1c6fb229aa3a7c47b8d911bf80207f75
+      Path: Switches\Default Work Unit\PressureSoundtrackSwitch
+      values:
+      - name: Pressure0
+        guid: 569d3c22f93bca40b052d89192e45a61
+        id: 1296620780
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: PressureSoundtrackSwitch
+          ObjectType: 11
+          guid: 1c6fb229aa3a7c47b8d911bf80207f75
+        - ElementName: Pressure0
+          ObjectType: 10
+          guid: 569d3c22f93bca40b052d89192e45a61
+      - name: Pressure1
+        guid: 5d2717f7c253324d8a4857125f34cbbe
+        id: 1296620781
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: PressureSoundtrackSwitch
+          ObjectType: 11
+          guid: 1c6fb229aa3a7c47b8d911bf80207f75
+        - ElementName: Pressure1
+          ObjectType: 10
+          guid: 5d2717f7c253324d8a4857125f34cbbe
+      - name: Pressure2
+        guid: de9fdf11acadb944a6c540eb027a5e90
+        id: 1296620782
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: PressureSoundtrackSwitch
+          ObjectType: 11
+          guid: 1c6fb229aa3a7c47b8d911bf80207f75
+        - ElementName: Pressure2
+          ObjectType: 10
+          guid: de9fdf11acadb944a6c540eb027a5e90
+      - name: Pressure3
+        guid: 835e3cd46fd7cb418a8161c0056bbbaf
+        id: 1296620783
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: PressureSoundtrackSwitch
+          ObjectType: 11
+          guid: 1c6fb229aa3a7c47b8d911bf80207f75
+        - ElementName: Pressure3
+          ObjectType: 10
+          guid: 835e3cd46fd7cb418a8161c0056bbbaf
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
     - name: SwitchWeapons
       guid: 7e8fb6f1274460468135be748bb08f18
       id: 480197452
@@ -954,7 +1203,7 @@ MonoBehaviour:
         ObjectType: 14
         guid: 485fc41b1f764048853f471696cdf134
       Path: Triggers\Default Work Unit\Kick
-  ExpandedFileSystemItemIds: 03000000060000000700000008000000090000000b0000000c000000120000002f000000300000003400000035000000
+  ExpandedFileSystemItemIds: 0200000003000000060000000700000008000000090000000b0000000c000000100000001100000012000000170000002f000000300000003400000035000000
   ExpandedWaapiItemIds: 0600000007000000090000000a0000000b0000000c000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1

@@ -6,13 +6,27 @@ public class SoundtrackChangerCollider : MonoBehaviour
 {
     public static int soundtrackLevel = 0;
     public bool collided = false;
+    public static GameObject PressureSoundtrackObject; // make sure we have the same obj
+    private void Start()
+    {
+        if (!PressureSoundtrackObject)
+        {
+            PressureSoundtrackObject = gameObject;
+            AkSoundEngine.PostEvent("Play_PressureSoundtrack", PressureSoundtrackObject);
+            AkSoundEngine.SetSwitch("PressureSoundtrackSwitch", "Pressure0", PressureSoundtrackObject);
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if(other.GetComponentInChildren<PlayerController>() && !collided)
         {
             soundtrackLevel++;
             collided = true;
-            Debug.Log(soundtrackLevel);
+            if(!PressureSoundtrackObject)
+            {
+                PressureSoundtrackObject = gameObject;
+            }
+            AkSoundEngine.SetSwitch("PressureSoundtrackSwitch", "Pressure1", PressureSoundtrackObject);
         }
     }
 }
