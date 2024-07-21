@@ -103,10 +103,10 @@ public class AEnemy : MonoBehaviour
     {
         if (shouldFreeze)
         {
-            AkSoundEngine.PostEvent("Play_FreezeEffect", gameObject);
             _timeSpentFrozen = 0;
             if(!_frozen) //for the first time we are frozen, apply the effect
             {
+                AkSoundEngine.PostEvent("Play_FreezeEffect", gameObject);
                 Material freezeMat = Resources.Load("Materials/Frozen Material") as Material;
                 AddMaterialToAllMeshes(true, freezeMat);
                 _enemyAnimator.speed = 0;

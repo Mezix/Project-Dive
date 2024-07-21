@@ -303,7 +303,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 66f89a0a1b0b434691d2ee4a6c35db00
     GuidInternal: 
-    m_lastTime: -8584806437397133217
+    m_lastTime: -8584800326116733445
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -320,7 +320,7 @@ MonoBehaviour:
         guid: d8a41415a61d2a41a17e75ca0c2149f3
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus
     - name: Music Bus
-      guid: 996f8b76c399214ab18f5ed2a0113b1d
+      guid: dee203428c1b694abfeca64a1c75e9c9
       id: 3127962312
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
@@ -329,12 +329,15 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: 66f89a0a1b0b434691d2ee4a6c35db00
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
       - ElementName: Music Bus
         ObjectType: 2
-        guid: 996f8b76c399214ab18f5ed2a0113b1d
-      Path: Master-Mixer Hierarchy\Default Work Unit\Music Bus
+        guid: dee203428c1b694abfeca64a1c75e9c9
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Music Bus
     - name: SFX Bus
-      guid: b0dc04938e86cf45bada7b113119ccd8
+      guid: 814ee7b7b1d30b459673fbda72104a8d
       id: 1502772432
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
@@ -343,10 +346,13 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: 66f89a0a1b0b434691d2ee4a6c35db00
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
       - ElementName: SFX Bus
         ObjectType: 2
-        guid: b0dc04938e86cf45bada7b113119ccd8
-      Path: Master-Mixer Hierarchy\Default Work Unit\SFX Bus
+        guid: 814ee7b7b1d30b459673fbda72104a8d
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX Bus
   BankWwu:
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
     PathAndIcons:
@@ -359,7 +365,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 097df28bab9d1a47b8ef134f1e04e182
     GuidInternal: 
-    m_lastTime: -8584801183004146307
+    m_lastTime: -8584800436596278096
     List:
     - name: Main
       guid: 37c5c687f64e924eb871fd27a40a7513
@@ -387,7 +393,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: d4d6c9fcfec72e468bb5ee3b16b6699e
     GuidInternal: 
-    m_lastTime: -8584801183156137541
+    m_lastTime: -8584800426453913021
     List:
     - name: Play_CreatureAlerted
       guid: c0014bc9e666194ba446c8d7e7d9e9f9
@@ -423,6 +429,23 @@ MonoBehaviour:
       maxAttenuation: 300
       maxDuration: 0.7818838
       minDuration: 0.7818838
+    - name: Play_DashSound
+      guid: 7d139ad55aa58c4c851d7c2c44e7dff5
+      id: 3123785023
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_DashSound
+        ObjectType: 3
+        guid: 7d139ad55aa58c4c851d7c2c44e7dff5
+      Path: Events\Default Work Unit\Play_DashSound
+      maxAttenuation: 0
+      maxDuration: 2.7358334
+      minDuration: 2.7358334
     - name: Play_FreezeEffect
       guid: 49d01ef294f05c4b962119b00dd32813
       id: 2542320004
@@ -440,6 +463,40 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 4.904896
       minDuration: 4.904896
+    - name: Play_KickHitSound
+      guid: 027e3451508dff4484254331a7f95ff1
+      id: 560194828
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_KickHitSound
+        ObjectType: 3
+        guid: 027e3451508dff4484254331a7f95ff1
+      Path: Events\Default Work Unit\Play_KickHitSound
+      maxAttenuation: 0
+      maxDuration: 0.7887982
+      minDuration: 0.7887982
+    - name: Play_KickMissedSound
+      guid: 91adccde45c4a94f92c865b549586c52
+      id: 1883102000
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_KickMissedSound
+        ObjectType: 3
+        guid: 91adccde45c4a94f92c865b549586c52
+      Path: Events\Default Work Unit\Play_KickMissedSound
+      maxAttenuation: 0
+      maxDuration: 0.21884353
+      minDuration: 0.21884353
     - name: Play_Music_Playlist
       guid: 05963b47a3c79543a47dd8857a3411e7
       id: 4264879856
@@ -522,9 +579,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: dd6ff8d7cc11b24c8d9136a95b27a0bd
       Path: Events\Default Work Unit\Play_Somewhere_Far_Away
-      maxAttenuation: 50
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
     - name: Play_Whale_Call
       guid: 3b515449446ee74e9e0de1db75d5f27b
       id: 3331366668
@@ -540,8 +597,8 @@ MonoBehaviour:
         guid: 3b515449446ee74e9e0de1db75d5f27b
       Path: Events\Default Work Unit\Play_Whale_Call
       maxAttenuation: 0
-      maxDuration: 1.9407166
-      minDuration: 1.9407166
+      maxDuration: 16.188251
+      minDuration: 16.188251
     - name: PlayAmbientBubbles
       guid: b7f6fdb09d1d554381ec15b4b211d5ca
       id: 2298162194
@@ -593,23 +650,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
-    - name: Trigger_Kick
-      guid: c2cb6772575bd04698941c8039fad0de
-      id: 1627674700
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
-      - ElementName: Trigger_Kick
-        ObjectType: 3
-        guid: c2cb6772575bd04698941c8039fad0de
-      Path: Events\Default Work Unit\Trigger_Kick
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
@@ -622,8 +662,50 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 07e2d3c13c14c547a350af032ddc3de6
     GuidInternal: 
-    m_lastTime: -8584801828376062825
+    m_lastTime: -8584800326116708417
     List:
+    - name: MasterBus
+      guid: cb6ad34f2fbd444aaf675f2559d98e16
+      id: 835198467
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 07e2d3c13c14c547a350af032ddc3de6
+      - ElementName: MasterBus
+        ObjectType: 13
+        guid: cb6ad34f2fbd444aaf675f2559d98e16
+      Path: Game Parameters\Default Work Unit\MasterBus
+    - name: MusicBus
+      guid: 0529311f07d9804c91f601569c7ecb99
+      id: 2886307548
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 07e2d3c13c14c547a350af032ddc3de6
+      - ElementName: MusicBus
+        ObjectType: 13
+        guid: 0529311f07d9804c91f601569c7ecb99
+      Path: Game Parameters\Default Work Unit\MusicBus
+    - name: SFXBus
+      guid: 4cc8fcda59c3c0409ec715bc2ce1410f
+      id: 3803850708
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 07e2d3c13c14c547a350af032ddc3de6
+      - ElementName: SFXBus
+        ObjectType: 13
+        guid: 4cc8fcda59c3c0409ec715bc2ce1410f
+      Path: Game Parameters\Default Work Unit\SFXBus
     - name: Speed
       guid: 86515b2f04dc7f4c8629f6f90fabb24c
       id: 640949982
@@ -1203,7 +1285,7 @@ MonoBehaviour:
         ObjectType: 14
         guid: 485fc41b1f764048853f471696cdf134
       Path: Triggers\Default Work Unit\Kick
-  ExpandedFileSystemItemIds: 0200000003000000060000000700000008000000090000000b0000000c000000100000001100000012000000170000002f000000300000003400000035000000
+  ExpandedFileSystemItemIds: 0200000003000000060000000700000008000000090000000b0000000c000000100000001100000012000000170000002f000000300000003400000035000000460000004700000048000000
   ExpandedWaapiItemIds: 0600000007000000090000000a0000000b0000000c000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1

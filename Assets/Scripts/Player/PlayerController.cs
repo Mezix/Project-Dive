@@ -91,12 +91,17 @@ public class PlayerController : MonoBehaviour
 
     //private AK.Wwise.RTPC speedRPTC;
     [SerializeField]
-    private AK.Wwise.RTPC lowpassfilterRPC;
+    private AK.Wwise.RTPC vengeanceRTPC;
     [SerializeField]
-    private AK.Wwise.RTPC reverseWeaponRPC;
+    private AK.Wwise.RTPC reverseWeaponRTPC;
 
+
+    //FPS movement feedback
     const float maxTiltAngle = 7.5f;
     public float tiltAngle = 0;
+    const float maxForwardWeaponOffset = 0.5f;
+    public float weaponForwardOffset;
+    public GameObject weaponForwardOffsetGameObject;
 
     public void Awake()
     {
@@ -140,6 +145,8 @@ public class PlayerController : MonoBehaviour
         _totalDamageDealtByPlayer = 0;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        vengeanceRTPC.SetGlobalValue(0);
 
         InitWeapons();
     }
@@ -190,6 +197,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         float tiltLerpTime = 2.5f * Time.deltaTime;
+
         if (horizontalInput < 0)
         {
             tiltAngle = Mathf.Lerp(tiltAngle, maxTiltAngle, tiltLerpTime);
@@ -203,18 +211,33 @@ public class PlayerController : MonoBehaviour
             tiltAngle = Mathf.Lerp(tiltAngle, 0, tiltLerpTime);
         }
 
+        float forwardLerpTime = 1f * Time.deltaTime;
         forwardInput = Input.GetAxisRaw("Vertical");
+        if (forwardInput < 0)
+        {
+            weaponForwardOffset = Mathf.Lerp(weaponForwardOffset, maxForwardWeaponOffset, forwardLerpTime);
+        }
+        else if (forwardInput > 0)
+        {
+            weaponForwardOffset = Mathf.Lerp(weaponForwardOffset, -maxForwardWeaponOffset, forwardLerpTime);
+        }
+        else
+        {
+            weaponForwardOffset = Mathf.Lerp(weaponForwardOffset, 0, forwardLerpTime);
+        }
+        weaponForwardOffsetGameObject.transform.localPosition = new Vector3(0, 0, weaponForwardOffset);
+
         verticalInput = 0;
         if (Input.GetKey(KeyCode.Space))
         {
             //speedRPTC.SetGlobalValue(15);
-            lowpassfilterRPC.SetGlobalValue(50);
+            //lowpassfilterRPC.SetGlobalValue(50);
             verticalInput = 1;
         }
         else
         {
             //speedRPTC.SetGlobalValue(1);
-            lowpassfilterRPC.SetGlobalValue(1);
+            //lowpassfilterRPC.SetGlobalValue(1);
         }
         if (Input.GetKey(KeyCode.C)) verticalInput = -1;
 
@@ -255,19 +278,29 @@ public class PlayerController : MonoBehaviour
         HM.RotateLocalTransformToAngle(_melee.transform, new Vector3(0, 0, 0));
         RaycastHit hit = HM.RaycastAtPosition(_FPSLayerCam.transform.position, _FPSLayerCam.transform.forward, _meleeDistance, LayerMask.GetMask("Enemy"));
         if (hit.collider)
-            
+        {
+            AkSoundEngine.PostEvent("Play_KickHitSound", gameObject);
             if (hit.collider.GetComponentInChildren<AEnemy>())
             {
                 AEnemy enemy = hit.collider.GetComponentInChildren<AEnemy>();
-                float finalMeleeDamage               = _meleeBaseDamage;
-                finalMeleeDamage                    *= Mathf.Max(1, _playerRB.velocity.magnitude/15f); // do at minimum base damage
-                finalMeleeDamage                     = Mathf.Min(_meleeBaseDamage * 3, finalMeleeDamage); // do maximum of 3 times the damage
+                float finalMeleeDamage = _meleeBaseDamage;
+                finalMeleeDamage *= Mathf.Max(1, _playerRB.velocity.magnitude / 15f); // do at minimum base damage
+                finalMeleeDamage = Mathf.Min(_meleeBaseDamage * 3, finalMeleeDamage); // do maximum of 3 times the damage
                 if (enemy._frozen) finalMeleeDamage *= 2; //double damage if frozen
                 hit.collider.GetComponentInChildren<AEnemy>().TakeDamage(finalMeleeDamage);
                 _playerRB.velocity = Vector3.zero;
                 ApplyKnockback(_meleeKnockback);
             }
-        else ApplyKnockback(_meleeKnockback * 0.25f);
+            else
+            {
+                ApplyKnockback(_meleeKnockback * 0.25f);
+            }
+        }
+        else
+        {
+            AkSoundEngine.PostEvent("Play_KickMissedSound", gameObject);
+        }
+        
 
         yield return new WaitForSeconds(_meleeCooldown * 0.25f);
         HM.RotateLocalTransformToAngle(_melee.transform, new Vector3(30, 0, 0));
@@ -279,6 +312,7 @@ public class PlayerController : MonoBehaviour
         {
             currentMovementForce = vengeanceMovementForce;
             maxMoveSpeed = 21;
+            vengeanceRTPC.SetGlobalValue(50);
             // update counter movement as well
             //counterMovement;
         }
@@ -286,6 +320,7 @@ public class PlayerController : MonoBehaviour
         {
             currentMovementForce = normalMovementForce;
             maxMoveSpeed = 7;
+            vengeanceRTPC.SetGlobalValue(0);
             // update counter movement as well
         }
     }
@@ -301,7 +336,7 @@ public class PlayerController : MonoBehaviour
         if (direction == 4) _playerRB.AddForce(transform.up                  *      _dashForceMultiplier * currentMovementForce); // Space = Swim Up
         if (direction == 5) _playerRB.AddForce(transform.up                  * -1 * _dashForceMultiplier * currentMovementForce); // C = Swim Down
         _timeSinceLastDash = 0;
-
+        AkSoundEngine.PostEvent("Play_DashSound", gameObject);
         InitiateLowDrag();
     }
 
@@ -332,14 +367,14 @@ public class PlayerController : MonoBehaviour
     {
         if(reversed)
         {
-            reverseWeaponRPC.SetGlobalValue(100);
+            reverseWeaponRTPC.SetGlobalValue(100);
             _weaponDirection = -1;
             WeaponSoundOrigin.transform.localPosition = new Vector3(0, 0, -5);
             HM.RotateLocalTransformToAngle(_armRotation, new Vector3(_armRotation.localRotation.eulerAngles.x, 180, _arm.localRotation.eulerAngles.z));
         }
         else
         {
-            reverseWeaponRPC.SetGlobalValue(0);
+            reverseWeaponRTPC.SetGlobalValue(0);
             _weaponDirection = 1;
             WeaponSoundOrigin.transform.localPosition = new Vector3(0, 0, 1);
             HM.RotateLocalTransformToAngle(_armRotation, new Vector3(_armRotation.localRotation.eulerAngles.x, 0, _arm.localRotation.eulerAngles.z));

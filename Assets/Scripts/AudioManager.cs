@@ -14,6 +14,10 @@ public class AudioManager : MonoBehaviour
     public Slider _musicVolumeSlider;
     public Slider _SFXVolumeSlider;
 
+    public AK.Wwise.RTPC masterRTPC;
+    public AK.Wwise.RTPC musicRTPC;
+    public AK.Wwise.RTPC sfxRTPC;
+
     public enum AudioEnums
     {
         MasterVolume,
@@ -58,6 +62,7 @@ public class AudioManager : MonoBehaviour
         {
             _audioMixer.SetFloat(AudioEnums.MasterVolume.ToString(), Mathf.Log10(volume) * 20);
         }
+        masterRTPC.SetGlobalValue(volume);
         PlayerPrefs.SetFloat(AudioEnums.MasterVolume.ToString(), volume);
         _masterVolumeSlider.SetValueWithoutNotify(volume);
     }
@@ -75,6 +80,7 @@ public class AudioManager : MonoBehaviour
         {
             _audioMixer.SetFloat(AudioEnums.MusicVolume.ToString(), Mathf.Log10(volume) * 20);
         }
+        musicRTPC.SetGlobalValue(volume);
         PlayerPrefs.SetFloat(AudioEnums.MusicVolume.ToString(), volume);
         _musicVolumeSlider.SetValueWithoutNotify(volume);
     }
@@ -92,6 +98,7 @@ public class AudioManager : MonoBehaviour
         {
             _audioMixer.SetFloat(AudioEnums.SFXVolume.ToString(), Mathf.Log10(volume) * 20);
         }
+        sfxRTPC.SetGlobalValue(volume);
         PlayerPrefs.SetFloat(AudioEnums.SFXVolume.ToString(), volume);
         _SFXVolumeSlider.SetValueWithoutNotify(volume);
     }
