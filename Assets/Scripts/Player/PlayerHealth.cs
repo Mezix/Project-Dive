@@ -45,6 +45,10 @@ public class PlayerHealth : MonoBehaviour
             _currentHealth = 0;
             EnterVengeanceMode();
         }
+        else
+        {
+            AkSoundEngine.PostEvent("Play_PlayerTakesDamage", gameObject);
+        }
         REF.PlayerUI.UpdateHealthBar(_currentHealth, _maxHealth, _vengeanceDrainPercentage);
     }
 
@@ -78,7 +82,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void HandlePlayerDeath()
     {
-        print("Game Over");
+        print("Game Over started");
         REF.PCon.InitPlayerDeath();
     }
 

@@ -94,6 +94,7 @@ MonoBehaviour:
   _despawnAnimationPlaying: 0
   _trailRenderer: {fileID: 0}
   _weaponFromWhichProjectileWasFired: {fileID: 0}
+  HitTargetEventID: Play_IceMusketHitTarget
 --- !u!54 &8394897506248095698
 Rigidbody:
   m_ObjectHideFlags: 0

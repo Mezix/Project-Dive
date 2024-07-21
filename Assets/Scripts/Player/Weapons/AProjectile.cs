@@ -35,6 +35,10 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
     [HideInInspector] public TrailRenderer _trailRenderer;
     [HideInInspector] public AWeapon _weaponFromWhichProjectileWasFired;
 
+    // AUDIO
+
+    public string HitTargetEventID;
+
     public virtual void Awake()
     {
         _projectileRB = GetComponentInChildren<Rigidbody>();
@@ -126,6 +130,7 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
                     if(_shouldFreeze) enemy.AddFreezeStack(_freezeStacksAppliedOnHit);
                     enemy.TakeDamage(Damage);
                     HasDoneDamage = true;
+                    AkSoundEngine.PostEvent(HitTargetEventID, gameObject);
                    // StartCoroutine(DespawnAnimation());
                 }
             }

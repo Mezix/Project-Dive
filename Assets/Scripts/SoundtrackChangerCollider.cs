@@ -22,11 +22,7 @@ public class SoundtrackChangerCollider : MonoBehaviour
         {
             soundtrackLevel++;
             collided = true;
-            if(!PressureSoundtrackObject)
-            {
-                PressureSoundtrackObject = gameObject;
-            }
-            AkSoundEngine.SetSwitch("PressureSoundtrackSwitch", "Pressure1", PressureSoundtrackObject);
+            AkSoundEngine.SetSwitch("PressureSoundtrackSwitch", "Pressure" + soundtrackLevel, PressureSoundtrackObject);
         }
     }
 }

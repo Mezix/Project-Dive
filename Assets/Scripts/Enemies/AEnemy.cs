@@ -133,6 +133,10 @@ public class AEnemy : MonoBehaviour
             AddDamagePrefab(damage);
             InitDamageTakenAnim();
         }
+        if(_frozen)
+        {
+            AkSoundEngine.PostEvent("Play_IceTargetHit", gameObject);
+        }
         if (enemyHPIsZero && !_enemyDead)
         {
             KillEnemy();
@@ -170,6 +174,7 @@ public class AEnemy : MonoBehaviour
     public void KillEnemy()
     {
         _enemyDead = true;
+        AkSoundEngine.PostEvent("Play_PufferfishDeath", gameObject);
         Events.instance.EnemyKilledEvent(this);
     }
     public void InitDeathBehaviour()

@@ -43,6 +43,11 @@ public class IceMusket : AWeapon
         base.Update();
         UpdateAmmoUI();
 
+        if (Input.GetKeyDown(KeyCode.R) && !Reloading && AmmoLeft < MagazineSize)
+        {
+            StartCoroutine(StartReload());
+        }
+        /*
         if (ShouldRegenerateAmmo)
         {
             TimeElapsedBetweenAmmoRegeneration += Time.deltaTime;
@@ -50,12 +55,13 @@ public class IceMusket : AWeapon
             {
                 RegenerateAmmo(AmmoRegenAmount);
             }
-        }
+        }*/
         if (ChargeBegun)
         {
             ChargeTime += Time.deltaTime;
-            ChargeLevel = Mathf.Max(1, Mathf.RoundToInt(Mathf.Min(ChargeTime, FullChargeTime)/FullChargeTime * WeaponLevel));
-            UpdateAmmoDisplay(MagazineSize - ChargeLevel);
+            ChargeLevel = Mathf.Min(AmmoLeft, Mathf.Max(1, Mathf.RoundToInt(Mathf.Min(ChargeTime, FullChargeTime)/FullChargeTime * WeaponLevel)));
+            //UpdateAmmoDisplay(MagazineSize - ChargeLevel);
+            UpdateAmmoDisplay(AmmoLeft);
         }
     }
     private void InitBulletsUI()
@@ -70,7 +76,7 @@ public class IceMusket : AWeapon
     }
     public override void TryFire()
     {
-        if (TimeElapsedBetweenLastAttack >= TimeBetweenAttacks)
+        if (TimeElapsedBetweenLastAttack >= TimeBetweenAttacks && !Reloading)
         {
             if(AmmoLeft > 0)
             {
@@ -108,25 +114,37 @@ public class IceMusket : AWeapon
         iceMusketAnimator.SetFloat("ReloadMultiplier", AttacksPerSecond);
         if(ChargeLevel == 3)
         {
-            iceMusketAnimator.SetTrigger("ReloadInitiated");
+            //iceMusketAnimator.SetTrigger("ReloadInitiated");
             if(REF.PCon._weaponDirection == 1) REF.PCon._playerRB.velocity = Vector3.zero; //if facing forward, kill all velocity
             REF.PCon.ApplyKnockback(KnockbackForce * bulletsFired);
         }
         else
         {
-            iceMusketAnimator.SetTrigger("Fired");
+            if(AmmoLeft > 0) iceMusketAnimator.SetTrigger("Fired");
             REF.PCon.ApplyKnockback(KnockbackForce * bulletsFired);
         }
         //Reloading = true;
         ChargeLevel = 1;
         TimeElapsedBetweenLastAttack = 0;
     }
-
+    public IEnumerator StartReload()
+    {
+        iceMusketAnimator.SetTrigger("ReloadInitiated");
+        iceMusketAnimator.SetFloat("ReloadMultiplier", AttacksPerSecond);
+        Reloading = true;
+        yield return new WaitForSeconds(1);
+        RegenerateAmmo(3);
+        Reloading = false;
+    }
     public void SubtractAmmo(int amount)
     {
         AmmoLeft -= amount;
-        ShouldRegenerateAmmo = true;
+        //ShouldRegenerateAmmo = true;
         UpdateAmmoDisplay(AmmoLeft);
+        if(AmmoLeft <= 0)
+        {
+            StartCoroutine(StartReload());
+        }
     }
 
     public void RegenerateAmmo(int amount)
@@ -136,6 +154,7 @@ public class IceMusket : AWeapon
         {
             ShouldRegenerateAmmo = false;
             TimeElapsedBetweenAmmoRegeneration = 0;
+            AmmoLeft = MagazineSize;
         }
         UpdateAmmoDisplay(AmmoLeft);
     }

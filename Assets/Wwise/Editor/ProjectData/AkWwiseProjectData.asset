@@ -365,7 +365,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 097df28bab9d1a47b8ef134f1e04e182
     GuidInternal: 
-    m_lastTime: -8584800436596278096
+    m_lastTime: -8584800157003561841
     List:
     - name: Main
       guid: 37c5c687f64e924eb871fd27a40a7513
@@ -393,7 +393,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: d4d6c9fcfec72e468bb5ee3b16b6699e
     GuidInternal: 
-    m_lastTime: -8584800426453913021
+    m_lastTime: -8584800170579317408
     List:
     - name: Play_CreatureAlerted
       guid: c0014bc9e666194ba446c8d7e7d9e9f9
@@ -463,6 +463,40 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 4.904896
       minDuration: 4.904896
+    - name: Play_IceMusketHitTarget
+      guid: 0f0c7573fcf4c74c8cbdd59a7f12b7ac
+      id: 25174452
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_IceMusketHitTarget
+        ObjectType: 3
+        guid: 0f0c7573fcf4c74c8cbdd59a7f12b7ac
+      Path: Events\Default Work Unit\Play_IceMusketHitTarget
+      maxAttenuation: 300
+      maxDuration: 0.78358334
+      minDuration: 0.78358334
+    - name: Play_IceTargetHit
+      guid: d9120cb87ecbda42b0c99ddf9c5b7079
+      id: 27178231
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_IceTargetHit
+        ObjectType: 3
+        guid: d9120cb87ecbda42b0c99ddf9c5b7079
+      Path: Events\Default Work Unit\Play_IceTargetHit
+      maxAttenuation: 0
+      maxDuration: 0.7887982
+      minDuration: 0.7887982
     - name: Play_KickHitSound
       guid: 027e3451508dff4484254331a7f95ff1
       id: 560194828
@@ -514,6 +548,40 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 109.091156
       minDuration: 109.091156
+    - name: Play_PlayerDies
+      guid: ed7d6ac2732ccf4e8a0dd41432045e68
+      id: 2498751092
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_PlayerDies
+        ObjectType: 3
+        guid: ed7d6ac2732ccf4e8a0dd41432045e68
+      Path: Events\Default Work Unit\Play_PlayerDies
+      maxAttenuation: 300
+      maxDuration: 0.78358334
+      minDuration: 0.78358334
+    - name: Play_PlayerTakesDamage
+      guid: b5455a9eddb02943b801e02db70995df
+      id: 998853608
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_PlayerTakesDamage
+        ObjectType: 3
+        guid: b5455a9eddb02943b801e02db70995df
+      Path: Events\Default Work Unit\Play_PlayerTakesDamage
+      maxAttenuation: 300
+      maxDuration: 0.78358334
+      minDuration: 0.78358334
     - name: Play_PressureSoundtrack
       guid: 77647e312483604e89f2ea3b6c6a0a7c
       id: 1447075405
@@ -531,9 +599,9 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_PressureSoundtrack_OLD
-      guid: 3ce11eb51eb0a44f91db0c06eb497893
-      id: 787482943
+    - name: Play_PufferfishDeath
+      guid: 270fbead44d8ff49a3dab7dab339980b
+      id: 2874041246
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -541,13 +609,13 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: d4d6c9fcfec72e468bb5ee3b16b6699e
-      - ElementName: Play_PressureSoundtrack_OLD
+      - ElementName: Play_PufferfishDeath
         ObjectType: 3
-        guid: 3ce11eb51eb0a44f91db0c06eb497893
-      Path: Events\Default Work Unit\Play_PressureSoundtrack_OLD
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+        guid: 270fbead44d8ff49a3dab7dab339980b
+      Path: Events\Default Work Unit\Play_PufferfishDeath
+      maxAttenuation: 300
+      maxDuration: 0.78358334
+      minDuration: 0.78358334
     - name: Play_PufferfishProjectileSound
       guid: 194744531fe96d47aab9cec1c8b79eb2
       id: 2036857218
@@ -633,23 +701,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 1.0955
       minDuration: 1.0955
-    - name: Set_Voice_Pitch_IceMusketFired
-      guid: 6add7c63dbfef34bb962448ae93fdeef
-      id: 2626953872
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
-      - ElementName: Set_Voice_Pitch_IceMusketFired
-        ObjectType: 3
-        guid: 6add7c63dbfef34bb962448ae93fdeef
-      Path: Events\Default Work Unit\Set_Voice_Pitch_IceMusketFired
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:

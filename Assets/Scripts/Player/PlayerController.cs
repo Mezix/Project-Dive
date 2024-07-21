@@ -466,6 +466,7 @@ public class PlayerController : MonoBehaviour
         _dead = true;
         lockMovement = true;
         _lockRotation = true;
+        AkSoundEngine.PostEvent("Play_PlayerDies", gameObject);
         REF.Dialog.StartDialogue(Resources.Load("Dialogue/Conversations/Game Over Conversation") as ConversationScriptObj, false, false);
         REF.PlayerUI.InitiateDeathUI();
     }
