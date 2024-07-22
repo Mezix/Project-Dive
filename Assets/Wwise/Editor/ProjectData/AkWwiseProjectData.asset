@@ -365,7 +365,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 097df28bab9d1a47b8ef134f1e04e182
     GuidInternal: 
-    m_lastTime: -8584800157003561841
+    m_lastTime: -8584799541521913990
     List:
     - name: Main
       guid: 37c5c687f64e924eb871fd27a40a7513
@@ -393,8 +393,25 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: d4d6c9fcfec72e468bb5ee3b16b6699e
     GuidInternal: 
-    m_lastTime: -8584800170579317408
+    m_lastTime: -8584799544656478922
     List:
+    - name: Play_ChargeLevelHit
+      guid: 4fa417929abfc649b7fd1c1802a9107a
+      id: 1168882259
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_ChargeLevelHit
+        ObjectType: 3
+        guid: 4fa417929abfc649b7fd1c1802a9107a
+      Path: Events\Default Work Unit\Play_ChargeLevelHit
+      maxAttenuation: 0
+      maxDuration: 0.6869792
+      minDuration: 0.6869792
     - name: Play_CreatureAlerted
       guid: c0014bc9e666194ba446c8d7e7d9e9f9
       id: 2639507062
@@ -463,6 +480,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 4.904896
       minDuration: 4.904896
+    - name: Play_IceMusketCharging
+      guid: 542df35e86f32645a9b2e901500586f3
+      id: 2103592505
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_IceMusketCharging
+        ObjectType: 3
+        guid: 542df35e86f32645a9b2e901500586f3
+      Path: Events\Default Work Unit\Play_IceMusketCharging
+      maxAttenuation: 0
+      maxDuration: 2.4809792
+      minDuration: 2.4809792
     - name: Play_IceMusketHitTarget
       guid: 0f0c7573fcf4c74c8cbdd59a7f12b7ac
       id: 25174452
@@ -565,6 +599,23 @@ MonoBehaviour:
       maxAttenuation: 300
       maxDuration: 0.78358334
       minDuration: 0.78358334
+    - name: Play_PlayerMoving
+      guid: 867887baf1b7ea4cb3989dfc6edb7a9a
+      id: 1877840763
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_PlayerMoving
+        ObjectType: 3
+        guid: 867887baf1b7ea4cb3989dfc6edb7a9a
+      Path: Events\Default Work Unit\Play_PlayerMoving
+      maxAttenuation: 0
+      maxDuration: 0.84210414
+      minDuration: 0.84210414
     - name: Play_PlayerTakesDamage
       guid: b5455a9eddb02943b801e02db70995df
       id: 998853608
@@ -701,6 +752,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 1.0955
       minDuration: 1.0955
+    - name: Stop_IceMusketCharging
+      guid: 58157b942b01e44f81c1910369da4245
+      id: 3454569315
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Stop_IceMusketCharging
+        ObjectType: 3
+        guid: 58157b942b01e44f81c1910369da4245
+      Path: Events\Default Work Unit\Stop_IceMusketCharging
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
@@ -713,8 +781,22 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 07e2d3c13c14c547a350af032ddc3de6
     GuidInternal: 
-    m_lastTime: -8584800326116708417
+    m_lastTime: -8584799543292113710
     List:
+    - name: IceMusketChargePitch
+      guid: 0768814513cea441ba1133cd9ab48094
+      id: 446173289
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 07e2d3c13c14c547a350af032ddc3de6
+      - ElementName: IceMusketChargePitch
+        ObjectType: 13
+        guid: 0768814513cea441ba1133cd9ab48094
+      Path: Game Parameters\Default Work Unit\IceMusketChargePitch
     - name: MasterBus
       guid: cb6ad34f2fbd444aaf675f2559d98e16
       id: 835198467

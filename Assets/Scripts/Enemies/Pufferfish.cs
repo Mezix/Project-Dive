@@ -8,19 +8,11 @@ public class Pufferfish : AEnemy
     private GameObject _projectilePrefab;
     private int _damage;
     private float _projectileSpeed;
-    public enemyState eState = enemyState.Patrolling;
 
     public List<Transform> patrolPositions;
     private int posIndex = 0;
 
-    public float VisionRange = 150;
     public float moveForce = 50;
-
-    public enum enemyState
-    {
-        Patrolling, 
-        FoundPlayer
-    }
     public override void Awake()
     {
         base.Awake();
@@ -100,31 +92,6 @@ public class Pufferfish : AEnemy
         }
     }
 
-    public bool CanSeePlayer()
-    {
-        RaycastHit hit;
-        int layerMask = ~(1 << 2 | 1 << 8);
-        if (Physics.Raycast(_projectileSpots[0].position, (REF.PCon.transform.position - _projectileSpots[0].position).normalized, out hit, VisionRange, layerMask))
-        {
-            if (hit.transform.GetComponent<PlayerController>())
-            {
-                if (eState == enemyState.Patrolling) SpotPlayerFirstTime();
-                return true;
-            }
-        }
-        else
-        {
-            //Debug.Log("nope");
-        }
-        return false;
-    }
-
-    private void SpotPlayerFirstTime()
-    {
-        Debug.Log("Player spotted for the first time!");
-        AkSoundEngine.PostEvent("Play_CreatureAlerted", gameObject);
-         eState = enemyState.FoundPlayer;
-    }
 
     public void RotateTowardsPlayer()
     {

@@ -43,6 +43,14 @@ public class AEnemy : MonoBehaviour
     public float _timeBetweenDamageStacking;
     public float _timeSinceLastDamage;
 
+    public float VisionRange = 150;
+    public enemyState eState = enemyState.Patrolling;
+    public enum enemyState
+    {
+        Patrolling,
+        FoundPlayer
+    }
+
     public virtual void Awake()
     {
         _meshes = GetComponentsInChildren<MeshRenderer>().ToList();
@@ -130,6 +138,10 @@ public class AEnemy : MonoBehaviour
         bool enemyHPIsZero = _enemyHealth.TakeDamage(damage);
         if(!_enemyDead)
         {
+            if(eState == enemyState.Patrolling)
+            {
+                SpotPlayerFirstTime();
+            }
             AddDamagePrefab(damage);
             InitDamageTakenAnim();
         }
@@ -141,7 +153,31 @@ public class AEnemy : MonoBehaviour
         {
             KillEnemy();
         }
-        
+    }
+    public bool CanSeePlayer()
+    {
+        RaycastHit hit;
+        int layerMask = ~(1 << 2 | 1 << 8);
+        if (Physics.Raycast(_projectileSpots[0].position, (REF.PCon.transform.position - _projectileSpots[0].position).normalized, out hit, VisionRange, layerMask))
+        {
+            if (hit.transform.GetComponent<PlayerController>())
+            {
+                if (eState == enemyState.Patrolling) SpotPlayerFirstTime();
+                return true;
+            }
+        }
+        else
+        {
+            //Debug.Log("nope");
+        }
+        return false;
+    }
+
+    private void SpotPlayerFirstTime()
+    {
+        Debug.Log("Player spotted for the first time!");
+        AkSoundEngine.PostEvent("Play_CreatureAlerted", gameObject);
+        eState = enemyState.FoundPlayer;
     }
 
     private void AddDamagePrefab(float damage)

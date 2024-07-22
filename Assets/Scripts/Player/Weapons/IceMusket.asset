@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponName: Ice Musket
   _UISprite: {fileID: 0}
-  _damage: 10
+  _damage: 20
   _projectileSpeed: 130
-  _attacksPerSecond: 2
-  _recoil: 0.1
+  _attacksPerSecond: 1.5
+  _recoil: 0.15
   _recoilDuration: 0.25
   _knockbackForce: 500
-  _backwardsModifier: 1
+  _backwardsModifier: 1.5
   _canReverseWeapon: 1
   _magazineSize: 3
   _maxLevel: 3

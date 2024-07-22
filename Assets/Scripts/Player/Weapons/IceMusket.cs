@@ -13,7 +13,9 @@ public class IceMusket : AWeapon
     //  Weapon UI
     public Transform _hLayoutGroup;
     private List<Image> bulletUIList = new List<Image>();
+    private int lastChargeLevelMet = -1;
 
+    public AK.Wwise.RTPC iceMusketPitchRTPC;
     public override void Awake()
     {
         InitSystemStats();
@@ -59,7 +61,19 @@ public class IceMusket : AWeapon
         if (ChargeBegun)
         {
             ChargeTime += Time.deltaTime;
-            ChargeLevel = Mathf.Min(AmmoLeft, Mathf.Max(1, Mathf.RoundToInt(Mathf.Min(ChargeTime, FullChargeTime)/FullChargeTime * WeaponLevel)));
+            //ChargeLevel = Mathf.Min(AmmoLeft, Mathf.Max(1, Mathf.RoundToInt(Mathf.Min(ChargeTime, FullChargeTime)/FullChargeTime * WeaponLevel)));
+            ChargeLevel = Mathf.Max(1, Mathf.RoundToInt(Mathf.Min(ChargeTime, FullChargeTime)/FullChargeTime * WeaponLevel));
+            if(ChargeLevel > lastChargeLevelMet)
+            {
+                lastChargeLevelMet = ChargeLevel;
+                //play charge level hit sound
+                iceMusketPitchRTPC.SetGlobalValue(ChargeLevel);
+                AkSoundEngine.PostEvent("Play_ChargeLevelHit", gameObject);
+            }
+            if(ChargeLevel >= AmmoLeft)
+            {
+                ForceFire();
+            }
             //UpdateAmmoDisplay(MagazineSize - ChargeLevel);
             UpdateAmmoDisplay(AmmoLeft);
         }
@@ -84,19 +98,29 @@ public class IceMusket : AWeapon
                 {
                     ChargeTime = 0; //reset charge time for the first frame
                     ChargeBegun = true;
+                    AkSoundEngine.PostEvent("Play_IceMusketCharging", gameObject);
                 }
                 Charging = Input.GetKey(KeyCode.Mouse0);  //keep holding the charge as long as we press charge down
                 IceMusketSFX.SetActive(Charging);
                 if (ChargeBegun && !Charging) //once we let go, fire!
                 {
-                    ChargeBegun = false;
-                    _weaponFireSFX.Play();
-                    REF.CamScript.StartShake(RecoilDuration, Recoil);
-                    REF.PCon.WeaponSoundOrigin.PlaySound("PlayIceMusketFire");
-                    SpawnProjectile();
+                    ForceFire();
                 }
             }
         }
+    }
+    public void ForceFire()
+    {
+        lastChargeLevelMet = -1;
+        AkSoundEngine.PostEvent("Stop_IceMusketCharging", gameObject);
+        IceMusketSFX.SetActive(false);
+        ChargeTime = 0;
+        Charging = false;
+        ChargeBegun = false;
+        _weaponFireSFX.Play();
+        REF.CamScript.StartShake(RecoilDuration, Recoil);
+        REF.PCon.WeaponSoundOrigin.PlaySound("PlayIceMusketFire");
+        SpawnProjectile();
     }
     public override void SpawnProjectile()
     {

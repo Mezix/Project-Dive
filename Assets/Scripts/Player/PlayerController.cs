@@ -89,12 +89,6 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool _firstPersonActive;
     public float _totalDamageDealtByPlayer;
 
-    //private AK.Wwise.RTPC speedRPTC;
-    [SerializeField]
-    private AK.Wwise.RTPC vengeanceRTPC;
-    [SerializeField]
-    private AK.Wwise.RTPC reverseWeaponRTPC;
-
 
     //FPS movement feedback
     const float maxTiltAngle = 7.5f;
@@ -103,6 +97,15 @@ public class PlayerController : MonoBehaviour
     public float weaponForwardOffset;
     public GameObject weaponForwardOffsetGameObject;
 
+    //  Splashing when moving
+    private const float timeBetweenSplashes = 1f;
+    private float timeSinceLastSplash = timeBetweenSplashes;
+
+    //private AK.Wwise.RTPC speedRPTC;
+    [SerializeField]
+    private AK.Wwise.RTPC vengeanceRTPC;
+    [SerializeField]
+    private AK.Wwise.RTPC reverseWeaponRTPC;
     public void Awake()
     {
         REF.PCon = this;
@@ -241,8 +244,20 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.C)) verticalInput = -1;
 
-
-
+        timeSinceLastSplash += Time.deltaTime;
+        if (horizontalInput != 0 || verticalInput != 0 || forwardInput != 0)
+        {
+            if(timeSinceLastSplash >= timeBetweenSplashes)
+            {
+                //splash noises
+                timeSinceLastSplash = 0;
+                AkSoundEngine.PostEvent("Play_PlayerMoving", gameObject);
+            }
+        }
+        else
+        {
+            timeSinceLastSplash += 5 * Time.deltaTime; // recharge splash faster since we stopped moving!
+        }
 
         if (Input.GetKeyDown(KeyCode.F)) TryMelee();
 
