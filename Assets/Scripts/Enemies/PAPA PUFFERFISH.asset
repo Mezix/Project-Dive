@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PAPA PUFFERFISH
   m_EditorClassIdentifier: 
   _attacksPerSecond: 0.25
-  _enemyHealth: 600
+  _enemyHealth: 50
   _stacksUntilFreeze: 6
   _maxFrozenTime: 3
   _weight: 1000

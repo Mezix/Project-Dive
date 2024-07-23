@@ -46,8 +46,10 @@ public class BossManager : MonoBehaviour
     {
         _enemyBossUI.SetActive(false);
         StartCoroutine(REF.CamScript.StartBossShake());
+        EffectsCanvas.EC.StartWhiteFlash();
         AkSoundEngine.SetSwitch("PressureSoundtrackSwitch", "Pressure0", SoundtrackChangerCollider.PressureSoundtrackObject);
-        AkSoundEngine.SetSwitch("KillstreakMusicSwitch", "Killstreak0", SoundtrackChangerCollider.PressureSoundtrackObject);
+        REF.PCon.killstreakLevel = 0;
+        REF.PCon.SetKillstreakLevel();
         print("boss killed");
     }
     private void UpdateBossHealth()

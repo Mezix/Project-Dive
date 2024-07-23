@@ -315,9 +315,9 @@ MonoBehaviour:
   currentDamagePrefabScript: {fileID: 0}
   _timeBetweenDamageStacking: 0
   _timeSinceLastDamage: 0
+  VisionRange: 75
   eState: 0
   patrolPositions: []
-  VisionRange: 75
   moveForce: 50
 --- !u!114 &5158093014219419577
 MonoBehaviour:

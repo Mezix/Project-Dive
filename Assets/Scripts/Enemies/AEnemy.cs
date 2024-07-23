@@ -51,6 +51,8 @@ public class AEnemy : MonoBehaviour
         FoundPlayer
     }
 
+    public ParticleSystem DeathSFX;
+
     public virtual void Awake()
     {
         _meshes = GetComponentsInChildren<MeshRenderer>().ToList();
@@ -222,13 +224,35 @@ public class AEnemy : MonoBehaviour
 
     private IEnumerator DeathAnim()
     {
-        for(int i = 0; i < 100; i++)
+        if(_isBoss)
         {
-            transform.Rotate(new Vector3(0,0,-0.9f), Space.Self);
-            _enemyRB.AddForce(Vector3.up * i);
-            yield return new WaitForFixedUpdate();
+            //Material freezeMat = Resources.Load("Materials/Frozen Material") as Material;
+            //AddMaterialToAllMeshes(false, freezeMat);
+
+            Material bossDeathMat = Resources.Load("Materials/Boss Death Material") as Material;
+            bossDeathMat.color = new Color(1, 1, 1, 0);
+            AddMaterialToAllMeshes(true, bossDeathMat);
+            DeathSFX.gameObject.SetActive(true);
+            DeathSFX.Play();
+            for (int i = 0; i < 250; i++)
+            {
+                transform.Rotate(new Vector3(0, 0, -0.1f), Space.Self);
+                _enemyRB.AddForce(Vector3.up * i/6f);
+                bossDeathMat.color = new Color(1, 1, 1, Mathf.Min(1, i/250f));
+                yield return new WaitForFixedUpdate();
+            }
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+        else
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                transform.Rotate(new Vector3(0, 0, -0.9f), Space.Self);
+                _enemyRB.AddForce(Vector3.up * i);
+                yield return new WaitForFixedUpdate();
+            }
+            Destroy(gameObject);
+        }
     }
 
     //  Misc 

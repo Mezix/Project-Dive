@@ -172,18 +172,19 @@ public class PlayerController : MonoBehaviour
     {
         killstreakLevel = Mathf.Min(3, killstreakLevel + 1);
         timeSinceLastKill = 0;
-        Debug.Log("increase - " + killstreakLevel);
-        SetKillstreakSwitch();
+        //Debug.Log("increase - " + killstreakLevel);
+        SetKillstreakLevel();
     }
     public void DecreaseKillstreak()
     {
         killstreakLevel = Mathf.Max(0, killstreakLevel -1);
         timeSinceLastKill = 0;
-        Debug.Log("decrease - " + killstreakLevel);
-        SetKillstreakSwitch();
+      //  Debug.Log("decrease - " + killstreakLevel);
+        SetKillstreakLevel();
     }
-    public void SetKillstreakSwitch()
+    public void SetKillstreakLevel()
     {
+        EffectsCanvas.EC.SetDesiredRedTint(0.2f * (killstreakLevel/3f));
         AkSoundEngine.SetSwitch("KillstreakMusicSwitch", "Killstreak" + killstreakLevel, SoundtrackChangerCollider.PressureSoundtrackObject);
     }
 
