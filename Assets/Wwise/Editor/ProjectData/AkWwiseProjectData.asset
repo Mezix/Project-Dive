@@ -365,7 +365,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 097df28bab9d1a47b8ef134f1e04e182
     GuidInternal: 
-    m_lastTime: -8584798614589646579
+    m_lastTime: -8584798507900668953
     List:
     - name: Main
       guid: 37c5c687f64e924eb871fd27a40a7513
@@ -393,7 +393,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: d4d6c9fcfec72e468bb5ee3b16b6699e
     GuidInternal: 
-    m_lastTime: -8584798614670597077
+    m_lastTime: -8584798490933356513
     List:
     - name: Play_BreathingContainer
       guid: 576c35ee51b312499c576dbaca19bf78
@@ -599,6 +599,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0.21884353
       minDuration: 0.21884353
+    - name: Play_KillstreakSoundtrack
+      guid: a419a796fcd70b4998f0624d3f25e8f3
+      id: 3329579034
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_KillstreakSoundtrack
+        ObjectType: 3
+        guid: a419a796fcd70b4998f0624d3f25e8f3
+      Path: Events\Default Work Unit\Play_KillstreakSoundtrack
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_Music_Playlist
       guid: 05963b47a3c79543a47dd8857a3411e7
       id: 4264879856
@@ -630,9 +647,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: ed7d6ac2732ccf4e8a0dd41432045e68
       Path: Events\Default Work Unit\Play_PlayerDies
-      maxAttenuation: 300
-      maxDuration: 0.78358334
-      minDuration: 0.78358334
+      maxAttenuation: 0
+      maxDuration: 2.4839582
+      minDuration: 2.4839582
     - name: Play_PlayerMoving
       guid: 867887baf1b7ea4cb3989dfc6edb7a9a
       id: 1877840763
@@ -664,9 +681,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: b5455a9eddb02943b801e02db70995df
       Path: Events\Default Work Unit\Play_PlayerTakesDamage
-      maxAttenuation: 300
-      maxDuration: 0.78358334
-      minDuration: 0.78358334
+      maxAttenuation: 0
+      maxDuration: 0.99
+      minDuration: 0.99
     - name: Play_PressureSoundtrack
       guid: 77647e312483604e89f2ea3b6c6a0a7c
       id: 1447075405
@@ -786,6 +803,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 1.0955
       minDuration: 1.0955
+    - name: Stop_BreathingContainer
+      guid: dc91b4a7129f3b4ea2a2d6c3f57c0887
+      id: 4101346071
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Stop_BreathingContainer
+        ObjectType: 3
+        guid: dc91b4a7129f3b4ea2a2d6c3f57c0887
+      Path: Events\Default Work Unit\Stop_BreathingContainer
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_IceMusketCharging
       guid: 58157b942b01e44f81c1910369da4245
       id: 3454569315
@@ -1122,7 +1156,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 7aa8763c6e730047b61d343d2cb27d19
     GuidInternal: 
-    m_lastTime: -8584798610729468524
+    m_lastTime: -8584798504609601274
     List:
     - name: Breathing
       guid: 5d891a9d415ed1408eb9fcaeac74206e
@@ -1221,8 +1255,8 @@ MonoBehaviour:
         guid: 39a90a91ad142d41b2c2fd9086a58f16
       Path: Switches\Default Work Unit\KillstreakMusicSwitch
       values:
-      - name: KIllstreak0
-        guid: c5a7915eec94614cafc1c42c450dcce2
+      - name: Killstreak0
+        guid: ec7d10fde15e284386a957e514a713c2
         id: 1764340601
         PathAndIcons:
         - ElementName: Switches
@@ -1234,11 +1268,11 @@ MonoBehaviour:
         - ElementName: KillstreakMusicSwitch
           ObjectType: 11
           guid: 39a90a91ad142d41b2c2fd9086a58f16
-        - ElementName: KIllstreak0
+        - ElementName: Killstreak0
           ObjectType: 10
-          guid: c5a7915eec94614cafc1c42c450dcce2
+          guid: ec7d10fde15e284386a957e514a713c2
       - name: Killstreak1
-        guid: 4ff45c75ed1c824d9106bd3a786e1c01
+        guid: c5a7915eec94614cafc1c42c450dcce2
         id: 1764340600
         PathAndIcons:
         - ElementName: Switches
@@ -1252,9 +1286,9 @@ MonoBehaviour:
           guid: 39a90a91ad142d41b2c2fd9086a58f16
         - ElementName: Killstreak1
           ObjectType: 10
-          guid: 4ff45c75ed1c824d9106bd3a786e1c01
+          guid: c5a7915eec94614cafc1c42c450dcce2
       - name: Killstreak2
-        guid: 352272f36baf3b4fac68900429c24230
+        guid: 4ff45c75ed1c824d9106bd3a786e1c01
         id: 1764340603
         PathAndIcons:
         - ElementName: Switches
@@ -1268,9 +1302,9 @@ MonoBehaviour:
           guid: 39a90a91ad142d41b2c2fd9086a58f16
         - ElementName: Killstreak2
           ObjectType: 10
-          guid: 352272f36baf3b4fac68900429c24230
+          guid: 4ff45c75ed1c824d9106bd3a786e1c01
       - name: Killstreak3
-        guid: b70b7d2c8e2b1645ab4be9120d354ab6
+        guid: 352272f36baf3b4fac68900429c24230
         id: 1764340602
         PathAndIcons:
         - ElementName: Switches
@@ -1284,7 +1318,7 @@ MonoBehaviour:
           guid: 39a90a91ad142d41b2c2fd9086a58f16
         - ElementName: Killstreak3
           ObjectType: 10
-          guid: b70b7d2c8e2b1645ab4be9120d354ab6
+          guid: 352272f36baf3b4fac68900429c24230
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []

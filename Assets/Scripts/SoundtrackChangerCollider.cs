@@ -13,6 +13,7 @@ public class SoundtrackChangerCollider : MonoBehaviour
         {
             PressureSoundtrackObject = gameObject;
             AkSoundEngine.PostEvent("Play_PressureSoundtrack", PressureSoundtrackObject);
+            AkSoundEngine.PostEvent("Play_KillstreakSoundtrack", PressureSoundtrackObject);
             AkSoundEngine.SetSwitch("PressureSoundtrackSwitch", "Pressure0", PressureSoundtrackObject);
         }
     }

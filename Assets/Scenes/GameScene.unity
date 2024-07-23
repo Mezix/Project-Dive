@@ -4610,6 +4610,8 @@ MonoBehaviour:
   _FPSLayerCam: {fileID: 5029529}
   _firstPersonActive: 0
   _totalDamageDealtByPlayer: 0
+  killstreakLevel: 0
+  timeSinceLastKill: 15
   tiltAngle: 0
   weaponForwardOffset: 0
   weaponForwardOffsetGameObject: {fileID: 1256620072}
@@ -4666,10 +4668,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.770401
+  m_Height: 2.5
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.32382202, z: 0}
 --- !u!1 &509809828
 GameObject:
   m_ObjectHideFlags: 0
@@ -12435,7 +12437,7 @@ GameObject:
   - component: {fileID: 1336074297}
   - component: {fileID: 1336074299}
   - component: {fileID: 1336074298}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Body Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

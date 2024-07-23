@@ -38,4 +38,16 @@ public class CameraScript : MonoBehaviour
         cam.transform.localPosition = originalPos;
         _FPSCameraShake.transform.localPosition = originalPos;
     }
+
+    public IEnumerator StartBossShake()
+    {
+        float magnitude = 0.25f;
+        float increase = 0.25f;
+        for(int i = 0; i < 7; i++)
+        {
+            StartCoroutine(Shake(1, magnitude));
+            yield return new WaitForSeconds(1.05f);
+            magnitude += increase;
+        }
+    }
 }

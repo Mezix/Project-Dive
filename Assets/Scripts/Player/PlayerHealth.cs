@@ -16,6 +16,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField]
     private AK.Wwise.RTPC breathingRTPC;
 
+    private const float timeBetweenTakingDamage = 1f;
+    private float timeSinceLastTakenDamage = timeBetweenTakingDamage;
+
     private void Start()
     {
         breathingRTPC.SetGlobalValue(0);
@@ -30,7 +33,8 @@ public class PlayerHealth : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha0))
+        timeSinceLastTakenDamage += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             Heal(0.1f * _maxHealth * _vengeanceDrainPercentage);
         }
@@ -43,6 +47,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
+        if(timeSinceLastTakenDamage < timeBetweenTakingDamage)
+        {
+            return;
+        }
         _currentHealth -= dmg;
         if(_currentHealth <= 0)
         {
@@ -52,6 +60,8 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             AkSoundEngine.PostEvent("Play_PlayerTakesDamage", gameObject);
+            timeSinceLastTakenDamage = 0;
+            REF.CamScript.StartShake(0.2f, 0.3f);
             breathingRTPC.SetGlobalValue(0);
         }
         //breathingRTPC.SetGlobalValue(100 * (1 - _currentHealth/_maxHealth));
@@ -127,7 +137,7 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            Heal(0.1f * _maxHealth * _vengeanceDrainPercentage);
+            Heal(0.1f * _maxHealth);
         }
     }
 }

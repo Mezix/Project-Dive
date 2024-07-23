@@ -85,7 +85,7 @@ public class Pufferfish : AEnemy
 
     private void MoveTowardsPlayer()
     {
-        if (_enemyRB.velocity.magnitude < 10)
+        if (_enemyRB.velocity.magnitude < 10 && Vector3.Distance(REF.PCon.transform.position, transform.position) < 10)
         {
             Vector3 moveDir = (REF.PCon.transform.position - _projectileSpots[0].position).normalized;
             _enemyRB.AddForce(moveDir * moveForce);

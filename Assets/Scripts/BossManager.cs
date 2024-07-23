@@ -8,6 +8,7 @@ public class BossManager : MonoBehaviour
     public GameObject _enemyBossUI;
     public Image _bossHealthbar;
     public Pufferfish _spawnedBoss;
+    public bool activated = false;
 
     void Start()
     {
@@ -33,8 +34,9 @@ public class BossManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponentInChildren<PlayerController>())
+        if(other.GetComponentInChildren<PlayerController>() && !activated)
         {
+            activated = true;
             _enemyBossUI.SetActive(true);
             _spawnedBoss.eState = Pufferfish.enemyState.FoundPlayer;
         }
@@ -43,6 +45,9 @@ public class BossManager : MonoBehaviour
     private void BossKilled()
     {
         _enemyBossUI.SetActive(false);
+        StartCoroutine(REF.CamScript.StartBossShake());
+        AkSoundEngine.SetSwitch("PressureSoundtrackSwitch", "Pressure0", SoundtrackChangerCollider.PressureSoundtrackObject);
+        AkSoundEngine.SetSwitch("KillstreakMusicSwitch", "Killstreak0", SoundtrackChangerCollider.PressureSoundtrackObject);
         print("boss killed");
     }
     private void UpdateBossHealth()

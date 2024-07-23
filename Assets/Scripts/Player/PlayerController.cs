@@ -89,6 +89,9 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool _firstPersonActive;
     public float _totalDamageDealtByPlayer;
 
+    public int killstreakLevel = 0;
+    public const float timeUntilKillstreakLowers = 7.5f;
+    public float timeSinceLastKill = timeUntilKillstreakLowers;
 
     //FPS movement feedback
     const float maxTiltAngle = 7.5f;
@@ -107,6 +110,11 @@ public class PlayerController : MonoBehaviour
     private AK.Wwise.RTPC reverseWeaponRTPC;
     public void Awake()
     {
+        //RESET!
+
+        AkSoundEngine.StopAll();
+
+
         REF.PCon = this;
         transform.tag = "Player";
         _playerCam = Camera.main;
@@ -114,12 +122,15 @@ public class PlayerController : MonoBehaviour
         _playerRB = GetComponentInChildren<Rigidbody>();
         _playerCol = GetComponentInChildren<Collider>();
         _pHealth = GetComponentInChildren<PlayerHealth>();
+
+        killstreakLevel = 0;
     }
 
     public WeaponSoundsOrigin WeaponSoundOrigin;
 
     public void Start()
     {
+        Events.instance.EnemyDead += EnemyKilled;
         Events.instance.DamageDealtByPlayer += AddTotalDamage;
 
         currentMovementForce = normalMovementForce;
@@ -153,6 +164,29 @@ public class PlayerController : MonoBehaviour
         InitWeapons();
     }
 
+    private void EnemyKilled(AEnemy obj)
+    {
+        IncreaseKillstreak();
+    }
+    public void IncreaseKillstreak()
+    {
+        killstreakLevel = Mathf.Min(3, killstreakLevel + 1);
+        timeSinceLastKill = 0;
+        Debug.Log("increase - " + killstreakLevel);
+        SetKillstreakSwitch();
+    }
+    public void DecreaseKillstreak()
+    {
+        killstreakLevel = Mathf.Max(0, killstreakLevel -1);
+        timeSinceLastKill = 0;
+        Debug.Log("decrease - " + killstreakLevel);
+        SetKillstreakSwitch();
+    }
+    public void SetKillstreakSwitch()
+    {
+        AkSoundEngine.SetSwitch("KillstreakMusicSwitch", "Killstreak" + killstreakLevel, SoundtrackChangerCollider.PressureSoundtrackObject);
+    }
+
     private void AddTotalDamage(float dmg)
     {
         _totalDamageDealtByPlayer += dmg;
@@ -168,6 +202,11 @@ public class PlayerController : MonoBehaviour
             Look();
             _timeSinceLastDash += Time.deltaTime;
             _timeSinceLastMelee += Time.deltaTime;
+            timeSinceLastKill += Time.deltaTime;
+            if(timeSinceLastKill >= timeUntilKillstreakLowers)
+            {
+                DecreaseKillstreak();
+            }
         }
     }
     public void FixedUpdate()
@@ -481,6 +520,7 @@ public class PlayerController : MonoBehaviour
         lockMovement = true;
         _lockRotation = true;
         AkSoundEngine.PostEvent("Play_PlayerDies", gameObject);
+        AkSoundEngine.PostEvent("Stop_BreathingContainer", gameObject);
         REF.Dialog.StartDialogue(Resources.Load("Dialogue/Conversations/Game Over Conversation") as ConversationScriptObj, false, false);
         REF.PlayerUI.InitiateDeathUI();
     }
