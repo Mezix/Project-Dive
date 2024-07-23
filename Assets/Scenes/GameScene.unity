@@ -4610,6 +4610,9 @@ MonoBehaviour:
   _FPSLayerCam: {fileID: 5029529}
   _firstPersonActive: 0
   _totalDamageDealtByPlayer: 0
+  tiltAngle: 0
+  weaponForwardOffset: 0
+  weaponForwardOffsetGameObject: {fileID: 1256620072}
   vengeanceRTPC:
     idInternal: 0
     valueGuidInternal: 
@@ -4620,9 +4623,6 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 4ebae83d4e1af3e40a92aaaea04bd91f,
       type: 2}
-  tiltAngle: 0
-  weaponForwardOffset: 0
-  weaponForwardOffsetGameObject: {fileID: 1256620072}
   WeaponSoundOrigin: {fileID: 2055438242}
 --- !u!114 &501603235
 MonoBehaviour:
@@ -4642,6 +4642,11 @@ MonoBehaviour:
   _timeInVengeance: 0
   _drainPct: 0
   _vengeanceDrainPercentage: 0
+  breathingRTPC:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 883ccc213997a4f4da2b8bae3888eb36,
+      type: 2}
 --- !u!136 &501603236
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -1706,6 +1706,11 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 6f12e4eb285f64d4e9e5dbeaedcacadc,
       type: 2}
+  ammoLeftRTPC:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 4b64bfa042639c24083cb1bed20e6a68,
+      type: 2}
 --- !u!1 &7416025737340543672
 GameObject:
   m_ObjectHideFlags: 0

@@ -365,7 +365,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 097df28bab9d1a47b8ef134f1e04e182
     GuidInternal: 
-    m_lastTime: -8584799541521913990
+    m_lastTime: -8584798614589646579
     List:
     - name: Main
       guid: 37c5c687f64e924eb871fd27a40a7513
@@ -393,8 +393,25 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: d4d6c9fcfec72e468bb5ee3b16b6699e
     GuidInternal: 
-    m_lastTime: -8584799544656478922
+    m_lastTime: -8584798614670597077
     List:
+    - name: Play_BreathingContainer
+      guid: 576c35ee51b312499c576dbaca19bf78
+      id: 3387169901
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_BreathingContainer
+        ObjectType: 3
+        guid: 576c35ee51b312499c576dbaca19bf78
+      Path: Events\Default Work Unit\Play_BreathingContainer
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_ChargeLevelHit
       guid: 4fa417929abfc649b7fd1c1802a9107a
       id: 1168882259
@@ -514,6 +531,23 @@ MonoBehaviour:
       maxAttenuation: 300
       maxDuration: 0.78358334
       minDuration: 0.78358334
+    - name: Play_IceMusketReload
+      guid: 01c4560a505a3b448edafe31074ded6a
+      id: 4136534211
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
+      - ElementName: Play_IceMusketReload
+        ObjectType: 3
+        guid: 01c4560a505a3b448edafe31074ded6a
+      Path: Events\Default Work Unit\Play_IceMusketReload
+      maxAttenuation: 0
+      maxDuration: 1.822625
+      minDuration: 1.822625
     - name: Play_IceTargetHit
       guid: d9120cb87ecbda42b0c99ddf9c5b7079
       id: 27178231
@@ -664,9 +698,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: 270fbead44d8ff49a3dab7dab339980b
       Path: Events\Default Work Unit\Play_PufferfishDeath
-      maxAttenuation: 300
-      maxDuration: 0.78358334
-      minDuration: 0.78358334
+      maxAttenuation: 0
+      maxDuration: 1.6596875
+      minDuration: 1.6596875
     - name: Play_PufferfishProjectileSound
       guid: 194744531fe96d47aab9cec1c8b79eb2
       id: 2036857218
@@ -781,8 +815,22 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 07e2d3c13c14c547a350af032ddc3de6
     GuidInternal: 
-    m_lastTime: -8584799543292113710
+    m_lastTime: -8584798598411218774
     List:
+    - name: AmmoLeftPercent
+      guid: e190ab61e56cf749affc234e58d09351
+      id: 220985435
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 07e2d3c13c14c547a350af032ddc3de6
+      - ElementName: AmmoLeftPercent
+        ObjectType: 13
+        guid: e190ab61e56cf749affc234e58d09351
+      Path: Game Parameters\Default Work Unit\AmmoLeftPercent
     - name: IceMusketChargePitch
       guid: 0768814513cea441ba1133cd9ab48094
       id: 446173289
@@ -825,6 +873,20 @@ MonoBehaviour:
         ObjectType: 13
         guid: 0529311f07d9804c91f601569c7ecb99
       Path: Game Parameters\Default Work Unit\MusicBus
+    - name: PlayerBreathingIntensity
+      guid: 04e741eb88d91841ab276d4c47789132
+      id: 275543587
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 07e2d3c13c14c547a350af032ddc3de6
+      - ElementName: PlayerBreathingIntensity
+        ObjectType: 13
+        guid: 04e741eb88d91841ab276d4c47789132
+      Path: Game Parameters\Default Work Unit\PlayerBreathingIntensity
     - name: SFXBus
       guid: 4cc8fcda59c3c0409ec715bc2ce1410f
       id: 3803850708
@@ -1046,90 +1108,8 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 50bb5b5fb51440489aa05a691d8b54d9
     GuidInternal: 
-    m_lastTime: -8584806437384092014
-    List:
-    - name: Alive
-      guid: c04f3960f26a204886c83f44017974a9
-      id: 655265632
-      PathAndIcons:
-      - ElementName: States
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 50bb5b5fb51440489aa05a691d8b54d9
-      - ElementName: Alive
-        ObjectType: 9
-        guid: c04f3960f26a204886c83f44017974a9
-      Path: States\Default Work Unit\Alive
-      values:
-      - name: Alive
-        guid: 61c9eaf8c916104db2c3ecfd9723f3eb
-        id: 655265632
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 50bb5b5fb51440489aa05a691d8b54d9
-        - ElementName: Alive
-          ObjectType: 9
-          guid: c04f3960f26a204886c83f44017974a9
-        - ElementName: Alive
-          ObjectType: 8
-          guid: 61c9eaf8c916104db2c3ecfd9723f3eb
-      - name: Dead
-        guid: 2c0cad18546ba54fb40c3e918abfd319
-        id: 2044049779
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 50bb5b5fb51440489aa05a691d8b54d9
-        - ElementName: Alive
-          ObjectType: 9
-          guid: c04f3960f26a204886c83f44017974a9
-        - ElementName: Dead
-          ObjectType: 8
-          guid: 2c0cad18546ba54fb40c3e918abfd319
-      - name: None
-        guid: 5b8156ac89bb304f85d557c3b46811f6
-        id: 748895195
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 50bb5b5fb51440489aa05a691d8b54d9
-        - ElementName: Alive
-          ObjectType: 9
-          guid: c04f3960f26a204886c83f44017974a9
-        - ElementName: None
-          ObjectType: 8
-          guid: 5b8156ac89bb304f85d557c3b46811f6
-      - name: Vengeance
-        guid: e27fe52b35bf834dbfaaf7abd577afcf
-        id: 1836016317
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 50bb5b5fb51440489aa05a691d8b54d9
-        - ElementName: Alive
-          ObjectType: 9
-          guid: c04f3960f26a204886c83f44017974a9
-        - ElementName: Vengeance
-          ObjectType: 8
-          guid: e27fe52b35bf834dbfaaf7abd577afcf
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
+    m_lastTime: -8584798611059069500
+    List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
     PathAndIcons:
@@ -1142,8 +1122,90 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 7aa8763c6e730047b61d343d2cb27d19
     GuidInternal: 
-    m_lastTime: -8584801220788434293
+    m_lastTime: -8584798610729468524
     List:
+    - name: Breathing
+      guid: 5d891a9d415ed1408eb9fcaeac74206e
+      id: 238653005
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7aa8763c6e730047b61d343d2cb27d19
+      - ElementName: Breathing
+        ObjectType: 11
+        guid: 5d891a9d415ed1408eb9fcaeac74206e
+      Path: Switches\Default Work Unit\Breathing
+      values:
+      - name: Breathing1
+        guid: c5fab17965030e4c8d02c91c1c427b31
+        id: 2979726086
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: Breathing
+          ObjectType: 11
+          guid: 5d891a9d415ed1408eb9fcaeac74206e
+        - ElementName: Breathing1
+          ObjectType: 10
+          guid: c5fab17965030e4c8d02c91c1c427b31
+      - name: Breathing2
+        guid: ccb03c6ef284174287ea7d221fd6ea64
+        id: 2979726085
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: Breathing
+          ObjectType: 11
+          guid: 5d891a9d415ed1408eb9fcaeac74206e
+        - ElementName: Breathing2
+          ObjectType: 10
+          guid: ccb03c6ef284174287ea7d221fd6ea64
+      - name: Breathing3
+        guid: 9cfc925ba40cc04bbbd0863d6836e5e8
+        id: 2979726084
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: Breathing
+          ObjectType: 11
+          guid: 5d891a9d415ed1408eb9fcaeac74206e
+        - ElementName: Breathing3
+          ObjectType: 10
+          guid: 9cfc925ba40cc04bbbd0863d6836e5e8
+      - name: Breathing4
+        guid: a18132f9bc10e043a0a79e9660ce2192
+        id: 2979726083
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7aa8763c6e730047b61d343d2cb27d19
+        - ElementName: Breathing
+          ObjectType: 11
+          guid: 5d891a9d415ed1408eb9fcaeac74206e
+        - ElementName: Breathing4
+          ObjectType: 10
+          guid: a18132f9bc10e043a0a79e9660ce2192
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
     - name: KillstreakMusicSwitch
       guid: 39a90a91ad142d41b2c2fd9086a58f16
       id: 4224996836
@@ -1308,88 +1370,6 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-    - name: SwitchWeapons
-      guid: 7e8fb6f1274460468135be748bb08f18
-      id: 480197452
-      PathAndIcons:
-      - ElementName: Switches
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 7aa8763c6e730047b61d343d2cb27d19
-      - ElementName: SwitchWeapons
-        ObjectType: 11
-        guid: 7e8fb6f1274460468135be748bb08f18
-      Path: Switches\Default Work Unit\SwitchWeapons
-      values:
-      - name: CavLance
-        guid: 6f7b281d1f2b3c4c9d3dc2940dc5dbed
-        id: 620697482
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7aa8763c6e730047b61d343d2cb27d19
-        - ElementName: SwitchWeapons
-          ObjectType: 11
-          guid: 7e8fb6f1274460468135be748bb08f18
-        - ElementName: CavLance
-          ObjectType: 10
-          guid: 6f7b281d1f2b3c4c9d3dc2940dc5dbed
-      - name: GravelGun
-        guid: 4e2c9934bef25d45a3893c136e06b675
-        id: 3704060270
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7aa8763c6e730047b61d343d2cb27d19
-        - ElementName: SwitchWeapons
-          ObjectType: 11
-          guid: 7e8fb6f1274460468135be748bb08f18
-        - ElementName: GravelGun
-          ObjectType: 10
-          guid: 4e2c9934bef25d45a3893c136e06b675
-      - name: Harpoon
-        guid: 13e97b550627fb4d8ec603d804564fdb
-        id: 302949338
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7aa8763c6e730047b61d343d2cb27d19
-        - ElementName: SwitchWeapons
-          ObjectType: 11
-          guid: 7e8fb6f1274460468135be748bb08f18
-        - ElementName: Harpoon
-          ObjectType: 10
-          guid: 13e97b550627fb4d8ec603d804564fdb
-      - name: IceMusket
-        guid: 28a1080a09d14a44aff32c95f0921187
-        id: 2542519749
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7aa8763c6e730047b61d343d2cb27d19
-        - ElementName: SwitchWeapons
-          ObjectType: 11
-          guid: 7e8fb6f1274460468135be748bb08f18
-        - ElementName: IceMusket
-          ObjectType: 10
-          guid: 28a1080a09d14a44aff32c95f0921187
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
     PathAndIcons:
@@ -1418,7 +1398,7 @@ MonoBehaviour:
         ObjectType: 14
         guid: 485fc41b1f764048853f471696cdf134
       Path: Triggers\Default Work Unit\Kick
-  ExpandedFileSystemItemIds: 0200000003000000060000000700000008000000090000000b0000000c000000100000001100000012000000170000002f000000300000003400000035000000460000004700000048000000
+  ExpandedFileSystemItemIds: 0200000003000000060000000700000008000000090000000b0000000c000000100000001100000012000000170000002f0000003000000034000000350000004600000047000000480000004b0000004c0000004e0000004f0000005000000051000000
   ExpandedWaapiItemIds: 0600000007000000090000000a0000000b0000000c000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1

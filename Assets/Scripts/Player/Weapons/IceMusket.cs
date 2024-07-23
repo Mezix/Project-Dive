@@ -16,6 +16,7 @@ public class IceMusket : AWeapon
     private int lastChargeLevelMet = -1;
 
     public AK.Wwise.RTPC iceMusketPitchRTPC;
+    public AK.Wwise.RTPC ammoLeftRTPC;
     public override void Awake()
     {
         InitSystemStats();
@@ -49,24 +50,13 @@ public class IceMusket : AWeapon
         {
             StartCoroutine(StartReload());
         }
-        /*
-        if (ShouldRegenerateAmmo)
-        {
-            TimeElapsedBetweenAmmoRegeneration += Time.deltaTime;
-            if(TimeElapsedBetweenAmmoRegeneration >= TimeBetweenAmmoRegeneration)
-            {
-                RegenerateAmmo(AmmoRegenAmount);
-            }
-        }*/
         if (ChargeBegun)
         {
             ChargeTime += Time.deltaTime;
-            //ChargeLevel = Mathf.Min(AmmoLeft, Mathf.Max(1, Mathf.RoundToInt(Mathf.Min(ChargeTime, FullChargeTime)/FullChargeTime * WeaponLevel)));
             ChargeLevel = Mathf.Max(1, Mathf.RoundToInt(Mathf.Min(ChargeTime, FullChargeTime)/FullChargeTime * WeaponLevel));
             if(ChargeLevel > lastChargeLevelMet)
             {
                 lastChargeLevelMet = ChargeLevel;
-                //play charge level hit sound
                 iceMusketPitchRTPC.SetGlobalValue(ChargeLevel);
                 AkSoundEngine.PostEvent("Play_ChargeLevelHit", gameObject);
             }
@@ -74,7 +64,6 @@ public class IceMusket : AWeapon
             {
                 ForceFire();
             }
-            //UpdateAmmoDisplay(MagazineSize - ChargeLevel);
             UpdateAmmoDisplay(AmmoLeft);
         }
     }
@@ -111,6 +100,14 @@ public class IceMusket : AWeapon
     }
     public void ForceFire()
     {
+        if(ChargeLevel == 3)
+        {
+            ammoLeftRTPC.SetGlobalValue(0);
+        }
+        else
+        {
+            ammoLeftRTPC.SetGlobalValue(100 * AmmoLeft/MagazineSize);
+        }
         lastChargeLevelMet = -1;
         AkSoundEngine.PostEvent("Stop_IceMusketCharging", gameObject);
         IceMusketSFX.SetActive(false);
@@ -119,6 +116,7 @@ public class IceMusket : AWeapon
         ChargeBegun = false;
         _weaponFireSFX.Play();
         REF.CamScript.StartShake(RecoilDuration, Recoil);
+
         REF.PCon.WeaponSoundOrigin.PlaySound("PlayIceMusketFire");
         SpawnProjectile();
     }
@@ -153,6 +151,7 @@ public class IceMusket : AWeapon
     }
     public IEnumerator StartReload()
     {
+        AkSoundEngine.PostEvent("Play_IceMusketReload", gameObject);
         iceMusketAnimator.SetTrigger("ReloadInitiated");
         iceMusketAnimator.SetFloat("ReloadMultiplier", AttacksPerSecond);
         Reloading = true;

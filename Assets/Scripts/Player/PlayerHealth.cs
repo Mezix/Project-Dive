@@ -13,16 +13,20 @@ public class PlayerHealth : MonoBehaviour
     public float _timeInVengeance;
     public float _drainPct;
     public float _vengeanceDrainPercentage;
+    [SerializeField]
+    private AK.Wwise.RTPC breathingRTPC;
 
     private void Start()
     {
+        breathingRTPC.SetGlobalValue(0);
         _maxHealth = 100;
         _currentHealth = _maxHealth;
         _timeInVengeance = 0;
         _drainPct = 0.1f;
         _vengeanceDrainPercentage = 1;
 
-        Events.instance.EnemyDead += ResetVengeance;
+        Events.instance.EnemyDead += EnemyKilled;
+        AkSoundEngine.PostEvent("Play_BreathingContainer", gameObject);
     }
     private void Update()
     {
@@ -48,6 +52,26 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             AkSoundEngine.PostEvent("Play_PlayerTakesDamage", gameObject);
+            breathingRTPC.SetGlobalValue(0);
+        }
+        //breathingRTPC.SetGlobalValue(100 * (1 - _currentHealth/_maxHealth));
+        float healthPCT = _currentHealth / _maxHealth;
+;
+        if(healthPCT > 0.77f) // calmest breathing
+        {
+            AkSoundEngine.SetSwitch("Breathing", "Breathing1", gameObject);
+        }
+        else if(healthPCT > 0.44f)
+        {
+            AkSoundEngine.SetSwitch("Breathing", "Breathing2", gameObject);
+        }
+        else if (healthPCT > 0.22f)
+        {
+            AkSoundEngine.SetSwitch("Breathing", "Breathing3", gameObject);
+        }
+        else  // MAX INTENSITY
+        {
+            AkSoundEngine.SetSwitch("Breathing", "Breathing4", gameObject);
         }
         REF.PlayerUI.UpdateHealthBar(_currentHealth, _maxHealth, _vengeanceDrainPercentage);
     }
@@ -92,7 +116,7 @@ public class PlayerHealth : MonoBehaviour
         REF.PCon.SetVengeanceMode(true);
         REF.PCon._pUI.VeangenceModeUI(true);
     }
-    private void ResetVengeance(AEnemy enemy = null)
+    private void EnemyKilled(AEnemy enemy = null)
     {
         if(_vengeanceModeActive)
         {
@@ -100,6 +124,10 @@ public class PlayerHealth : MonoBehaviour
             REF.PCon._pUI.VeangenceModeUI(false);
             REF.PCon.SetVengeanceMode(false);
             Heal(0.3f * _maxHealth * _vengeanceDrainPercentage);
+        }
+        else
+        {
+            Heal(0.1f * _maxHealth * _vengeanceDrainPercentage);
         }
     }
 }

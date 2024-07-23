@@ -101,7 +101,6 @@ public class PlayerController : MonoBehaviour
     private const float timeBetweenSplashes = 1f;
     private float timeSinceLastSplash = timeBetweenSplashes;
 
-    //private AK.Wwise.RTPC speedRPTC;
     [SerializeField]
     private AK.Wwise.RTPC vengeanceRTPC;
     [SerializeField]
@@ -123,7 +122,7 @@ public class PlayerController : MonoBehaviour
     {
         Events.instance.DamageDealtByPlayer += AddTotalDamage;
 
-        currentMovementForce =  normalMovementForce;
+        currentMovementForce = normalMovementForce;
 
         _firstPersonActive = true;
         readyToJump = true;
@@ -173,7 +172,7 @@ public class PlayerController : MonoBehaviour
     }
     public void FixedUpdate()
     {
-        if(!lockMovement) HandleMovement();
+        if (!lockMovement) HandleMovement();
     }
 
     private void InitWeapons()
@@ -194,7 +193,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMouseClickInput()
     {
-        if(_weapons[_weaponIndex] && !_holstering && !_holstered) _weapons[_weaponIndex].TryFire();
+        if (_weapons[_weaponIndex] && !_holstering && !_holstered) _weapons[_weaponIndex].TryFire();
     }
     private void HandleKeyboardInput()
     {
@@ -205,7 +204,7 @@ public class PlayerController : MonoBehaviour
         {
             tiltAngle = Mathf.Lerp(tiltAngle, maxTiltAngle, tiltLerpTime);
         }
-        else if(horizontalInput > 0)
+        else if (horizontalInput > 0)
         {
             tiltAngle = Mathf.Lerp(tiltAngle, -maxTiltAngle, tiltLerpTime);
         }
@@ -247,7 +246,7 @@ public class PlayerController : MonoBehaviour
         timeSinceLastSplash += Time.deltaTime;
         if (horizontalInput != 0 || verticalInput != 0 || forwardInput != 0)
         {
-            if(timeSinceLastSplash >= timeBetweenSplashes)
+            if (timeSinceLastSplash >= timeBetweenSplashes)
             {
                 //splash noises
                 timeSinceLastSplash = 0;
@@ -266,14 +265,14 @@ public class PlayerController : MonoBehaviour
 
         jumping = Input.GetKey(KeyCode.Space);
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) &&  _timeSinceLastDash > _dashCooldown)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _timeSinceLastDash > _dashCooldown)
         {
-            if (Input.GetKey(KeyCode.W))     Dash(0);
-            if (Input.GetKey(KeyCode.A))     Dash(1);
-            if (Input.GetKey(KeyCode.S))     Dash(2);
-            if (Input.GetKey(KeyCode.D))     Dash(3);
+            if (Input.GetKey(KeyCode.W)) Dash(0);
+            if (Input.GetKey(KeyCode.A)) Dash(1);
+            if (Input.GetKey(KeyCode.S)) Dash(2);
+            if (Input.GetKey(KeyCode.D)) Dash(3);
             if (Input.GetKey(KeyCode.Space)) Dash(4);
-            if (Input.GetKey(KeyCode.C))     Dash(5);
+            if (Input.GetKey(KeyCode.C)) Dash(5);
         }
     }
 
@@ -315,7 +314,7 @@ public class PlayerController : MonoBehaviour
         {
             AkSoundEngine.PostEvent("Play_KickMissedSound", gameObject);
         }
-        
+
 
         yield return new WaitForSeconds(_meleeCooldown * 0.25f);
         HM.RotateLocalTransformToAngle(_melee.transform, new Vector3(30, 0, 0));
@@ -344,12 +343,12 @@ public class PlayerController : MonoBehaviour
     private void Dash(int direction)
     {
         _playerRB.velocity = Vector3.zero;
-        if (direction == 0) _playerRB.AddForce(_playerCam.transform.parent.forward  *      _dashForceMultiplier * currentMovementForce); // W
-        if (direction == 1) _playerRB.AddForce(_playerCam.transform.parent.right    * -1 * _dashForceMultiplier * currentMovementForce); // A
-        if (direction == 2) _playerRB.AddForce(_playerCam.transform.parent.forward  * -1 * _dashForceMultiplier * currentMovementForce); // S
-        if (direction == 3) _playerRB.AddForce(_playerCam.transform.parent.right    *      _dashForceMultiplier * currentMovementForce); // D
-        if (direction == 4) _playerRB.AddForce(transform.up                  *      _dashForceMultiplier * currentMovementForce); // Space = Swim Up
-        if (direction == 5) _playerRB.AddForce(transform.up                  * -1 * _dashForceMultiplier * currentMovementForce); // C = Swim Down
+        if (direction == 0) _playerRB.AddForce(_playerCam.transform.parent.forward * _dashForceMultiplier * currentMovementForce); // W
+        if (direction == 1) _playerRB.AddForce(_playerCam.transform.parent.right * -1 * _dashForceMultiplier * currentMovementForce); // A
+        if (direction == 2) _playerRB.AddForce(_playerCam.transform.parent.forward * -1 * _dashForceMultiplier * currentMovementForce); // S
+        if (direction == 3) _playerRB.AddForce(_playerCam.transform.parent.right * _dashForceMultiplier * currentMovementForce); // D
+        if (direction == 4) _playerRB.AddForce(transform.up * _dashForceMultiplier * currentMovementForce); // Space = Swim Up
+        if (direction == 5) _playerRB.AddForce(transform.up * -1 * _dashForceMultiplier * currentMovementForce); // C = Swim Down
         _timeSinceLastDash = 0;
         AkSoundEngine.PostEvent("Play_DashSound", gameObject);
         InitiateLowDrag();
@@ -369,7 +368,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < 60; i++)
         {
             _floatingDrag = 3 * (i / 60f);
-            _pUI.SpeedLinesUI(true, 0.5f * (1 - (i/60f)));
+            _pUI.SpeedLinesUI(true, 0.5f * (1 - (i / 60f)));
             yield return new WaitForFixedUpdate();
         }
         _floatingDrag = 3;
@@ -380,7 +379,7 @@ public class PlayerController : MonoBehaviour
 
     private void ReverseWeapon(bool reversed)
     {
-        if(reversed)
+        if (reversed)
         {
             reverseWeaponRTPC.SetGlobalValue(100);
             _weaponDirection = -1;
@@ -535,216 +534,219 @@ public class PlayerController : MonoBehaviour
 
     private void HandleTools()
     {
-        if (Input.mouseScrollDelta.y != 0)
+        if (_weapons.Count > 1)
         {
-            if (Input.mouseScrollDelta.y > 0)  NextWeapon();
-            else if (Input.mouseScrollDelta.y < 0) PreviousTool();
+            if (Input.mouseScrollDelta.y != 0)
+            {
+                if (Input.mouseScrollDelta.y > 0) NextWeapon();
+                else if (Input.mouseScrollDelta.y < 0) PreviousTool();
+            }
+            else HandleToolIndex();
         }
-        else HandleToolIndex();
     }
-    private void HandleToolIndex()
-    {
-        int oldToolIndex = _weaponIndex;
-        bool swap = false;
-
-        if (_holstering) return;
-
-        //  Check if we have any inputs at all
-        if (Input.anyKeyDown)
+        private void HandleToolIndex()
         {
-            //  get any input and convert the ascii range into an int
-            int inputToolIndex = Convert.ToInt32(_lastHitKey) - 49; //49 = Alpha1 => 49 - 49 = 0 => Our first tool in the list 
-            if (inputToolIndex < 0 || inputToolIndex > 9) return; // the numbers in the ascii range are between 48 (= 0) and 57 (= 9), so only accept inputs between 1 and 9, else return
-            if (inputToolIndex != _weaponIndex) swap = true; //if we are not selecting the same tool as last time, swap
-            _weaponIndex = inputToolIndex; //now overwrite the tool index to compare with the next input at a later time
+            int oldToolIndex = _weaponIndex;
+            bool swap = false;
 
-            if (_weaponIndex == oldToolIndex) return; //dont do anything if we have the same tool selected
-            if (_weaponIndex >= _weapons.Count) //dont go out of bounds
+            if (_holstering) return;
+
+            //  Check if we have any inputs at all
+            if (Input.anyKeyDown)
             {
-                _weaponIndex = oldToolIndex;
-                return;
-            }
-            REF.PlayerUI.SelectTool(_weaponIndex);
-            if (swap)
-            {
-                StopAllCoroutines();
-                StartCoroutine(SwapAnimation());
-            }
-            else
-            {
-                if (_holstered || oldToolIndex != _weaponIndex)
+                //  get any input and convert the ascii range into an int
+                int inputToolIndex = Convert.ToInt32(_lastHitKey) - 49; //49 = Alpha1 => 49 - 49 = 0 => Our first tool in the list 
+                if (inputToolIndex < 0 || inputToolIndex > 9) return; // the numbers in the ascii range are between 48 (= 0) and 57 (= 9), so only accept inputs between 1 and 9, else return
+                if (inputToolIndex != _weaponIndex) swap = true; //if we are not selecting the same tool as last time, swap
+                _weaponIndex = inputToolIndex; //now overwrite the tool index to compare with the next input at a later time
+
+                if (_weaponIndex == oldToolIndex) return; //dont do anything if we have the same tool selected
+                if (_weaponIndex >= _weapons.Count) //dont go out of bounds
+                {
+                    _weaponIndex = oldToolIndex;
+                    return;
+                }
+                REF.PlayerUI.SelectTool(_weaponIndex);
+                if (swap)
                 {
                     StopAllCoroutines();
-                    StartCoroutine(UnholsterTool(true));
+                    StartCoroutine(SwapAnimation());
                 }
                 else
                 {
-                    StopAllCoroutines();
-                    StartCoroutine(HolsterTool(true));
+                    if (_holstered || oldToolIndex != _weaponIndex)
+                    {
+                        StopAllCoroutines();
+                        StartCoroutine(UnholsterTool(true));
+                    }
+                    else
+                    {
+                        StopAllCoroutines();
+                        StartCoroutine(HolsterTool(true));
+                    }
                 }
             }
         }
-    }
 
-    public void SelectToolFromToolbar(int index)
-    {
-        if (index == _weaponIndex) return;
-        _weaponIndex = index;
-        StartCoroutine(SwapAnimation());
-    }
-
-    private IEnumerator HolsterTool(bool hideUI)
-    {
-        _holstering = true;
-        _holstered = false;
-        HM.RotateLocalTransformToAngle(_arm, new Vector3(0, 0, 0));
-
-        //  1s duration = 50 * 0.01 Real Time Second Waits = 0.5s for Holster
-        float duration = _weaponSwapDuration * 50;
-        for (int i = 0; i < duration; i++)
+        public void SelectToolFromToolbar(int index)
         {
-            HM.RotateLocalTransformToAngle(_arm, new Vector3(i / duration * (duration * 2f), 0, 0));
-            yield return new WaitForSeconds(0.01f);
+            if (index == _weaponIndex) return;
+            _weaponIndex = index;
+            StartCoroutine(SwapAnimation());
         }
-        _holstered = true;
-        _holstering = false;
-        if (hideUI) REF.PlayerUI.ChangeToolBarOpacity(false);
-    }
-    private IEnumerator UnholsterTool(bool showUI)
-    {
-        _holstering = true;
-        _holstered = true;
-        SetWeaponActive(_weaponIndex);
 
-        //TODO: add weapon swap sound here!!
-        AkSoundEngine.PostEvent(_weapons[_weaponIndex].weaponSwapSoundID, gameObject);
-
-        //  1s duration == 50 * 0.01 Real Time Second Waits = 0.5s for Unholster
-        float duration = _weaponSwapDuration * 50;
-        for (int i = 0; i < duration; i++)
+        private IEnumerator HolsterTool(bool hideUI)
         {
-            HM.RotateLocalTransformToAngle(_arm, new Vector3((duration * 2f) - i / duration * (duration * 2f), 0, 0));
-            yield return new WaitForSeconds(0.01f);
-        }
-        HM.RotateLocalTransformToAngle(_arm, new Vector3(0, 0, 0));
-        _holstered = false;
-        _holstering = false;
+            _holstering = true;
+            _holstered = false;
+            HM.RotateLocalTransformToAngle(_arm, new Vector3(0, 0, 0));
 
-        if (showUI) REF.PlayerUI.ChangeToolBarOpacity(true);
-    }
-
-    private void PreviousTool()
-    {
-        _weaponIndex--;
-        if (_weaponIndex < 0)
-        {
-            _weaponIndex = _weapons.Count - 1;
-        }
-        StopAllCoroutines();
-        StartCoroutine(SwapAnimation());
-    }
-    private void NextWeapon()
-    {
-        _weaponIndex++;
-        if (_weaponIndex > _weapons.Count - 1) _weaponIndex = 0;
-        StopAllCoroutines();
-        StartCoroutine(SwapAnimation());
-    }
-    private IEnumerator SwapAnimation()
-    {
-        REF.PlayerUI.SelectTool(_weaponIndex);
-        if (!_holstered)
-        {
-            StartCoroutine(HolsterTool(false));
-            yield return new WaitWhile(() => !_holstered);
-        }
-        StartCoroutine(UnholsterTool(true));
-    }
-    private void SetWeaponActive(int i)
-    {
-        if (_weapons.Count == 0) return;
-        foreach (AWeapon g in _weapons)
-        {
-            if (g) g.gameObject.SetActive(false);
-        }
-        if (_weapons[i]) _weapons[i].gameObject.SetActive(true);
-    }
-
-    //  Grounded
-    private bool IsFloor(Vector3 v)
-    {
-        float angle = Vector3.Angle(Vector3.up, v);
-        return angle < maxSlopeAngle;
-    }
-
-    /// <summary>
-    /// Handle ground detection
-    /// </summary>
-    private void OnCollisionStay(Collision other)
-    {
-        //Make sure we are only checking for walkable layers
-        int layer = other.gameObject.layer;
-        if (whatIsGround != (whatIsGround | (1 << layer))) return;
-
-        //Iterate through every collision in a physics update
-        for (int i = 0; i < other.contactCount; i++)
-        {
-            Vector3 normal = other.contacts[i].normal;
-            //FLOOR
-            if (IsFloor(normal))
+            //  1s duration = 50 * 0.01 Real Time Second Waits = 0.5s for Holster
+            float duration = _weaponSwapDuration * 50;
+            for (int i = 0; i < duration; i++)
             {
-                _grounded = true;
-                cancellingGrounded = false;
-                normalVector = normal;
-                CancelInvoke(nameof(StopGrounded));
+                HM.RotateLocalTransformToAngle(_arm, new Vector3(i / duration * (duration * 2f), 0, 0));
+                yield return new WaitForSeconds(0.01f);
+            }
+            _holstered = true;
+            _holstering = false;
+            if (hideUI) REF.PlayerUI.ChangeToolBarOpacity(false);
+        }
+        private IEnumerator UnholsterTool(bool showUI)
+        {
+            _holstering = true;
+            _holstered = true;
+            SetWeaponActive(_weaponIndex);
+
+            //TODO: add weapon swap sound here!!
+            AkSoundEngine.PostEvent(_weapons[_weaponIndex].weaponSwapSoundID, gameObject);
+
+            //  1s duration == 50 * 0.01 Real Time Second Waits = 0.5s for Unholster
+            float duration = _weaponSwapDuration * 50;
+            for (int i = 0; i < duration; i++)
+            {
+                HM.RotateLocalTransformToAngle(_arm, new Vector3((duration * 2f) - i / duration * (duration * 2f), 0, 0));
+                yield return new WaitForSeconds(0.01f);
+            }
+            HM.RotateLocalTransformToAngle(_arm, new Vector3(0, 0, 0));
+            _holstered = false;
+            _holstering = false;
+
+            if (showUI) REF.PlayerUI.ChangeToolBarOpacity(true);
+        }
+
+        private void PreviousTool()
+        {
+            _weaponIndex--;
+            if (_weaponIndex < 0)
+            {
+                _weaponIndex = _weapons.Count - 1;
+            }
+            StopAllCoroutines();
+            StartCoroutine(SwapAnimation());
+        }
+        private void NextWeapon()
+        {
+            _weaponIndex++;
+            if (_weaponIndex > _weapons.Count - 1) _weaponIndex = 0;
+            StopAllCoroutines();
+            StartCoroutine(SwapAnimation());
+        }
+        private IEnumerator SwapAnimation()
+        {
+            REF.PlayerUI.SelectTool(_weaponIndex);
+            if (!_holstered)
+            {
+                StartCoroutine(HolsterTool(false));
+                yield return new WaitWhile(() => !_holstered);
+            }
+            StartCoroutine(UnholsterTool(true));
+        }
+        private void SetWeaponActive(int i)
+        {
+            if (_weapons.Count == 0) return;
+            foreach (AWeapon g in _weapons)
+            {
+                if (g) g.gameObject.SetActive(false);
+            }
+            if (_weapons[i]) _weapons[i].gameObject.SetActive(true);
+        }
+
+        //  Grounded
+        private bool IsFloor(Vector3 v)
+        {
+            float angle = Vector3.Angle(Vector3.up, v);
+            return angle < maxSlopeAngle;
+        }
+
+        /// <summary>
+        /// Handle ground detection
+        /// </summary>
+        private void OnCollisionStay(Collision other)
+        {
+            //Make sure we are only checking for walkable layers
+            int layer = other.gameObject.layer;
+            if (whatIsGround != (whatIsGround | (1 << layer))) return;
+
+            //Iterate through every collision in a physics update
+            for (int i = 0; i < other.contactCount; i++)
+            {
+                Vector3 normal = other.contacts[i].normal;
+                //FLOOR
+                if (IsFloor(normal))
+                {
+                    _grounded = true;
+                    cancellingGrounded = false;
+                    normalVector = normal;
+                    CancelInvoke(nameof(StopGrounded));
+                }
+            }
+
+            //Invoke ground/wall cancel, since we can't check normals with CollisionExit
+            float delay = 3f;
+            if (!cancellingGrounded)
+            {
+                cancellingGrounded = true;
+                Invoke(nameof(StopGrounded), Time.deltaTime * delay);
             }
         }
-
-        //Invoke ground/wall cancel, since we can't check normals with CollisionExit
-        float delay = 3f;
-        if (!cancellingGrounded)
+        private void StopGrounded()
         {
-            cancellingGrounded = true;
-            Invoke(nameof(StopGrounded), Time.deltaTime * delay);
+            _grounded = false;
+        }
+
+
+        //  Misc
+
+        /// <summary>
+        /// Find the velocity relative to where the player is looking
+        /// Useful for vectors calculations regarding movement and limiting movement
+        /// </summary>
+        /// <returns></returns>
+        public Vector2 FindVelRelativeToLook()
+        {
+            float lookAngle = _orientation.transform.eulerAngles.y;
+            float moveAngle = Mathf.Atan2(_playerRB.velocity.x, _playerRB.velocity.z) * Mathf.Rad2Deg;
+
+            float u = Mathf.DeltaAngle(lookAngle, moveAngle);
+            float v = 90 - u;
+
+            float magnitue = _playerRB.velocity.magnitude;
+            float yMag = magnitue * Mathf.Cos(u * Mathf.Deg2Rad);
+            float xMag = magnitue * Mathf.Cos(v * Mathf.Deg2Rad);
+
+            return new Vector2(xMag, yMag);
+        }
+        public void ApplyKnockback(float knockback)
+        {
+            _playerRB.AddForce(_playerCam.transform.parent.forward * (-1 * _weaponDirection) * knockback);
+        }
+
+        private void OnGUI()
+        {
+            if (Event.current.isKey)
+            {
+                if (Event.current.keyCode != KeyCode.None) _lastHitKey = Event.current.keyCode;
+            }
         }
     }
-    private void StopGrounded()
-    {
-        _grounded = false;
-    }
-
-
-    //  Misc
-
-    /// <summary>
-    /// Find the velocity relative to where the player is looking
-    /// Useful for vectors calculations regarding movement and limiting movement
-    /// </summary>
-    /// <returns></returns>
-    public Vector2 FindVelRelativeToLook()
-    {
-        float lookAngle = _orientation.transform.eulerAngles.y;
-        float moveAngle = Mathf.Atan2(_playerRB.velocity.x, _playerRB.velocity.z) * Mathf.Rad2Deg;
-
-        float u = Mathf.DeltaAngle(lookAngle, moveAngle);
-        float v = 90 - u;
-
-        float magnitue = _playerRB.velocity.magnitude;
-        float yMag = magnitue * Mathf.Cos(u * Mathf.Deg2Rad);
-        float xMag = magnitue * Mathf.Cos(v * Mathf.Deg2Rad);
-
-        return new Vector2(xMag, yMag);
-    }
-    public void ApplyKnockback(float knockback)
-    {
-        _playerRB.AddForce(_playerCam.transform.parent.forward * (-1 * _weaponDirection) * knockback);
-    }
-
-    private void OnGUI()
-    {
-        if (Event.current.isKey)
-        {
-            if (Event.current.keyCode != KeyCode.None) _lastHitKey = Event.current.keyCode;
-        }
-    }
-}

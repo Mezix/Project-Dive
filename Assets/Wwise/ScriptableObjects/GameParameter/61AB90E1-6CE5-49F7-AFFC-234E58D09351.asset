@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0a4c58309614be40bd76a1c7692d4cc, type: 3}
-  m_Name: 60394FC0-6AF2-4820-86C8-3F44017974A9
+  m_Script: {fileID: 11500000, guid: 1aed57b64ccf25345a43189b14786a18, type: 3}
+  m_Name: 61AB90E1-6CE5-49F7-AFFC-234E58D09351
   m_EditorClassIdentifier: 
-  objectName: Alive
-  id: 655265632
-  guid: 60394FC0-6AF2-4820-86C8-3F44017974A9
+  objectName: AmmoLeftPercent
+  id: 220985435
+  guid: 61AB90E1-6CE5-49F7-AFFC-234E58D09351

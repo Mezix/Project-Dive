@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e262175f33ba4a49ab3591f4335c9d7, type: 3}
-  m_Name: F1B68F7E-4427-4660-8135-BE748BB08F18
+  m_Script: {fileID: 11500000, guid: 1aed57b64ccf25345a43189b14786a18, type: 3}
+  m_Name: EB41E704-D988-4118-AB27-6D4C47789132
   m_EditorClassIdentifier: 
-  objectName: SwitchWeapons
-  id: 480197452
-  guid: F1B68F7E-4427-4660-8135-BE748BB08F18
+  objectName: PlayerBreathingIntensity
+  id: 275543587
+  guid: EB41E704-D988-4118-AB27-6D4C47789132
