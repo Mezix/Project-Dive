@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput, forwardInput, verticalInput;
     private float desiredX;
     private float _speedMultiplier;
-    private bool lockMovement;
+    public bool lockMovement;
     public float normalMovementForce;
     public float vengeanceMovementForce;
     public float currentMovementForce;
@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
     public bool _dead;
     public bool _dying;
 
+    public bool lockInput = false;
     //  Misc
 
     [HideInInspector] public PlayerUI _pUI;
@@ -123,6 +124,7 @@ public class PlayerController : MonoBehaviour
         _playerCol = GetComponentInChildren<Collider>();
         _pHealth = GetComponentInChildren<PlayerHealth>();
 
+        lockInput = false;
         killstreakLevel = 0;
     }
 
@@ -195,7 +197,7 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
-        if (!_dead)
+        if (!_dead && !lockInput)
         {
             HandleMouseClickInput();
             HandleKeyboardInput();

@@ -19,8 +19,13 @@ public class PlayerHealth : MonoBehaviour
     private const float timeBetweenTakingDamage = 1f;
     private float timeSinceLastTakenDamage = timeBetweenTakingDamage;
 
+    public bool InvincibilityOn = false;
+    public GameObject InvincibilityOnImage;
     private void Start()
     {
+        InvincibilityOn = false;
+        InvincibilityOnImage.gameObject.SetActive(InvincibilityOn);
+
         breathingRTPC.SetGlobalValue(0);
         _maxHealth = 100;
         _currentHealth = _maxHealth;
@@ -33,20 +38,26 @@ public class PlayerHealth : MonoBehaviour
     }
     private void Update()
     {
-        timeSinceLastTakenDamage += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Alpha0))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
-            Heal(0.1f * _maxHealth * _vengeanceDrainPercentage);
+            InvincibilityOn = !InvincibilityOn;
+            InvincibilityOnImage.gameObject.SetActive(InvincibilityOn);
+            //Heal(0.1f * _maxHealth * _vengeanceDrainPercentage);
         }
-        if(_vengeanceModeActive)
+        if (!InvincibilityOn)
         {
-            _timeInVengeance += Time.deltaTime;
-            HandleVengeanceMode();
+            timeSinceLastTakenDamage += Time.deltaTime;
+            if (_vengeanceModeActive)
+            {
+                _timeInVengeance += Time.deltaTime;
+                HandleVengeanceMode();
+            }
         }
     }
 
     public void TakeDamage(float dmg)
     {
+        if (InvincibilityOn) return;
         if(timeSinceLastTakenDamage < timeBetweenTakingDamage)
         {
             return;

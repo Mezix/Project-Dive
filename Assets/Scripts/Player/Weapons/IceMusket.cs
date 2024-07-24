@@ -132,19 +132,17 @@ public class IceMusket : AWeapon
         }
         bulletsFired = Mathf.Min(MagazineSize, bulletsFired);
         SubtractAmmo(bulletsFired);
-
+        float knockbackAmount = (REF.PCon._weaponDirection == 1 ? KnockbackForce : KnockbackForce * BackwardsKnockbackModifier);
         iceMusketAnimator.SetFloat("ReloadMultiplier", AttacksPerSecond);
         if(ChargeLevel == 3)
         {
-            //iceMusketAnimator.SetTrigger("ReloadInitiated");
             if(REF.PCon._weaponDirection == 1) REF.PCon._playerRB.velocity = Vector3.zero; //if facing forward, kill all velocity
-            REF.PCon.ApplyKnockback(KnockbackForce * bulletsFired);
         }
         else
         {
             if(AmmoLeft > 0) iceMusketAnimator.SetTrigger("Fired");
-            REF.PCon.ApplyKnockback(KnockbackForce * bulletsFired);
         }
+        REF.PCon.ApplyKnockback(knockbackAmount * bulletsFired);
         //Reloading = true;
         ChargeLevel = 1;
         TimeElapsedBetweenLastAttack = 0;

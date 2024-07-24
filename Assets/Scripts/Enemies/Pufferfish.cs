@@ -22,7 +22,15 @@ public class Pufferfish : AEnemy
     {
         base.Start();
         AttacksPerSecond = 1f;
-        _damage = 10;
+
+        if (_isBoss)
+        {
+            _damage = 25;
+        }
+        else
+        {
+            _damage = 20;
+        }
         _projectileSpeed = 100f;
         InitStats();
     }
@@ -30,7 +38,7 @@ public class Pufferfish : AEnemy
     {
         base.Update();
         EnemyBehaviour();
-        if(eState == enemyState.FoundPlayer)
+        if (eState == enemyState.FoundPlayer)
         {
             TimeElapsedBetweenLastAttack += Time.deltaTime;
         }
@@ -49,7 +57,7 @@ public class Pufferfish : AEnemy
                     Fire();
                 }
             }
-            else if(eState == enemyState.Patrolling)
+            else if (eState == enemyState.Patrolling)
             {
                 GoToNextPosition();
                 CanSeePlayer();
@@ -63,7 +71,7 @@ public class Pufferfish : AEnemy
 
     private void GoToNextPosition()
     {
-        if(patrolPositions.Count == 0)
+        if (patrolPositions.Count == 0)
         {
             return;
         }
@@ -76,7 +84,7 @@ public class Pufferfish : AEnemy
         if (Vector3.Distance(patrolPositions[posIndex].transform.position, transform.position) < 10)
         {
             posIndex++;
-            if(posIndex >= patrolPositions.Count)
+            if (posIndex >= patrolPositions.Count)
             {
                 posIndex = 0;
             }
@@ -85,14 +93,12 @@ public class Pufferfish : AEnemy
 
     private void MoveTowardsPlayer()
     {
-        if (_enemyRB.velocity.magnitude < 10 && Vector3.Distance(REF.PCon.transform.position, transform.position) < 10)
+        if (_enemyRB.velocity.magnitude < 10 && Vector3.Distance(REF.PCon.transform.position, transform.position) > 50)
         {
             Vector3 moveDir = (REF.PCon.transform.position - _projectileSpots[0].position).normalized;
             _enemyRB.AddForce(moveDir * moveForce);
         }
     }
-
-
     public void RotateTowardsPlayer()
     {
         transform.LookAt(REF.PCon.transform);
@@ -123,6 +129,5 @@ public class Pufferfish : AEnemy
             proj.SetActive(true);
             TimeElapsedBetweenLastAttack = 0;
         }
-
     }
 }

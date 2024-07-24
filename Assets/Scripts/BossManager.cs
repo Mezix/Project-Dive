@@ -9,6 +9,7 @@ public class BossManager : MonoBehaviour
     public Image _bossHealthbar;
     public Pufferfish _spawnedBoss;
     public bool activated = false;
+    public Pufferfish[] EnemiesToActivate;
 
     void Start()
     {
@@ -39,18 +40,28 @@ public class BossManager : MonoBehaviour
             activated = true;
             _enemyBossUI.SetActive(true);
             _spawnedBoss.eState = Pufferfish.enemyState.FoundPlayer;
+
+            foreach (Pufferfish p in EnemiesToActivate)
+            {
+                if (p) p.eState = Pufferfish.enemyState.FoundPlayer;
+            }
         }
     }
 
     private void BossKilled()
     {
+        print("boss killed");
+        foreach (Pufferfish p in FindObjectsOfType<Pufferfish>())
+        {
+            if (p && !p._isBoss) Destroy(p.gameObject);
+        }
         _enemyBossUI.SetActive(false);
         StartCoroutine(REF.CamScript.StartBossShake());
         EffectsCanvas.EC.StartWhiteFlash();
         AkSoundEngine.SetSwitch("PressureSoundtrackSwitch", "Pressure0", SoundtrackChangerCollider.PressureSoundtrackObject);
         REF.PCon.killstreakLevel = 0;
         REF.PCon.SetKillstreakLevel();
-        print("boss killed");
+        StartCoroutine(EffectsCanvas.EC.ShowDemoEnd());
     }
     private void UpdateBossHealth()
     {

@@ -365,7 +365,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 097df28bab9d1a47b8ef134f1e04e182
     GuidInternal: 
-    m_lastTime: -8584798507900668953
+    m_lastTime: -8584798246720286933
     List:
     - name: Main
       guid: 37c5c687f64e924eb871fd27a40a7513
@@ -393,7 +393,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: d4d6c9fcfec72e468bb5ee3b16b6699e
     GuidInternal: 
-    m_lastTime: -8584798490933356513
+    m_lastTime: -8584798246828326624
     List:
     - name: Play_BreathingContainer
       guid: 576c35ee51b312499c576dbaca19bf78
@@ -735,23 +735,6 @@ MonoBehaviour:
       maxAttenuation: 15
       maxDuration: -1
       minDuration: -1
-    - name: Play_Somewhere_Far_Away
-      guid: dd6ff8d7cc11b24c8d9136a95b27a0bd
-      id: 1724341794
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: d4d6c9fcfec72e468bb5ee3b16b6699e
-      - ElementName: Play_Somewhere_Far_Away
-        ObjectType: 3
-        guid: dd6ff8d7cc11b24c8d9136a95b27a0bd
-      Path: Events\Default Work Unit\Play_Somewhere_Far_Away
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
     - name: Play_Whale_Call
       guid: 3b515449446ee74e9e0de1db75d5f27b
       id: 3331366668

@@ -105,7 +105,8 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
             {
                 if (!(col.GetComponentInChildren<AEnemy>() 
                     || col.GetComponentInChildren<AProjectile>()
-                    || col.GetComponentInChildren<SoundtrackChangerCollider>())) // dont hit ourselves
+                    || col.GetComponentInChildren<SoundtrackChangerCollider>()
+                    || col.GetComponentInChildren<BossManager>())) // dont hit ourselves
                 {
                     StartCoroutine(DespawnAnimation());
                 }
@@ -119,12 +120,13 @@ public abstract class AProjectile : MonoBehaviour //the interface for all projec
             {
                 if (!(col.GetComponent<PlayerController>() 
                     || col.GetComponentInChildren<AProjectile>()
-                    || col.GetComponentInChildren<SoundtrackChangerCollider>())) // dont hit ourselves
+                    || col.GetComponentInChildren<SoundtrackChangerCollider>()
+                    || col.GetComponentInChildren<BossManager>())) // dont hit ourselves
                 {
                     StartCoroutine(DespawnAnimation());
                     //Debug.Log(col.name);
                 }
-                if (col.GetComponentInChildren<AEnemy>())
+                if (col.GetComponent<AEnemy>())
                 {
                     AEnemy enemy = col.GetComponentInChildren<AEnemy>();
                     if(_shouldFreeze) enemy.AddFreezeStack(_freezeStacksAppliedOnHit);

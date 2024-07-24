@@ -107,7 +107,7 @@ public class AEnemy : MonoBehaviour
     public void AddFreezeStack(int stacks)
     {
         _currentFreezeStacks += stacks;
-        if (_currentFreezeStacks >= StacksUntilFreeze) Freeze(true);
+        if (_currentFreezeStacks >= StacksUntilFreeze && !_frozen) Freeze(true);
     }
     public void Freeze(bool shouldFreeze)
     {
@@ -116,7 +116,7 @@ public class AEnemy : MonoBehaviour
             _timeSpentFrozen = 0;
             if(!_frozen) //for the first time we are frozen, apply the effect
             {
-                AkSoundEngine.PostEvent("Play_FreezeEffect", gameObject);
+               //AkSoundEngine.PostEvent("Play_FreezeEffect", gameObject);
                 Material freezeMat = Resources.Load("Materials/Frozen Material") as Material;
                 AddMaterialToAllMeshes(true, freezeMat);
                 _enemyAnimator.speed = 0;
@@ -237,7 +237,6 @@ public class AEnemy : MonoBehaviour
             for (int i = 0; i < 250; i++)
             {
                 transform.Rotate(new Vector3(0, 0, -0.1f), Space.Self);
-                _enemyRB.AddForce(Vector3.up * i/6f);
                 bossDeathMat.color = new Color(1, 1, 1, Mathf.Min(1, i/250f));
                 yield return new WaitForFixedUpdate();
             }

@@ -7,7 +7,9 @@ public class EffectsCanvas : MonoBehaviour
 {
     public Image RedTint;
     public Image WhiteFlashImage;
+    public GameObject DemoScreenCanvas;
     public float desiredRedTintOpacity = 0;
+    public Button _restartGameButton;
 
     public static EffectsCanvas EC;
     private void Awake()
@@ -17,6 +19,8 @@ public class EffectsCanvas : MonoBehaviour
     }
     public void Start()
     {
+        DemoScreenCanvas.SetActive(false);
+        _restartGameButton.onClick.AddListener(() => RestartGame());
         //StartWhiteFlash();
         SetRedTint(0);
         //StartWhiteFlash();
@@ -54,5 +58,19 @@ public class EffectsCanvas : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         WhiteFlashImage.color = new Color(1, 1, 1, 0);
+    }
+    public IEnumerator ShowDemoEnd()
+    {
+        yield return new WaitForSeconds(15);
+        REF.PCon._lockRotation = true;
+        REF.PCon.lockInput = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        DemoScreenCanvas.SetActive(true);
+    }
+    private void RestartGame()
+    {
+        print("DEMO RESTARTED");
+        Loader.Load(Loader.Scene.GameScene);
     }
 }
